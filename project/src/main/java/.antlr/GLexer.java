@@ -1,4 +1,4 @@
-// Generated from G.g4 by ANTLR 4.8
+// Generated from c:\Users\Tosty\Documents\Programming\Spring2020\Compilers\Project\CompilersProject\project\src\main\java\G.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class GLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -26,26 +26,17 @@ public class GLexer extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"KEYWORD", "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", 
-			"OPERATOR", "COMMENT"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"KEYWORD", "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", 
+		"OPERATOR", "COMMENT"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, "KEYWORD", "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", 
-			"IDENTIFIER", "OPERATOR", "COMMENT"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "KEYWORD", "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", 
+		"IDENTIFIER", "OPERATOR", "COMMENT"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -141,7 +132,7 @@ public class GLexer extends Lexer {
 		"\2wx\b\3\2\2x\6\3\2\2\2y{\t\3\2\2zy\3\2\2\2{|\3\2\2\2|z\3\2\2\2|}\3\2"+
 		"\2\2}\b\3\2\2\2~\u0080\t\3\2\2\177~\3\2\2\2\u0080\u0083\3\2\2\2\u0081"+
 		"\177\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0084\3\2\2\2\u0083\u0081\3\2\2"+
-		"\2\u0084\u0086\13\2\2\2\u0085\u0087\t\3\2\2\u0086\u0085\3\2\2\2\u0087"+
+		"\2\u0084\u0086\7\60\2\2\u0085\u0087\t\3\2\2\u0086\u0085\3\2\2\2\u0087"+
 		"\u0088\3\2\2\2\u0088\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\n\3\2\2\2"+
 		"\u008a\u008e\7$\2\2\u008b\u008d\13\2\2\2\u008c\u008b\3\2\2\2\u008d\u0090"+
 		"\3\2\2\2\u008e\u008f\3\2\2\2\u008e\u008c\3\2\2\2\u008f\u0091\3\2\2\2\u0090"+

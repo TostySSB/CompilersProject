@@ -1,4 +1,4 @@
-// Generated from G.g4 by ANTLR 4.8
+// Generated from c:\Users\Tosty\Documents\Programming\Spring2020\Compilers\Project\CompilersProject\project\src\main\java\G.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class GParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -20,25 +20,16 @@ public class GParser extends Parser {
 		OPERATOR=7, COMMENT=8;
 	public static final int
 		RULE_inputFile = 0;
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"inputFile"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"inputFile"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, "KEYWORD", "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", 
-			"IDENTIFIER", "OPERATOR", "COMMENT"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "KEYWORD", "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", 
+		"IDENTIFIER", "OPERATOR", "COMMENT"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -88,7 +79,6 @@ public class GParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-
 	public static class InputFileContext extends ParserRuleContext {
 		public List<TerminalNode> WS() { return getTokens(GParser.WS); }
 		public TerminalNode WS(int i) {
@@ -118,14 +108,6 @@ public class GParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_inputFile; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GListener ) ((GListener)listener).enterInputFile(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GListener ) ((GListener)listener).exitInputFile(this);
-		}
 	}
 
 	public final InputFileContext inputFile() throws RecognitionException {
