@@ -2,6 +2,12 @@ grammar G;
 
 inputFile: (WS | INTLITERAL | FLOATLITERAL | COMMENT |KEYWORD | OPERATOR)+;
 
+KEYWORD
+    :   ('PROGRAM'|'BEGIN'|'END'|'FUNCTION'|'READ'|'WRITE'|
+'IF'|'ELSE'|'ENDIF'|'WHILE'|'ENDWHILE'|'CONTINUE'|'BREAK'|
+'RETURN'|'INT'|'VOID'|'STRING'|'FLOAT')
+    ;
+
 WS
     :   (' ' | '\t' | '\r' | '\n')+ -> skip
     ;
@@ -30,8 +36,3 @@ COMMENT
     : '--'.*?'\n' -> skip
     ;
 
-KEYWORD
-    :   ('PROGRAM'|'BEGIN'|'END'|'FUNCTION'|'READ'|'WRITE'|
-'IF'|'ELSE'|'ENDIF'|'WHILE'|'ENDWHILE'|'CONTINUE'|'BREAK'|
-'RETURN'|'INT'|'VOID'|'STRING'|'FLOAT')
-    ;

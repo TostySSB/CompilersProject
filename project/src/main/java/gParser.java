@@ -16,8 +16,8 @@ public class GParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		WS=1, INTLITERAL=2, FLOATLITERAL=3, STRINGLITERAL=4, IDENTIFIER=5, OPERATOR=6, 
-		COMMENT=7, KEYWORD=8;
+		KEYWORD=1, WS=2, INTLITERAL=3, FLOATLITERAL=4, STRINGLITERAL=5, IDENTIFIER=6, 
+		OPERATOR=7, COMMENT=8;
 	public static final int
 		RULE_inputFile = 0;
 	private static String[] makeRuleNames() {
@@ -34,8 +34,8 @@ public class GParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", 
-			"OPERATOR", "COMMENT", "KEYWORD"
+			null, "KEYWORD", "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", 
+			"IDENTIFIER", "OPERATOR", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -143,7 +143,7 @@ public class GParser extends Parser {
 				{
 				setState(2);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WS) | (1L << INTLITERAL) | (1L << FLOATLITERAL) | (1L << OPERATOR) | (1L << COMMENT) | (1L << KEYWORD))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << KEYWORD) | (1L << WS) | (1L << INTLITERAL) | (1L << FLOATLITERAL) | (1L << OPERATOR) | (1L << COMMENT))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				else {
@@ -156,7 +156,7 @@ public class GParser extends Parser {
 				setState(5); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WS) | (1L << INTLITERAL) | (1L << FLOATLITERAL) | (1L << OPERATOR) | (1L << COMMENT) | (1L << KEYWORD))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << KEYWORD) | (1L << WS) | (1L << INTLITERAL) | (1L << FLOATLITERAL) | (1L << OPERATOR) | (1L << COMMENT))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -172,7 +172,7 @@ public class GParser extends Parser {
 
 	public static final String _serializedATN =
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\n\n\4\2\t\2\3\2\6"+
-		"\2\6\n\2\r\2\16\2\7\3\2\2\2\3\2\2\3\4\2\3\5\b\n\2\t\2\5\3\2\2\2\4\6\t"+
+		"\2\6\n\2\r\2\16\2\7\3\2\2\2\3\2\2\3\4\2\3\6\t\n\2\t\2\5\3\2\2\2\4\6\t"+
 		"\2\2\2\5\4\3\2\2\2\6\7\3\2\2\2\7\5\3\2\2\2\7\b\3\2\2\2\b\3\3\2\2\2\3\7";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

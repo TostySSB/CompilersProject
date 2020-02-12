@@ -2,6 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.io.FileWriter;
 import java.util.ListIterator;
 
 import org.antlr.v4.runtime.CharStreams;
@@ -30,15 +31,18 @@ public class Main {
         List<? extends Token> tokens = lexer.getAllTokens();
         System.out.println(tokens.size());
 
-        String ruleNames[] = lexer.getRuleNames();
-
+        String ruleNames[] = lexer.getTokenNames();
+        try {
+        FileWriter myWriter = new FileWriter("output.txt");
         for (int i = 0; i < tokens.size(); i++) {
             Token t = tokens.get(i);
-            System.out.println(t.getText());
-            int ruleIdx = t.getType();
-            System.out.println(ruleNames[ruleIdx-1]);
-            System.out.println("---------------------");
+            int ruleIdx = t.getType();;
+            appendUsingFileWriter("Token Type: " + ruleNames[ruleIdx]);
+            myWriter.write("Value: " + t.getText());
         }
-
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 }
