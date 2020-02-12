@@ -3,9 +3,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
-
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.*;
+import java.io.FileWriter;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,15 +29,24 @@ public class Main {
         List<? extends Token> tokens = lexer.getAllTokens();
         System.out.println(tokens.size());
 
-        String ruleNames[] = lexer.getRuleNames();
+        String ruleNames[] = lexer.getTokenNames();
 
-        for (int i = 0; i < tokens.size(); i++) {
-            Token t = tokens.get(i);
-            System.out.println(t.getText());
-            int ruleIdx = t.getType();
-            System.out.println(ruleNames[ruleIdx-1]);
-            System.out.println("---------------------");
+        String outputFileName = INPUT_FILE.substring(0, INPUT_FILE.length()-6) + ".out";
+        System.out.println(outputFileName);
+
+        FileWriter w;
+        try{
+            w = new FileWriter(outputFileName);
+            for (int i = 0; i < tokens.size(); i++) {
+                Token t = tokens.get(i);
+                int ruleIdx = t.getType();
+                w.write("Token Type: " + ruleNames[ruleIdx] + "\n");
+                w.write("Value: "+t.getText()+"\n");
+            }
+            w.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+            return;
         }
-
     }
 }
