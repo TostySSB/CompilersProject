@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.io.FileWriter;
 import java.util.ListIterator;
-
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.*;
+import java.io.FileWriter;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,17 +32,23 @@ public class Main {
         System.out.println(tokens.size());
 
         String ruleNames[] = lexer.getTokenNames();
-        try {
-        FileWriter myWriter = new FileWriter("output.txt");
-        for (int i = 0; i < tokens.size(); i++) {
-            Token t = tokens.get(i);
-            int ruleIdx = t.getType();;
-            appendUsingFileWriter("Token Type: " + ruleNames[ruleIdx]);
-            myWriter.write("Value: " + t.getText());
-        }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
+
+        String outputFileName = INPUT_FILE.substring(0, INPUT_FILE.length()-6) + ".out";
+        System.out.println(outputFileName);
+
+        FileWriter w;
+        try{
+            w = new FileWriter(outputFileName);
+            for (int i = 0; i < tokens.size(); i++) {
+                Token t = tokens.get(i);
+                int ruleIdx = t.getType();
+                w.write("Token Type: " + ruleNames[ruleIdx] + "\n");
+                w.write("Value: "+t.getText()+"\n");
+            }
+            w.close();
+        }catch (IOException e) {
             e.printStackTrace();
+            return;
         }
     }
 }
