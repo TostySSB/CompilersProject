@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.*;
 public class Main {
     public static void main(String[] args) {
         String INPUT_FILE = args[0];
-        System.out.println(INPUT_FILE);
         FileInputStream fileInputStream;
         try {
             fileInputStream = new FileInputStream(INPUT_FILE);
@@ -30,20 +29,15 @@ public class Main {
         List<? extends Token> tokens = lexer.getAllTokens();
         System.out.println(tokens.size());
 
-//        CommonTokenStream tokens = new CommonTokenStream(lexer);
-//        tokens.fill();
-//        System.out.println();
-//        System.out.println(tokens.size());
-//        ListIterator<Token> iter = tokens.getTokens().listIterator();
+        String ruleNames[] = lexer.getRuleNames();
 
-
-//        while(iter.hasNext()) {
-//            Token t = iter.next();
-//            System.out.println(t.getLine());
-//            System.out.println(t.getText());
-//            System.out.println(t.getType());
-//            System.out.println("--------------------");
-//        }
+        for (int i = 0; i < tokens.size(); i++) {
+            Token t = tokens.get(i);
+            System.out.println(t.getText());
+            int ruleIdx = t.getType();
+            System.out.println(ruleNames[ruleIdx-1]);
+            System.out.println("---------------------");
+        }
 
     }
 }
