@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.*;
 
 public class Main {
@@ -19,9 +20,9 @@ public class Main {
             return;
         }
 
-        gLexer lexer;
+        GLexer lexer;
         try {
-            lexer = new gLexer(CharStreams.fromFileName(INPUT_FILE));
+            lexer = new GLexer(CharStreams.fromFileName(INPUT_FILE));
         } catch (IOException e) {
             e.printStackTrace();
             return;

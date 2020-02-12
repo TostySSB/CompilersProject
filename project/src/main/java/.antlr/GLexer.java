@@ -1,4 +1,4 @@
-// Generated from G.g4 by ANTLR 4.8
+// Generated from c:\Users\Tosty\Documents\Programming\Spring2020\Compilers\Project\CompilersProject\project\src\main\java\G.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class GLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -26,26 +26,17 @@ public class GLexer extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", "OPERATOR", 
-			"COMMENT", "KEYWORD"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", "OPERATOR", 
+		"COMMENT", "KEYWORD"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", 
-			"OPERATOR", "COMMENT", "KEYWORD"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", 
+		"OPERATOR", "COMMENT", "KEYWORD"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**

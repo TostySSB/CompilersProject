@@ -1,27 +1,27 @@
-// Generated from /Users/admin/Desktop/2020 Spring Semester/Compilers/CompilersProject/project/src/main/java/g.g4 by ANTLR 4.8
+// Generated from G.g4 by ANTLR 4.8
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link gListener},
+ * This class provides an empty implementation of {@link GListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class gBaseListener implements gListener {
+public class GBaseListener implements GListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterR(gParser.RContext ctx) { }
+	@Override public void enterInputFile(GParser.InputFileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitR(gParser.RContext ctx) { }
+	@Override public void exitInputFile(GParser.InputFileContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -1,19 +1,19 @@
-// Generated from /Users/admin/Desktop/2020 Spring Semester/Compilers/CompilersProject/project/src/main/java/g.g4 by ANTLR 4.8
+// Generated from G.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
  * This interface defines a complete listener for a parse tree produced by
- * {@link gParser}.
+ * {@link GParser}.
  */
-public interface gListener extends ParseTreeListener {
+public interface GListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link gParser#r}.
+	 * Enter a parse tree produced by {@link GParser#inputFile}.
 	 * @param ctx the parse tree
 	 */
-	void enterR(gParser.RContext ctx);
+	void enterInputFile(GParser.InputFileContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#r}.
+	 * Exit a parse tree produced by {@link GParser#inputFile}.
 	 * @param ctx the parse tree
 	 */
-	void exitR(gParser.RContext ctx);
+	void exitInputFile(GParser.InputFileContext ctx);
 }
