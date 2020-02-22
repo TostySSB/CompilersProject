@@ -29,12 +29,9 @@ public class Main {
         }
 
         List<? extends Token> tokens = lexer.getAllTokens();
-        System.out.println(tokens.size());
 
-        String ruleNames[] = lexer.getTokenNames();
-
+        String ruleNames[] = lexer.getRuleNames();
         String outputFileName = INPUT_FILE.substring(0, INPUT_FILE.length()-6) + ".out";
-        System.out.println(outputFileName);
 
         FileWriter w;
         try{

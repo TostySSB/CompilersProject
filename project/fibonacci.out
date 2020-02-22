@@ -58,8 +58,8 @@ Token Type: IDENTIFIER
 Value: n
 Token Type: OPERATOR
 Value: >
-Token Type: FLOATLITERAL
-Value:  2
+Token Type: INTLITERAL
+Value: 2
 Token Type: OPERATOR
 Value: )
 Token Type: KEYWORD
@@ -70,8 +70,10 @@ Token Type: OPERATOR
 Value: (
 Token Type: IDENTIFIER
 Value: n
-Token Type: FLOATLITERAL
-Value: -1
+Token Type: OPERATOR
+Value: -
+Token Type: INTLITERAL
+Value: 1
 Token Type: OPERATOR
 Value: )
 Token Type: OPERATOR
@@ -82,8 +84,10 @@ Token Type: OPERATOR
 Value: (
 Token Type: IDENTIFIER
 Value: n
-Token Type: FLOATLITERAL
-Value: -2
+Token Type: OPERATOR
+Value: -
+Token Type: INTLITERAL
+Value: 2
 Token Type: OPERATOR
 Value: )
 Token Type: OPERATOR
@@ -92,8 +96,8 @@ Token Type: KEYWORD
 Value: ELSE
 Token Type: KEYWORD
 Value: RETURN
-Token Type: FLOATLITERAL
-Value:  1
+Token Type: INTLITERAL
+Value: 1
 Token Type: OPERATOR
 Value: ;
 Token Type: KEYWORD
@@ -150,8 +154,8 @@ Token Type: IDENTIFIER
 Value: i
 Token Type: OPERATOR
 Value: :=
-Token Type: FLOATLITERAL
-Value:  0
+Token Type: INTLITERAL
+Value: 0
 Token Type: OPERATOR
 Value: ;
 Token Type: KEYWORD
@@ -216,8 +220,8 @@ Token Type: IDENTIFIER
 Value: i
 Token Type: OPERATOR
 Value: +
-Token Type: FLOATLITERAL
-Value:  1
+Token Type: INTLITERAL
+Value: 1
 Token Type: OPERATOR
 Value: ;
 Token Type: KEYWORD
