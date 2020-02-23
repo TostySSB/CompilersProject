@@ -11,7 +11,8 @@ import java.io.FileWriter;
 
 public class Main {
     public static void main(String[] args) {
-        String INPUT_FILE = args[0];
+        String INPUT_FILE = "./inputs/" + args[0];
+        System.out.println(INPUT_FILE);
         FileInputStream fileInputStream;
         try {
             fileInputStream = new FileInputStream(INPUT_FILE);
@@ -25,16 +26,16 @@ public class Main {
 
         try {
             lexer = new GLexer(CharStreams.fromFileName(INPUT_FILE));
+            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+            parser = new GParser(tokenStream);
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
         
-        CommonTokenStream cts = new CommonTokenStream(lexer);
-        
         // List<? extends Token> tokens = lexer.getAllTokens();
-
         // String ruleNames[] = lexer.getRuleNames();
+
         String outputFileName = INPUT_FILE.substring(0, INPUT_FILE.length()-6) + ".out";
 
         FileWriter w;
