@@ -21,27 +21,31 @@ public class Main {
         }
 
         GLexer lexer;
+        GParser parser;
+
         try {
             lexer = new GLexer(CharStreams.fromFileName(INPUT_FILE));
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
+        
+        CommonTokenStream cts = new CommonTokenStream(lexer);
+        
+        // List<? extends Token> tokens = lexer.getAllTokens();
 
-        List<? extends Token> tokens = lexer.getAllTokens();
-
-        String ruleNames[] = lexer.getRuleNames();
+        // String ruleNames[] = lexer.getRuleNames();
         String outputFileName = INPUT_FILE.substring(0, INPUT_FILE.length()-6) + ".out";
 
         FileWriter w;
         try{
             w = new FileWriter(outputFileName);
-            for (int i = 0; i < tokens.size(); i++) {
-                Token t = tokens.get(i);
-                int ruleIdx = t.getType();
-                w.write("Token Type: " + ruleNames[ruleIdx] + "\n");
-                w.write("Value: "+t.getText()+"\n");
-            }
+            // for (int i = 0; i < tokens.size(); i++) {
+            //     Token t = tokens.get(i);
+            //     int ruleIdx = t.getType();
+            //     w.write("Token Type: " + ruleNames[ruleIdx] + "\n");
+            //     w.write("Value: "+t.getText()+"\n");
+            // }
             w.close();
         }catch (IOException e) {
             e.printStackTrace();
