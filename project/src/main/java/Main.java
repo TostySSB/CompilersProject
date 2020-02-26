@@ -32,6 +32,7 @@ public class Main {
             e.printStackTrace();
             return;
         }
+
         
         // List<? extends Token> tokens = lexer.getAllTokens();
         // String ruleNames[] = lexer.getRuleNames();
