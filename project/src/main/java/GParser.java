@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Generated from g.g4 by ANTLR 4.8
+=======
+// Generated from g.g4 by ANTLR 4.7.1
+>>>>>>> 994ee88ccb4c4f8e44b6a6dd9253eb4776028524
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +14,11 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class gParser extends Parser {
+<<<<<<< HEAD
 	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+=======
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
+>>>>>>> 994ee88ccb4c4f8e44b6a6dd9253eb4776028524
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -34,6 +42,7 @@ public class gParser extends Parser {
 		RULE_expr_list = 31, RULE_expr_list_tail = 32, RULE_addop = 33, RULE_mulop = 34, 
 		RULE_primary = 35, RULE_if_stmt = 36, RULE_else_part = 37, RULE_cond = 38, 
 		RULE_compop = 39, RULE_while_stmt = 40, RULE_inputFile = 41;
+<<<<<<< HEAD
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"program", "id", "pgm_body", "decl", "string_decl", "str", "var_decl", 
@@ -65,6 +74,30 @@ public class gParser extends Parser {
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+=======
+	public static final String[] ruleNames = {
+		"program", "id", "pgm_body", "decl", "string_decl", "str", "var_decl", 
+		"var_type", "any_type", "id_list", "id_tail", "param_decl_list", "param_decl", 
+		"param_decl_tail", "func_declarations", "func_decl", "func_body", "stmt_list", 
+		"stmt", "base_stmt", "assign_stmt", "assign_expr", "read_stmt", "write_stmt", 
+		"return_stmt", "expr", "expr_prefix", "factor", "factor_prefix", "postfix_expr", 
+		"call_expr", "expr_list", "expr_list_tail", "addop", "mulop", "primary", 
+		"if_stmt", "else_part", "cond", "compop", "while_stmt", "inputFile"
+	};
+
+	private static final String[] _LITERAL_NAMES = {
+		null, "'PROGRAM'", "'BEGIN'", "'END'", "';'", "'STRING'", "':='", "'FLOAT'", 
+		"'INT'", "'VOID'", "','", "'FUNCTION'", "'('", "')'", "'READ'", "'WRITE'", 
+		"'RETURN'", "'+'", "'-'", "'*'", "'/'", "'IF'", "'ENDIF'", "'ELSE'", "'<'", 
+		"'>'", "'='", "'!='", "'<='", "'>='", "'WHILE'", "'ENDWHILE'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, null, null, null, null, null, null, null, "KEYWORD", "WS", "INTLITERAL", 
+		"FLOATLITERAL", "STRINGLITERAL", "IDENTIFIER", "OPERATOR", "COMMENT"
+	};
+>>>>>>> 994ee88ccb4c4f8e44b6a6dd9253eb4776028524
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -114,7 +147,6 @@ public class gParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-
 	public static class ProgramContext extends ParserRuleContext {
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);

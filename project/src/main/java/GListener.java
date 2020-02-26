@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Generated from g.g4 by ANTLR 4.8
+=======
+// Generated from g.g4 by ANTLR 4.7.1
+>>>>>>> 994ee88ccb4c4f8e44b6a6dd9253eb4776028524
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

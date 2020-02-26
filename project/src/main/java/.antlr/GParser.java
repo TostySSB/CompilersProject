@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Generated from /Users/admin/Desktop/2020 Spring Semester/Compilers/CompilersProject/project/src/main/java/g.g4 by ANTLR 4.7.1
+=======
+// Generated from /Users/danaparker/Documents/repos/compilers-project/project/src/main/java/g.g4 by ANTLR 4.7.1
+>>>>>>> 994ee88ccb4c4f8e44b6a6dd9253eb4776028524
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
