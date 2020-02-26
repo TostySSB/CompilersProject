@@ -2,3 +2,4 @@
 .idea/
 *.tokens
 *.interp
+*.DS_Store
