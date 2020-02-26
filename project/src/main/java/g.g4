@@ -8,7 +8,7 @@ pgm_body: decl func_declarations;
 decl: string_decl decl ';'| var_decl decl ';'| ;
 
 /* Global String Declaration */
-string_decl: str id ':=' str;
+string_decl: 'STRING' id ':=' str;
 str : STRINGLITERAL;
 
 /* Variable Declaration */
@@ -45,7 +45,7 @@ return_stmt: 'RETURN' expr;
 expr: expr_prefix factor;
 expr_prefix: expr_prefix factor addop | ;
 factor: factor_prefix postfix_expr;
-factor_prefix: factor_prefix postfix_expr mulop | empty;
+factor_prefix: factor_prefix postfix_expr mulop | ;
 postfix_expr: primary | call_expr;
 call_expr: id ( expr_list );
 expr_list: expr expr_list_tail | ;
