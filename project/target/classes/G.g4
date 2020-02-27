@@ -1,22 +1,22 @@
-grammar g;
+grammar G;
 
 /* Parser rules */
 /* Program */
 program : 'PROGRAM' id 'BEGIN' pgm_body 'END';
 id: IDENTIFIER;
 pgm_body: decl func_declarations;
-decl: string_decl decl ';'| var_decl decl ';'| ;
+decl: string_decl decl| var_decl decl| ;
 
 /* Global String Declaration */
-string_decl: 'STRING' id ':=' str;
+string_decl : 'STRING' id ':=' str ';' ;
 str : STRINGLITERAL;
 
 /* Variable Declaration */
-var_decl: var_type id_list | any_type id_list;
-var_type: 'FLOAT' | 'INT';
-any_type: var_type | 'VOID';
-id_list: id id_tail;
-id_tail: ',' id id_tail | ';' | ;
+var_decl : var_type id_list ';' | any_type id_list ';' ;
+var_type : 'INT' | 'FLOAT';
+any_type : var_type | 'VOID';
+id_list : id id_tail;
+id_tail : ',' id id_tail | ';' | ;
 
 /* Function Paramater List */
 param_decl_list: param_decl param_decl_tail | ;
@@ -34,11 +34,11 @@ stmt: base_stmt | if_stmt | while_stmt;
 base_stmt: assign_stmt | read_stmt | write_stmt | return_stmt;
 
 /* Basic Statements */
-assign_stmt: assign_expr;
+assign_stmt: assign_expr ';' ;
 assign_expr: id ':=' expr;
-read_stmt: 'READ' '(' id_list ')';
-write_stmt: 'WRITE' '(' id_list ')';
-return_stmt: 'RETURN' expr;
+read_stmt: 'READ' '(' id_list ');' ;
+write_stmt: 'WRITE' '(' id_list ');' ;
+return_stmt: 'RETURN' expr ';' ;
 
 /* Expressions */
 

@@ -1,519 +1,519 @@
-// Generated from g.g4 by ANTLR 4.7.1
+// Generated from G.g4 by ANTLR 4.8
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link gListener},
+ * This class provides an empty implementation of {@link GListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class gBaseListener implements gListener {
+public class GBaseListener implements GListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(gParser.ProgramContext ctx) { }
+	@Override public void enterProgram(GParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(gParser.ProgramContext ctx) { }
+	@Override public void exitProgram(GParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId(gParser.IdContext ctx) { }
+	@Override public void enterId(GParser.IdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId(gParser.IdContext ctx) { }
+	@Override public void exitId(GParser.IdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPgm_body(gParser.Pgm_bodyContext ctx) { }
+	@Override public void enterPgm_body(GParser.Pgm_bodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPgm_body(gParser.Pgm_bodyContext ctx) { }
+	@Override public void exitPgm_body(GParser.Pgm_bodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDecl(gParser.DeclContext ctx) { }
+	@Override public void enterDecl(GParser.DeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDecl(gParser.DeclContext ctx) { }
+	@Override public void exitDecl(GParser.DeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterString_decl(gParser.String_declContext ctx) { }
+	@Override public void enterString_decl(GParser.String_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitString_decl(gParser.String_declContext ctx) { }
+	@Override public void exitString_decl(GParser.String_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStr(gParser.StrContext ctx) { }
+	@Override public void enterStr(GParser.StrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStr(gParser.StrContext ctx) { }
+	@Override public void exitStr(GParser.StrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVar_decl(gParser.Var_declContext ctx) { }
+	@Override public void enterVar_decl(GParser.Var_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVar_decl(gParser.Var_declContext ctx) { }
+	@Override public void exitVar_decl(GParser.Var_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVar_type(gParser.Var_typeContext ctx) { }
+	@Override public void enterVar_type(GParser.Var_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVar_type(gParser.Var_typeContext ctx) { }
+	@Override public void exitVar_type(GParser.Var_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAny_type(gParser.Any_typeContext ctx) { }
+	@Override public void enterAny_type(GParser.Any_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAny_type(gParser.Any_typeContext ctx) { }
+	@Override public void exitAny_type(GParser.Any_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId_list(gParser.Id_listContext ctx) { }
+	@Override public void enterId_list(GParser.Id_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId_list(gParser.Id_listContext ctx) { }
+	@Override public void exitId_list(GParser.Id_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId_tail(gParser.Id_tailContext ctx) { }
+	@Override public void enterId_tail(GParser.Id_tailContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId_tail(gParser.Id_tailContext ctx) { }
+	@Override public void exitId_tail(GParser.Id_tailContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParam_decl_list(gParser.Param_decl_listContext ctx) { }
+	@Override public void enterParam_decl_list(GParser.Param_decl_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParam_decl_list(gParser.Param_decl_listContext ctx) { }
+	@Override public void exitParam_decl_list(GParser.Param_decl_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParam_decl(gParser.Param_declContext ctx) { }
+	@Override public void enterParam_decl(GParser.Param_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParam_decl(gParser.Param_declContext ctx) { }
+	@Override public void exitParam_decl(GParser.Param_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParam_decl_tail(gParser.Param_decl_tailContext ctx) { }
+	@Override public void enterParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParam_decl_tail(gParser.Param_decl_tailContext ctx) { }
+	@Override public void exitParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunc_declarations(gParser.Func_declarationsContext ctx) { }
+	@Override public void enterFunc_declarations(GParser.Func_declarationsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunc_declarations(gParser.Func_declarationsContext ctx) { }
+	@Override public void exitFunc_declarations(GParser.Func_declarationsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunc_decl(gParser.Func_declContext ctx) { }
+	@Override public void enterFunc_decl(GParser.Func_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunc_decl(gParser.Func_declContext ctx) { }
+	@Override public void exitFunc_decl(GParser.Func_declContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunc_body(gParser.Func_bodyContext ctx) { }
+	@Override public void enterFunc_body(GParser.Func_bodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunc_body(gParser.Func_bodyContext ctx) { }
+	@Override public void exitFunc_body(GParser.Func_bodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStmt_list(gParser.Stmt_listContext ctx) { }
+	@Override public void enterStmt_list(GParser.Stmt_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStmt_list(gParser.Stmt_listContext ctx) { }
+	@Override public void exitStmt_list(GParser.Stmt_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStmt(gParser.StmtContext ctx) { }
+	@Override public void enterStmt(GParser.StmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStmt(gParser.StmtContext ctx) { }
+	@Override public void exitStmt(GParser.StmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBase_stmt(gParser.Base_stmtContext ctx) { }
+	@Override public void enterBase_stmt(GParser.Base_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBase_stmt(gParser.Base_stmtContext ctx) { }
+	@Override public void exitBase_stmt(GParser.Base_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssign_stmt(gParser.Assign_stmtContext ctx) { }
+	@Override public void enterAssign_stmt(GParser.Assign_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssign_stmt(gParser.Assign_stmtContext ctx) { }
+	@Override public void exitAssign_stmt(GParser.Assign_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssign_expr(gParser.Assign_exprContext ctx) { }
+	@Override public void enterAssign_expr(GParser.Assign_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssign_expr(gParser.Assign_exprContext ctx) { }
+	@Override public void exitAssign_expr(GParser.Assign_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRead_stmt(gParser.Read_stmtContext ctx) { }
+	@Override public void enterRead_stmt(GParser.Read_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRead_stmt(gParser.Read_stmtContext ctx) { }
+	@Override public void exitRead_stmt(GParser.Read_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWrite_stmt(gParser.Write_stmtContext ctx) { }
+	@Override public void enterWrite_stmt(GParser.Write_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWrite_stmt(gParser.Write_stmtContext ctx) { }
+	@Override public void exitWrite_stmt(GParser.Write_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturn_stmt(gParser.Return_stmtContext ctx) { }
+	@Override public void enterReturn_stmt(GParser.Return_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturn_stmt(gParser.Return_stmtContext ctx) { }
+	@Override public void exitReturn_stmt(GParser.Return_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr(gParser.ExprContext ctx) { }
+	@Override public void enterExpr(GParser.ExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr(gParser.ExprContext ctx) { }
+	@Override public void exitExpr(GParser.ExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr_prefix(gParser.Expr_prefixContext ctx) { }
+	@Override public void enterExpr_prefix(GParser.Expr_prefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr_prefix(gParser.Expr_prefixContext ctx) { }
+	@Override public void exitExpr_prefix(GParser.Expr_prefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFactor(gParser.FactorContext ctx) { }
+	@Override public void enterFactor(GParser.FactorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFactor(gParser.FactorContext ctx) { }
+	@Override public void exitFactor(GParser.FactorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFactor_prefix(gParser.Factor_prefixContext ctx) { }
+	@Override public void enterFactor_prefix(GParser.Factor_prefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFactor_prefix(gParser.Factor_prefixContext ctx) { }
+	@Override public void exitFactor_prefix(GParser.Factor_prefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPostfix_expr(gParser.Postfix_exprContext ctx) { }
+	@Override public void enterPostfix_expr(GParser.Postfix_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPostfix_expr(gParser.Postfix_exprContext ctx) { }
+	@Override public void exitPostfix_expr(GParser.Postfix_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCall_expr(gParser.Call_exprContext ctx) { }
+	@Override public void enterCall_expr(GParser.Call_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCall_expr(gParser.Call_exprContext ctx) { }
+	@Override public void exitCall_expr(GParser.Call_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr_list(gParser.Expr_listContext ctx) { }
+	@Override public void enterExpr_list(GParser.Expr_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr_list(gParser.Expr_listContext ctx) { }
+	@Override public void exitExpr_list(GParser.Expr_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr_list_tail(gParser.Expr_list_tailContext ctx) { }
+	@Override public void enterExpr_list_tail(GParser.Expr_list_tailContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr_list_tail(gParser.Expr_list_tailContext ctx) { }
+	@Override public void exitExpr_list_tail(GParser.Expr_list_tailContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddop(gParser.AddopContext ctx) { }
+	@Override public void enterAddop(GParser.AddopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAddop(gParser.AddopContext ctx) { }
+	@Override public void exitAddop(GParser.AddopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMulop(gParser.MulopContext ctx) { }
+	@Override public void enterMulop(GParser.MulopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMulop(gParser.MulopContext ctx) { }
+	@Override public void exitMulop(GParser.MulopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimary(gParser.PrimaryContext ctx) { }
+	@Override public void enterPrimary(GParser.PrimaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimary(gParser.PrimaryContext ctx) { }
+	@Override public void exitPrimary(GParser.PrimaryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIf_stmt(gParser.If_stmtContext ctx) { }
+	@Override public void enterIf_stmt(GParser.If_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIf_stmt(gParser.If_stmtContext ctx) { }
+	@Override public void exitIf_stmt(GParser.If_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElse_part(gParser.Else_partContext ctx) { }
+	@Override public void enterElse_part(GParser.Else_partContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElse_part(gParser.Else_partContext ctx) { }
+	@Override public void exitElse_part(GParser.Else_partContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCond(gParser.CondContext ctx) { }
+	@Override public void enterCond(GParser.CondContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCond(gParser.CondContext ctx) { }
+	@Override public void exitCond(GParser.CondContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCompop(gParser.CompopContext ctx) { }
+	@Override public void enterCompop(GParser.CompopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCompop(gParser.CompopContext ctx) { }
+	@Override public void exitCompop(GParser.CompopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWhile_stmt(gParser.While_stmtContext ctx) { }
+	@Override public void enterWhile_stmt(GParser.While_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWhile_stmt(gParser.While_stmtContext ctx) { }
+	@Override public void exitWhile_stmt(GParser.While_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInputFile(gParser.InputFileContext ctx) { }
+	@Override public void enterInputFile(GParser.InputFileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInputFile(gParser.InputFileContext ctx) { }
+	@Override public void exitInputFile(GParser.InputFileContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

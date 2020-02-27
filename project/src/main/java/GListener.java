@@ -1,433 +1,429 @@
-<<<<<<< HEAD
-// Generated from g.g4 by ANTLR 4.8
-=======
-// Generated from g.g4 by ANTLR 4.7.1
->>>>>>> 994ee88ccb4c4f8e44b6a6dd9253eb4776028524
+// Generated from G.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
  * This interface defines a complete listener for a parse tree produced by
- * {@link gParser}.
+ * {@link GParser}.
  */
-public interface gListener extends ParseTreeListener {
+public interface GListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link gParser#program}.
+	 * Enter a parse tree produced by {@link GParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void enterProgram(gParser.ProgramContext ctx);
+	void enterProgram(GParser.ProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#program}.
+	 * Exit a parse tree produced by {@link GParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void exitProgram(gParser.ProgramContext ctx);
+	void exitProgram(GParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#id}.
+	 * Enter a parse tree produced by {@link GParser#id}.
 	 * @param ctx the parse tree
 	 */
-	void enterId(gParser.IdContext ctx);
+	void enterId(GParser.IdContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#id}.
+	 * Exit a parse tree produced by {@link GParser#id}.
 	 * @param ctx the parse tree
 	 */
-	void exitId(gParser.IdContext ctx);
+	void exitId(GParser.IdContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#pgm_body}.
+	 * Enter a parse tree produced by {@link GParser#pgm_body}.
 	 * @param ctx the parse tree
 	 */
-	void enterPgm_body(gParser.Pgm_bodyContext ctx);
+	void enterPgm_body(GParser.Pgm_bodyContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#pgm_body}.
+	 * Exit a parse tree produced by {@link GParser#pgm_body}.
 	 * @param ctx the parse tree
 	 */
-	void exitPgm_body(gParser.Pgm_bodyContext ctx);
+	void exitPgm_body(GParser.Pgm_bodyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#decl}.
+	 * Enter a parse tree produced by {@link GParser#decl}.
 	 * @param ctx the parse tree
 	 */
-	void enterDecl(gParser.DeclContext ctx);
+	void enterDecl(GParser.DeclContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#decl}.
+	 * Exit a parse tree produced by {@link GParser#decl}.
 	 * @param ctx the parse tree
 	 */
-	void exitDecl(gParser.DeclContext ctx);
+	void exitDecl(GParser.DeclContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#string_decl}.
+	 * Enter a parse tree produced by {@link GParser#string_decl}.
 	 * @param ctx the parse tree
 	 */
-	void enterString_decl(gParser.String_declContext ctx);
+	void enterString_decl(GParser.String_declContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#string_decl}.
+	 * Exit a parse tree produced by {@link GParser#string_decl}.
 	 * @param ctx the parse tree
 	 */
-	void exitString_decl(gParser.String_declContext ctx);
+	void exitString_decl(GParser.String_declContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#str}.
+	 * Enter a parse tree produced by {@link GParser#str}.
 	 * @param ctx the parse tree
 	 */
-	void enterStr(gParser.StrContext ctx);
+	void enterStr(GParser.StrContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#str}.
+	 * Exit a parse tree produced by {@link GParser#str}.
 	 * @param ctx the parse tree
 	 */
-	void exitStr(gParser.StrContext ctx);
+	void exitStr(GParser.StrContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#var_decl}.
+	 * Enter a parse tree produced by {@link GParser#var_decl}.
 	 * @param ctx the parse tree
 	 */
-	void enterVar_decl(gParser.Var_declContext ctx);
+	void enterVar_decl(GParser.Var_declContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#var_decl}.
+	 * Exit a parse tree produced by {@link GParser#var_decl}.
 	 * @param ctx the parse tree
 	 */
-	void exitVar_decl(gParser.Var_declContext ctx);
+	void exitVar_decl(GParser.Var_declContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#var_type}.
+	 * Enter a parse tree produced by {@link GParser#var_type}.
 	 * @param ctx the parse tree
 	 */
-	void enterVar_type(gParser.Var_typeContext ctx);
+	void enterVar_type(GParser.Var_typeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#var_type}.
+	 * Exit a parse tree produced by {@link GParser#var_type}.
 	 * @param ctx the parse tree
 	 */
-	void exitVar_type(gParser.Var_typeContext ctx);
+	void exitVar_type(GParser.Var_typeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#any_type}.
+	 * Enter a parse tree produced by {@link GParser#any_type}.
 	 * @param ctx the parse tree
 	 */
-	void enterAny_type(gParser.Any_typeContext ctx);
+	void enterAny_type(GParser.Any_typeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#any_type}.
+	 * Exit a parse tree produced by {@link GParser#any_type}.
 	 * @param ctx the parse tree
 	 */
-	void exitAny_type(gParser.Any_typeContext ctx);
+	void exitAny_type(GParser.Any_typeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#id_list}.
+	 * Enter a parse tree produced by {@link GParser#id_list}.
 	 * @param ctx the parse tree
 	 */
-	void enterId_list(gParser.Id_listContext ctx);
+	void enterId_list(GParser.Id_listContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#id_list}.
+	 * Exit a parse tree produced by {@link GParser#id_list}.
 	 * @param ctx the parse tree
 	 */
-	void exitId_list(gParser.Id_listContext ctx);
+	void exitId_list(GParser.Id_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#id_tail}.
+	 * Enter a parse tree produced by {@link GParser#id_tail}.
 	 * @param ctx the parse tree
 	 */
-	void enterId_tail(gParser.Id_tailContext ctx);
+	void enterId_tail(GParser.Id_tailContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#id_tail}.
+	 * Exit a parse tree produced by {@link GParser#id_tail}.
 	 * @param ctx the parse tree
 	 */
-	void exitId_tail(gParser.Id_tailContext ctx);
+	void exitId_tail(GParser.Id_tailContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#param_decl_list}.
+	 * Enter a parse tree produced by {@link GParser#param_decl_list}.
 	 * @param ctx the parse tree
 	 */
-	void enterParam_decl_list(gParser.Param_decl_listContext ctx);
+	void enterParam_decl_list(GParser.Param_decl_listContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#param_decl_list}.
+	 * Exit a parse tree produced by {@link GParser#param_decl_list}.
 	 * @param ctx the parse tree
 	 */
-	void exitParam_decl_list(gParser.Param_decl_listContext ctx);
+	void exitParam_decl_list(GParser.Param_decl_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#param_decl}.
+	 * Enter a parse tree produced by {@link GParser#param_decl}.
 	 * @param ctx the parse tree
 	 */
-	void enterParam_decl(gParser.Param_declContext ctx);
+	void enterParam_decl(GParser.Param_declContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#param_decl}.
+	 * Exit a parse tree produced by {@link GParser#param_decl}.
 	 * @param ctx the parse tree
 	 */
-	void exitParam_decl(gParser.Param_declContext ctx);
+	void exitParam_decl(GParser.Param_declContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#param_decl_tail}.
+	 * Enter a parse tree produced by {@link GParser#param_decl_tail}.
 	 * @param ctx the parse tree
 	 */
-	void enterParam_decl_tail(gParser.Param_decl_tailContext ctx);
+	void enterParam_decl_tail(GParser.Param_decl_tailContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#param_decl_tail}.
+	 * Exit a parse tree produced by {@link GParser#param_decl_tail}.
 	 * @param ctx the parse tree
 	 */
-	void exitParam_decl_tail(gParser.Param_decl_tailContext ctx);
+	void exitParam_decl_tail(GParser.Param_decl_tailContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#func_declarations}.
+	 * Enter a parse tree produced by {@link GParser#func_declarations}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunc_declarations(gParser.Func_declarationsContext ctx);
+	void enterFunc_declarations(GParser.Func_declarationsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#func_declarations}.
+	 * Exit a parse tree produced by {@link GParser#func_declarations}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunc_declarations(gParser.Func_declarationsContext ctx);
+	void exitFunc_declarations(GParser.Func_declarationsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#func_decl}.
+	 * Enter a parse tree produced by {@link GParser#func_decl}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunc_decl(gParser.Func_declContext ctx);
+	void enterFunc_decl(GParser.Func_declContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#func_decl}.
+	 * Exit a parse tree produced by {@link GParser#func_decl}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunc_decl(gParser.Func_declContext ctx);
+	void exitFunc_decl(GParser.Func_declContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#func_body}.
+	 * Enter a parse tree produced by {@link GParser#func_body}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunc_body(gParser.Func_bodyContext ctx);
+	void enterFunc_body(GParser.Func_bodyContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#func_body}.
+	 * Exit a parse tree produced by {@link GParser#func_body}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunc_body(gParser.Func_bodyContext ctx);
+	void exitFunc_body(GParser.Func_bodyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#stmt_list}.
+	 * Enter a parse tree produced by {@link GParser#stmt_list}.
 	 * @param ctx the parse tree
 	 */
-	void enterStmt_list(gParser.Stmt_listContext ctx);
+	void enterStmt_list(GParser.Stmt_listContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#stmt_list}.
+	 * Exit a parse tree produced by {@link GParser#stmt_list}.
 	 * @param ctx the parse tree
 	 */
-	void exitStmt_list(gParser.Stmt_listContext ctx);
+	void exitStmt_list(GParser.Stmt_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#stmt}.
+	 * Enter a parse tree produced by {@link GParser#stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterStmt(gParser.StmtContext ctx);
+	void enterStmt(GParser.StmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#stmt}.
+	 * Exit a parse tree produced by {@link GParser#stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitStmt(gParser.StmtContext ctx);
+	void exitStmt(GParser.StmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#base_stmt}.
+	 * Enter a parse tree produced by {@link GParser#base_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterBase_stmt(gParser.Base_stmtContext ctx);
+	void enterBase_stmt(GParser.Base_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#base_stmt}.
+	 * Exit a parse tree produced by {@link GParser#base_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitBase_stmt(gParser.Base_stmtContext ctx);
+	void exitBase_stmt(GParser.Base_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#assign_stmt}.
+	 * Enter a parse tree produced by {@link GParser#assign_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterAssign_stmt(gParser.Assign_stmtContext ctx);
+	void enterAssign_stmt(GParser.Assign_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#assign_stmt}.
+	 * Exit a parse tree produced by {@link GParser#assign_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitAssign_stmt(gParser.Assign_stmtContext ctx);
+	void exitAssign_stmt(GParser.Assign_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#assign_expr}.
+	 * Enter a parse tree produced by {@link GParser#assign_expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterAssign_expr(gParser.Assign_exprContext ctx);
+	void enterAssign_expr(GParser.Assign_exprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#assign_expr}.
+	 * Exit a parse tree produced by {@link GParser#assign_expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitAssign_expr(gParser.Assign_exprContext ctx);
+	void exitAssign_expr(GParser.Assign_exprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#read_stmt}.
+	 * Enter a parse tree produced by {@link GParser#read_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterRead_stmt(gParser.Read_stmtContext ctx);
+	void enterRead_stmt(GParser.Read_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#read_stmt}.
+	 * Exit a parse tree produced by {@link GParser#read_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitRead_stmt(gParser.Read_stmtContext ctx);
+	void exitRead_stmt(GParser.Read_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#write_stmt}.
+	 * Enter a parse tree produced by {@link GParser#write_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterWrite_stmt(gParser.Write_stmtContext ctx);
+	void enterWrite_stmt(GParser.Write_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#write_stmt}.
+	 * Exit a parse tree produced by {@link GParser#write_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitWrite_stmt(gParser.Write_stmtContext ctx);
+	void exitWrite_stmt(GParser.Write_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#return_stmt}.
+	 * Enter a parse tree produced by {@link GParser#return_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterReturn_stmt(gParser.Return_stmtContext ctx);
+	void enterReturn_stmt(GParser.Return_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#return_stmt}.
+	 * Exit a parse tree produced by {@link GParser#return_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitReturn_stmt(gParser.Return_stmtContext ctx);
+	void exitReturn_stmt(GParser.Return_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#expr}.
+	 * Enter a parse tree produced by {@link GParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr(gParser.ExprContext ctx);
+	void enterExpr(GParser.ExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#expr}.
+	 * Exit a parse tree produced by {@link GParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr(gParser.ExprContext ctx);
+	void exitExpr(GParser.ExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#expr_prefix}.
+	 * Enter a parse tree produced by {@link GParser#expr_prefix}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr_prefix(gParser.Expr_prefixContext ctx);
+	void enterExpr_prefix(GParser.Expr_prefixContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#expr_prefix}.
+	 * Exit a parse tree produced by {@link GParser#expr_prefix}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr_prefix(gParser.Expr_prefixContext ctx);
+	void exitExpr_prefix(GParser.Expr_prefixContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#factor}.
+	 * Enter a parse tree produced by {@link GParser#factor}.
 	 * @param ctx the parse tree
 	 */
-	void enterFactor(gParser.FactorContext ctx);
+	void enterFactor(GParser.FactorContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#factor}.
+	 * Exit a parse tree produced by {@link GParser#factor}.
 	 * @param ctx the parse tree
 	 */
-	void exitFactor(gParser.FactorContext ctx);
+	void exitFactor(GParser.FactorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#factor_prefix}.
+	 * Enter a parse tree produced by {@link GParser#factor_prefix}.
 	 * @param ctx the parse tree
 	 */
-	void enterFactor_prefix(gParser.Factor_prefixContext ctx);
+	void enterFactor_prefix(GParser.Factor_prefixContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#factor_prefix}.
+	 * Exit a parse tree produced by {@link GParser#factor_prefix}.
 	 * @param ctx the parse tree
 	 */
-	void exitFactor_prefix(gParser.Factor_prefixContext ctx);
+	void exitFactor_prefix(GParser.Factor_prefixContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#postfix_expr}.
+	 * Enter a parse tree produced by {@link GParser#postfix_expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterPostfix_expr(gParser.Postfix_exprContext ctx);
+	void enterPostfix_expr(GParser.Postfix_exprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#postfix_expr}.
+	 * Exit a parse tree produced by {@link GParser#postfix_expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitPostfix_expr(gParser.Postfix_exprContext ctx);
+	void exitPostfix_expr(GParser.Postfix_exprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#call_expr}.
+	 * Enter a parse tree produced by {@link GParser#call_expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterCall_expr(gParser.Call_exprContext ctx);
+	void enterCall_expr(GParser.Call_exprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#call_expr}.
+	 * Exit a parse tree produced by {@link GParser#call_expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitCall_expr(gParser.Call_exprContext ctx);
+	void exitCall_expr(GParser.Call_exprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#expr_list}.
+	 * Enter a parse tree produced by {@link GParser#expr_list}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr_list(gParser.Expr_listContext ctx);
+	void enterExpr_list(GParser.Expr_listContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#expr_list}.
+	 * Exit a parse tree produced by {@link GParser#expr_list}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr_list(gParser.Expr_listContext ctx);
+	void exitExpr_list(GParser.Expr_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#expr_list_tail}.
+	 * Enter a parse tree produced by {@link GParser#expr_list_tail}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr_list_tail(gParser.Expr_list_tailContext ctx);
+	void enterExpr_list_tail(GParser.Expr_list_tailContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#expr_list_tail}.
+	 * Exit a parse tree produced by {@link GParser#expr_list_tail}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr_list_tail(gParser.Expr_list_tailContext ctx);
+	void exitExpr_list_tail(GParser.Expr_list_tailContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#addop}.
+	 * Enter a parse tree produced by {@link GParser#addop}.
 	 * @param ctx the parse tree
 	 */
-	void enterAddop(gParser.AddopContext ctx);
+	void enterAddop(GParser.AddopContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#addop}.
+	 * Exit a parse tree produced by {@link GParser#addop}.
 	 * @param ctx the parse tree
 	 */
-	void exitAddop(gParser.AddopContext ctx);
+	void exitAddop(GParser.AddopContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#mulop}.
+	 * Enter a parse tree produced by {@link GParser#mulop}.
 	 * @param ctx the parse tree
 	 */
-	void enterMulop(gParser.MulopContext ctx);
+	void enterMulop(GParser.MulopContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#mulop}.
+	 * Exit a parse tree produced by {@link GParser#mulop}.
 	 * @param ctx the parse tree
 	 */
-	void exitMulop(gParser.MulopContext ctx);
+	void exitMulop(GParser.MulopContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#primary}.
+	 * Enter a parse tree produced by {@link GParser#primary}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrimary(gParser.PrimaryContext ctx);
+	void enterPrimary(GParser.PrimaryContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#primary}.
+	 * Exit a parse tree produced by {@link GParser#primary}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrimary(gParser.PrimaryContext ctx);
+	void exitPrimary(GParser.PrimaryContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#if_stmt}.
+	 * Enter a parse tree produced by {@link GParser#if_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterIf_stmt(gParser.If_stmtContext ctx);
+	void enterIf_stmt(GParser.If_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#if_stmt}.
+	 * Exit a parse tree produced by {@link GParser#if_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitIf_stmt(gParser.If_stmtContext ctx);
+	void exitIf_stmt(GParser.If_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#else_part}.
+	 * Enter a parse tree produced by {@link GParser#else_part}.
 	 * @param ctx the parse tree
 	 */
-	void enterElse_part(gParser.Else_partContext ctx);
+	void enterElse_part(GParser.Else_partContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#else_part}.
+	 * Exit a parse tree produced by {@link GParser#else_part}.
 	 * @param ctx the parse tree
 	 */
-	void exitElse_part(gParser.Else_partContext ctx);
+	void exitElse_part(GParser.Else_partContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#cond}.
+	 * Enter a parse tree produced by {@link GParser#cond}.
 	 * @param ctx the parse tree
 	 */
-	void enterCond(gParser.CondContext ctx);
+	void enterCond(GParser.CondContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#cond}.
+	 * Exit a parse tree produced by {@link GParser#cond}.
 	 * @param ctx the parse tree
 	 */
-	void exitCond(gParser.CondContext ctx);
+	void exitCond(GParser.CondContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#compop}.
+	 * Enter a parse tree produced by {@link GParser#compop}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompop(gParser.CompopContext ctx);
+	void enterCompop(GParser.CompopContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#compop}.
+	 * Exit a parse tree produced by {@link GParser#compop}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompop(gParser.CompopContext ctx);
+	void exitCompop(GParser.CompopContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#while_stmt}.
+	 * Enter a parse tree produced by {@link GParser#while_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterWhile_stmt(gParser.While_stmtContext ctx);
+	void enterWhile_stmt(GParser.While_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#while_stmt}.
+	 * Exit a parse tree produced by {@link GParser#while_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitWhile_stmt(gParser.While_stmtContext ctx);
+	void exitWhile_stmt(GParser.While_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#inputFile}.
+	 * Enter a parse tree produced by {@link GParser#inputFile}.
 	 * @param ctx the parse tree
 	 */
-	void enterInputFile(gParser.InputFileContext ctx);
+	void enterInputFile(GParser.InputFileContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#inputFile}.
+	 * Exit a parse tree produced by {@link GParser#inputFile}.
 	 * @param ctx the parse tree
 	 */
-	void exitInputFile(gParser.InputFileContext ctx);
+	void exitInputFile(GParser.InputFileContext ctx);
 }
