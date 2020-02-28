@@ -12,7 +12,7 @@ string_decl : 'STRING' id ':=' str ';' ;
 str : STRINGLITERAL;
 
 /* Variable Declaration */
-var_decl : var_type id_list ';' | any_type id_list ';' ;
+var_decl : var_type id_list ';';
 var_type : 'INT' | 'FLOAT';
 any_type : var_type | 'VOID';
 id_list : id id_tail;
@@ -36,9 +36,9 @@ base_stmt: assign_stmt | read_stmt | write_stmt | return_stmt;
 /* Basic Statements */
 assign_stmt: assign_expr ';' ;
 assign_expr: id ':=' expr;
-read_stmt: 'READ' '(' id_list ');' ;
-write_stmt: 'WRITE' '(' id_list ');' ;
-return_stmt: 'RETURN' expr ';' ;
+read_stmt: 'READ' '(' id_list ')' ';' ;
+write_stmt: 'WRITE' '(' id_list ')' ';' ;
+return_stmt: 'RETURN' expr ';';
 
 /* Expressions */
 
@@ -47,7 +47,7 @@ expr_prefix: expr_prefix factor addop | ;
 factor: factor_prefix postfix_expr;
 factor_prefix: factor_prefix postfix_expr mulop | ;
 postfix_expr: primary | call_expr;
-call_expr: id '(' expr_list ')';
+call_expr: id '(' expr_list ')' ;
 expr_list: expr expr_list_tail | ;
 expr_list_tail: ',' expr expr_list_tail | ;
 addop: '+' | '-';

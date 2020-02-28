@@ -11,7 +11,8 @@ import java.io.FileWriter;
 
 public class Main {
     public static void main(String[] args) {
-        String INPUT_FILE = "./inputs/" + args[0];
+        // String INPUT_FILE = "./inputs/" + args[0];
+        String INPUT_FILE = args[0];
         FileInputStream fileInputStream;
         try {
             fileInputStream = new FileInputStream(INPUT_FILE);
@@ -21,13 +22,13 @@ public class Main {
             return;
         }
 
-        gLexer lexer;
-        gParser parser;
+        GLexer lexer;
+        GParser parser;
 
         try {
-            lexer = new gLexer(CharStreams.fromFileName(INPUT_FILE));
+            lexer = new GLexer(CharStreams.fromFileName(INPUT_FILE));
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-            parser = new gParser(tokenStream);
+            parser = new GParser(tokenStream);
         } catch (IOException e) {
             e.printStackTrace();
             return;
