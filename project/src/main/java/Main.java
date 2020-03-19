@@ -6,8 +6,11 @@ import java.io.FileWriter;
 import java.util.ListIterator;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.*;
 import java.io.FileWriter;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -24,16 +27,21 @@ public class Main {
 
         GLexer lexer;
         GParser parser;
+        GListener listener;
 
         try {
             lexer = new GLexer(CharStreams.fromFileName(INPUT_FILE));
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             parser = new GParser(tokenStream);
+            listener = new GListener();
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
-        parser.program();
+        ParserRuleContext tree = parser.program();
+        ParseTreeWalker walker = new ParseTreeWalker();
+
+        walker.walk(listener, tree);
     }
 }
