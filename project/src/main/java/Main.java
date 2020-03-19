@@ -1,14 +1,9 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-// import java.util.List;
-// import java.io.FileWriter;
-// import java.util.ListIterator;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-// import org.antlr.v4.runtime.*;
-// import java.io.FileWriter;
-import org.antlr.v4.runtime.ParserRuleContext;
+
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -18,6 +13,9 @@ public class Main {
         FileInputStream fileInputStream;
         GLexer lexer;
         GParser parser;
+        Listener listener;
+        ParseTree tree;
+        ParseTreeWalker walker;
         CommonTokenStream tokenStream;
 
         // Initialize the FileInputStream object.
@@ -40,8 +38,11 @@ public class Main {
             return;
         }
 
-        parser.program();
-
+        // Initialize the tree, listener, and walker
+        tree = parser.program();
+        listener = new Listener();
+        walker = new ParseTreeWalker();
+        walker.walk(listener, tree);
         fileInputStream.close();
     }
 }
