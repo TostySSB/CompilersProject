@@ -1,138 +1,124 @@
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 public class Listener extends GBaseListener {
 
-	@Override public void enterProgram(GParser.ProgramContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitProgram(GParser.ProgramContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterId(GParser.IdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitId(GParser.IdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPgm_body(GParser.Pgm_bodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPgm_body(GParser.Pgm_bodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDecl(GParser.DeclContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDecl(GParser.DeclContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterString_decl(GParser.String_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitString_decl(GParser.String_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStr(GParser.StrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStr(GParser.StrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVar_decl(GParser.Var_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVar_decl(GParser.Var_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVar_type(GParser.Var_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVar_type(GParser.Var_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAny_type(GParser.Any_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+    final int id_ID          = 1;
+    final int decl_ID        = 3;
+    final int string_decl_ID = 4;
+    final int str_ID         = 5;
+    final int var_decl_ID    = 6;
+    final int var_type_ID    = 7;
+    final int id_list_ID     = 9;
+    final int id_tail_ID     = 10;
+    final int param_decl_ID  = 12;
+
+    String output = "";
+
+    String currentScope = "";
+    int blockNum = 1;
+
+    String name = "";
+    String type = "";
+    String value = "";
+
+    // Program
+
+    @Override public void enterProgram(GParser.ProgramContext ctx) {
+        output += "Symbol table GLOBAL";
+    }
+
+    @Override public void exitProgram(GParser.ProgramContext ctx) {
+        System.out.println("\nOUTPUT\n");
+        System.out.println(output);
+    }
+
+    // Id
+
+    @Override public void enterId(GParser.IdContext ctx) {
+        name = ctx.getText();
+    }
+
+    @Override public void exitId(GParser.IdContext ctx) {
+        int i = ctx.getParent().getRuleIndex();
+
+        if (i == string_decl_ID
+         || i == id_list_ID
+         || i == id_tail_ID
+         || i == param_decl_ID)
+        {
+            output += "\n"
+                + "name "  + name
+                + " type " + type;
+        }
+    }
+
+    // Pgm_body
+
+    @Override public void enterPgm_body(GParser.Pgm_bodyContext ctx) {  }
+
+    @Override public void exitPgm_body(GParser.Pgm_bodyContext ctx) {  }
+
+    // decl
+
+    @Override public void enterDecl(GParser.DeclContext ctx) {
+    }
+
+    @Override public void exitDecl(GParser.DeclContext ctx) {
+    }
+
+    // String_decl
+
+    @Override public void enterString_decl(GParser.String_declContext ctx) {
+        type = "STRING";
+    }
+
+    @Override public void exitString_decl(GParser.String_declContext ctx) {
+        output += " value " + value;
+    }
+
+    // Str
+
+    @Override public void enterStr(GParser.StrContext ctx) {
+        value = ctx.getText();
+    }
+
+    @Override public void exitStr(GParser.StrContext ctx) { }
+
+    // Var_decl
+
+    @Override public void enterVar_decl(GParser.Var_declContext ctx) {
+    }
+
+    @Override public void exitVar_decl(GParser.Var_declContext ctx) { }
+
+    // Var_type
+
+    @Override public void enterVar_type(GParser.Var_typeContext ctx) {
+        type = ctx.getText();
+    }
+
+    @Override public void exitVar_type(GParser.Var_typeContext ctx) { }
+
+    // Any_type
+
+    @Override public void enterAny_type(GParser.Any_typeContext ctx) { }
 	@Override public void exitAny_type(GParser.Any_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+
+    // Id_list
+
 	@Override public void enterId_list(GParser.Id_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void exitId_list(GParser.Id_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterId_tail(GParser.Id_tailContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+
+    // Id_tail
+
+    @Override public void enterId_tail(GParser.Id_tailContext ctx) { }
 	@Override public void exitId_tail(GParser.Id_tailContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParam_decl_list(GParser.Param_decl_listContext ctx) { }
+
+    // Param_decl_list
+
+    @Override public void enterParam_decl_list(GParser.Param_decl_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -180,18 +166,13 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunc_decl(GParser.Func_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunc_decl(GParser.Func_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+    @Override public void enterFunc_decl(GParser.Func_declContext ctx) {
+        currentScope = ctx.children.get(2).getText();
+        output += "\n\nSymbol table " + currentScope;
+    }
+
+    @Override public void exitFunc_decl(GParser.Func_declContext ctx) { }
+
 	@Override public void enterFunc_body(GParser.Func_bodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -432,7 +413,11 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIf_stmt(GParser.If_stmtContext ctx) { }
+    @Override public void enterIf_stmt(GParser.If_stmtContext ctx) {
+        currentScope = "BLOCK " + blockNum;
+        blockNum++;
+        output += "\n\nSymbol table " + currentScope;
+    }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -444,7 +429,11 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElse_part(GParser.Else_partContext ctx) { }
+    @Override public void enterElse_part(GParser.Else_partContext ctx) {
+        currentScope = "BLOCK " + blockNum;
+        blockNum++;
+        output += "\n\nSymbol table " + currentScope;
+    }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -480,7 +469,11 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWhile_stmt(GParser.While_stmtContext ctx) { }
+    @Override public void enterWhile_stmt(GParser.While_stmtContext ctx) {
+        currentScope = "BLOCK " + blockNum;
+        blockNum++;
+        output += "\n\nSymbol table " + currentScope;
+    }
 	/**
 	 * {@inheritDoc}
 	 *
