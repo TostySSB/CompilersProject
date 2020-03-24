@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="98b8c623-5e8f-4100-b98c-de8724389abe" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/project/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/g.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/g.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/gBaseListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/gBaseListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/gBaseVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/gBaseVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/gLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/gLexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/gListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/gListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/gParser$RContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/gParser$RContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/gParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/gParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/classes/gVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/classes/gVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/src/main/java/Listener.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/src/main/java/Listener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +21,20 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/project" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -44,9 +50,26 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="147" y="46" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584922198706">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="147" y="46" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.768@0.0.1366.768" timestamp="1584922198706" />
+    <state x="533" y="291" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1584921691282">
+      <screen x="0" y="23" width="1366" height="745" />
+    </state>
+    <state x="533" y="291" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.23.1366.745@0.23.1366.745" timestamp="1584921691282" />
     <state x="1060" y="455" key="FileChooserDialogImpl" timestamp="1581473835609">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1581473835609" />
+    <state x="0" y="0" width="1366" height="768" key="SettingsEditor" timestamp="1584922126852">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="0" y="0" width="1366" height="768" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1584922126852" />
+    <state x="362" y="211" key="com.intellij.ide.util.TipDialog" timestamp="1584922054387">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="362" y="211" key="com.intellij.ide.util.TipDialog/0.0.1366.768@0.0.1366.768" timestamp="1584922054387" />
+    <state x="362" y="228" key="com.intellij.ide.util.TipDialog/0.23.1366.745@0.23.1366.745" timestamp="1584921668833" />
   </component>
 </project>
