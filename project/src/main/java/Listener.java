@@ -2,35 +2,52 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.HashMap; 
+import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Listener extends GBaseListener {
 
-    final int id_ID          = 1;
-    final int decl_ID        = 3;
+    // Keeps track of whether a parent
+    // is a read/write statement
+    boolean parent_is_RW = false;
+
+    // IDs to keep track of relavant grammar rules
     final int string_decl_ID = 4;
-    final int str_ID         = 5;
-    final int var_decl_ID    = 6;
-    final int var_type_ID    = 7;
     final int id_list_ID     = 9;
     final int id_tail_ID     = 10;
     final int param_decl_ID  = 12;
+    final int read_stmt_ID   = 22;
+    final int write_stmt_ID  = 23;
 
+    // Tracks our CLI output
     String output = "";
 
+    // Scope-related variables
     String currentScope = "";
     int blockNum = 1;
+    final int typeIdx  = 0;
+    final int valueIdx = 1;
 
+    // Keeps tracks of the current
+    // variable's information
     String name = "";
     String type = "";
     String value = "";
 
     // Program
 
+    HashMap<String, HashMap<String, ArrayList<Object>>> scopes
+        = new HashMap<String, HashMap<String, ArrayList<Object>>>();
     @Override public void enterProgram(GParser.ProgramContext ctx) {
         output += "Symbol table GLOBAL";
+        currentScope = "GLOBAL";
+        scopes.put(currentScope, new HashMap<String, ArrayList<Object>>());
     }
 
     @Override public void exitProgram(GParser.ProgramContext ctx) {
-        System.out.println("\nOUTPUT\n");
         System.out.println(output);
     }
 
@@ -48,9 +65,15 @@ public class Listener extends GBaseListener {
          || i == id_tail_ID
          || i == param_decl_ID)
         {
-            output += "\n"
-                + "name "  + name
-                + " type " + type;
+            int i2 = ctx.getParent().getParent().getRuleIndex();
+            if (parent_is_RW == false
+             && i2 != read_stmt_ID
+             && i2 != write_stmt_ID) {
+                output += "\n"
+                    + "name "  + name
+                    + " type " + type;
+
+            }
         }
     }
 
@@ -108,8 +131,15 @@ public class Listener extends GBaseListener {
 
     // Id_list
 
-	@Override public void enterId_list(GParser.Id_listContext ctx) { }
-	@Override public void exitId_list(GParser.Id_listContext ctx) { }
+    @Override public void enterId_list(GParser.Id_listContext ctx) {
+        int i = ctx.getParent().getRuleIndex();
+
+        if (i == read_stmt_ID || i == write_stmt_ID)
+            parent_is_RW = true;
+    }
+    @Override public void exitId_list(GParser.Id_listContext ctx) {
+        parent_is_RW = false;
+    }
 
     // Id_tail
 
@@ -119,53 +149,29 @@ public class Listener extends GBaseListener {
     // Param_decl_list
 
     @Override public void enterParam_decl_list(GParser.Param_decl_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParam_decl_list(GParser.Param_decl_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParam_decl(GParser.Param_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParam_decl(GParser.Param_declContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunc_declarations(GParser.Func_declarationsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunc_declarations(GParser.Func_declarationsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
+	
+    @Override public void exitParam_decl_list(GParser.Param_decl_listContext ctx) { }
+    
+    // Param_decl
+	
+    @Override public void enterParam_decl(GParser.Param_declContext ctx) { }
+	
+    @Override public void exitParam_decl(GParser.Param_declContext ctx) { }
+	
+    // Param_decl_tail
+
+    @Override public void enterParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
+	
+    @Override public void exitParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
+	
+    // Func_declarations
+
+    @Override public void enterFunc_declarations(GParser.Func_declarationsContext ctx) { }
+	
+    @Override public void exitFunc_declarations(GParser.Func_declarationsContext ctx) { }
+
+    // Func_decl
+
     @Override public void enterFunc_decl(GParser.Func_declContext ctx) {
         currentScope = ctx.children.get(2).getText();
         output += "\n\nSymbol table " + currentScope;
@@ -174,6 +180,48 @@ public class Listener extends GBaseListener {
     @Override public void exitFunc_decl(GParser.Func_declContext ctx) { }
 
 	@Override public void enterFunc_body(GParser.Func_bodyContext ctx) { }
+    
+    // While_stmt
+
+    @Override public void enterWhile_stmt(GParser.While_stmtContext ctx) {
+        currentScope = "BLOCK " + blockNum;
+        blockNum++;
+        output += "\n\nSymbol table " + currentScope;
+    }
+	
+    @Override public void exitWhile_stmt(GParser.While_stmtContext ctx) { }
+    
+    // If_stmt
+    
+    @Override public void enterIf_stmt(GParser.If_stmtContext ctx) {
+        currentScope = "BLOCK " + blockNum;
+        blockNum++;
+        output += "\n\nSymbol table " + currentScope;
+    }
+	
+    @Override public void exitIf_stmt(GParser.If_stmtContext ctx) { }
+    
+    // Else_part
+
+    @Override public void enterElse_part(GParser.Else_partContext ctx) {
+        if (ctx.getText().equals("") == false) {
+            currentScope = "BLOCK " + blockNum;
+            blockNum++;
+            output += "\n\nSymbol table " + currentScope;
+        }
+    }
+	
+    @Override public void exitElse_part(GParser.Else_partContext ctx) { }
+   
+
+
+
+    // We don't do anything below here
+    // (at least for the moment)
+
+
+
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -408,38 +456,7 @@ public class Listener extends GBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrimary(GParser.PrimaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    @Override public void enterIf_stmt(GParser.If_stmtContext ctx) {
-        currentScope = "BLOCK " + blockNum;
-        blockNum++;
-        output += "\n\nSymbol table " + currentScope;
-    }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIf_stmt(GParser.If_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-    @Override public void enterElse_part(GParser.Else_partContext ctx) {
-        currentScope = "BLOCK " + blockNum;
-        blockNum++;
-        output += "\n\nSymbol table " + currentScope;
-    }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElse_part(GParser.Else_partContext ctx) { }
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -469,17 +486,6 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-    @Override public void enterWhile_stmt(GParser.While_stmtContext ctx) {
-        currentScope = "BLOCK " + blockNum;
-        blockNum++;
-        output += "\n\nSymbol table " + currentScope;
-    }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWhile_stmt(GParser.While_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
