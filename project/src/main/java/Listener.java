@@ -26,6 +26,8 @@ public class Listener extends GBaseListener {
     String output = "";
 
     // Scope-related variables
+    HashMap<String, HashMap<String, ArrayList<Object>>> scopes
+        = new HashMap<String, HashMap<String, ArrayList<Object>>>();
     String currentScope = "";
     int blockNum = 1;
     final int typeIdx  = 0;
@@ -39,8 +41,6 @@ public class Listener extends GBaseListener {
 
     // Program
 
-    HashMap<String, HashMap<String, ArrayList<Object>>> scopes
-        = new HashMap<String, HashMap<String, ArrayList<Object>>>();
     @Override public void enterProgram(GParser.ProgramContext ctx) {
         output += "Symbol table GLOBAL";
         currentScope = "GLOBAL";
