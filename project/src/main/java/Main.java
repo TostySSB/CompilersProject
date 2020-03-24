@@ -32,7 +32,6 @@ public class Main {
             lexer = new GLexer(CharStreams.fromFileName(INPUT_FILE));
             tokenStream = new CommonTokenStream(lexer);
             parser = new GParser(tokenStream);
-            listener = new GListener();
         } catch (IOException e) {
             e.printStackTrace();
             fileInputStream.close();

@@ -1,36 +1,57 @@
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 public class Listener extends GBaseListener {
 
-	@Override public void enterProgram(GParser.ProgramContext ctx) { }
+	String output = "";
+	String currentScope;
+	int blockNum = 0;
+
+	@Override public void enterProgram(GParser.ProgramContext ctx) { 
+		System.out.println("Rule entered: " + ctx.getText());
+		output += "Symbol table GLOBAL";
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(GParser.ProgramContext ctx) { }
+	@Override public void exitProgram(GParser.ProgramContext ctx) {
+		System.out.println("Rule exited: " + ctx.getText());
+		System.out.println("OUTPUT: ");
+		System.out.println(output);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId(GParser.IdContext ctx) { }
+	@Override public void enterId(GParser.IdContext ctx) {
+		System.out.println("Rule Entered: " + ctx.getText());
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId(GParser.IdContext ctx) { }
+	@Override public void exitId(GParser.IdContext ctx) { 
+		System.out.println("Rule exited: " + ctx.getText());
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPgm_body(GParser.Pgm_bodyContext ctx) { }
+	@Override public void enterPgm_body(GParser.Pgm_bodyContext ctx) {
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPgm_body(GParser.Pgm_bodyContext ctx) { }
+	@Override public void exitPgm_body(GParser.Pgm_bodyContext ctx) {
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -48,55 +69,72 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterString_decl(GParser.String_declContext ctx) { }
+	@Override public void enterString_decl(GParser.String_declContext ctx) { 
+		System.out.println("Entering String Decl");
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitString_decl(GParser.String_declContext ctx) { }
+	@Override public void exitString_decl(GParser.String_declContext ctx) {
+		System.out.println("Exiting String Decl");
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStr(GParser.StrContext ctx) { }
+	@Override public void enterStr(GParser.StrContext ctx) {
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStr(GParser.StrContext ctx) { }
+	@Override public void exitStr(GParser.StrContext ctx) {
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVar_decl(GParser.Var_declContext ctx) { }
+	@Override public void enterVar_decl(GParser.Var_declContext ctx) { 
+		System.out.println("Entering var_decl");
+		System.out.println("Var text: " + ctx.getText());
+		for (int i = 0; i < ctx.children.size(); i++) {
+			System.out.println(ctx.children.get(i).getText());
+		}
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVar_decl(GParser.Var_declContext ctx) { }
+	@Override public void exitVar_decl(GParser.Var_declContext ctx) { 
+		System.out.println("Exiting var_decl");
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVar_type(GParser.Var_typeContext ctx) { }
+	@Override public void enterVar_type(GParser.Var_typeContext ctx) {
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVar_type(GParser.Var_typeContext ctx) { }
+	@Override public void exitVar_type(GParser.Var_typeContext ctx) { 
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAny_type(GParser.Any_typeContext ctx) { }
+	@Override public void enterAny_type(GParser.Any_typeContext ctx) {
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -168,7 +206,9 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunc_declarations(GParser.Func_declarationsContext ctx) { }
+	@Override public void enterFunc_declarations(GParser.Func_declarationsContext ctx) {
+
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -180,13 +220,20 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunc_decl(GParser.Func_declContext ctx) { }
+	@Override public void enterFunc_decl(GParser.Func_declContext ctx) {
+		System.out.println("Entering func_decl.");
+		currentScope = ctx.children.get(2).getText();
+		System.out.println("Entering  Scope " + currentScope);
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunc_decl(GParser.Func_declContext ctx) { }
+	@Override public void exitFunc_decl(GParser.Func_declContext ctx) {
+		System.out.println("Exiting Func_decl.");
+		System.out.println("Exiting Scope " + currentScope);
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -198,7 +245,9 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunc_body(GParser.Func_bodyContext ctx) { }
+	@Override public void exitFunc_body(GParser.Func_bodyContext ctx) { 
+		System.out.println("Exiting " + currentScope);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -432,25 +481,39 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIf_stmt(GParser.If_stmtContext ctx) { }
+	@Override public void enterIf_stmt(GParser.If_stmtContext ctx) {
+		currentScope = "BLOCK " + blockNum++;
+		System.out.println("Entering If Stmt.");
+		System.out.println("Entering scope: " + currentScope);
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIf_stmt(GParser.If_stmtContext ctx) { }
+	@Override public void exitIf_stmt(GParser.If_stmtContext ctx) { 
+		System.out.println("Exiting If Stmt.");
+		System.out.println("Exiting scope: " + currentScope);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElse_part(GParser.Else_partContext ctx) { }
+	@Override public void enterElse_part(GParser.Else_partContext ctx) { 
+		System.out.println("Entering Else_part");
+		currentScope = "BLOCK " + blockNum++;
+		System.out.println("Entering scope " + currentScope);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElse_part(GParser.Else_partContext ctx) { }
+	@Override public void exitElse_part(GParser.Else_partContext ctx) { 
+		System.out.println("Exiting Else_part.");
+		System.out.println("Exiting scope" + currentScope);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -480,13 +543,20 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWhile_stmt(GParser.While_stmtContext ctx) { }
+	@Override public void enterWhile_stmt(GParser.While_stmtContext ctx) {
+		System.out.println("Entering While stmt.");
+		currentScope = "BLOCK " + blockNum++;
+		System.out.println("Entering scope " + currentScope);
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWhile_stmt(GParser.While_stmtContext ctx) { }
+	@Override public void exitWhile_stmt(GParser.While_stmtContext ctx) { 
+		System.out.println("Exiting While Stmt");
+		System.out.println("Exiting scope: " + currentScope);
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -505,7 +575,9 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEveryRule(ParserRuleContext ctx) { }
+	@Override public void enterEveryRule(ParserRuleContext ctx) {
+		System.out.println("");
+	}
 	/**
 	 * {@inheritDoc}
 	 *
