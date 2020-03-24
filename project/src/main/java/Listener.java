@@ -3,10 +3,7 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.HashMap; 
-import java.util.Map;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Listener extends GBaseListener {
 
@@ -26,8 +23,9 @@ public class Listener extends GBaseListener {
     String output = "";
 
     // Scope-related variables
-    HashMap<String, HashMap<String, ArrayList<Object>>> scopes
-        = new HashMap<String, HashMap<String, ArrayList<Object>>>();
+    HashMap<String, ArrayList<HashMap<String, Object>>> scopes
+     = new HashMap<String, ArrayList<HashMap<String, Object>>>();
+
     String currentScope = "";
     int blockNum = 1;
     final int typeIdx  = 0;
@@ -44,7 +42,57 @@ public class Listener extends GBaseListener {
     @Override public void enterProgram(GParser.ProgramContext ctx) {
         output += "Symbol table GLOBAL";
         currentScope = "GLOBAL";
-        scopes.put(currentScope, new HashMap<String, ArrayList<Object>>());
+        if (scopes.containsKey(currentScope) == false) {
+            scopes.put(
+                currentScope,
+                new ArrayList<HashMap<String, Object>>()
+            );
+        }
+    }
+
+    // Custom functions
+    public HashMap<String, ArrayList<HashMap<String, Object>>>
+    addScope(
+            HashMap<String, ArrayList<HashMap<String, Object>>> scopes,
+            String scopeName
+        )
+    {
+        if (scopes.containsKey(scopeName) == false) {
+            scopes.put(
+                scopeName,
+                new ArrayList<HashMap<String, Object>>()
+            );
+        }
+        return scopes;
+    }
+
+    // TODO: Uncomment this if you're working on this
+    //public HashMap<String, Object>
+    //getVarByID(
+            //HashMap<String, ArrayList<HashMap<String, Object>>> scopes,
+            //String varID
+        //)
+    //{
+        //// TODO: Add functionality
+    //}
+
+    public HashMap<String, ArrayList<HashMap<String, Object>>>
+    addVar(
+            HashMap<String, ArrayList<HashMap<String, Object>>> scopes,
+            String scopeName,
+            String varKey,
+            String varType,
+            String varValue
+        )
+    {
+        // TODO: Finish adding and declaration functionality (see below)
+        
+        // Add the scope just in case it isn't there already
+        scopes = addScope(scopes, scopeName);
+
+        // TODO: Add the variable to the given scope
+
+        return scopes;
     }
 
     @Override public void exitProgram(GParser.ProgramContext ctx) {
@@ -99,6 +147,12 @@ public class Listener extends GBaseListener {
 
     @Override public void exitString_decl(GParser.String_declContext ctx) {
         output += " value " + value;
+        
+
+
+        System.out.println("name = " + name);
+        System.out.println("type = " + type);
+        System.out.println("value = " + value);
     }
 
     // Str
