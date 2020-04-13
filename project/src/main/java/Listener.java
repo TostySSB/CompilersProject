@@ -2,11 +2,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.HashMap; 
 import java.util.Map;
-import java.lang.reflect.Array;
+import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.List;
+
+import java.lang.Integer;
 
 public class Listener extends GBaseListener {
 
@@ -26,8 +26,9 @@ public class Listener extends GBaseListener {
     String output = "";
 
     // Scope-related variables
-    HashMap<String, HashMap<String, ArrayList<Object>>> scopes
-        = new HashMap<String, HashMap<String, ArrayList<Object>>>();
+    HashMap<String, ArrayList<HashMap<String, Object>>> scopes
+     = new HashMap<String, ArrayList<HashMap<String, Object>>>();
+
     String currentScope = "";
     int blockNum = 1;
     final int typeIdx  = 0;
@@ -39,12 +40,99 @@ public class Listener extends GBaseListener {
     String type = "";
     String value = "";
 
+    // Custom functions
+    public void addScope(String scopeName) {
+        if (scopes.containsKey(scopeName) == false) {
+            scopes.put(
+                scopeName,
+                new ArrayList<HashMap<String, Object>>()
+            );
+        }
+    }
+
+    public void addVar(String varID, String varType) {
+        addVar(varID, varType, "");
+    }
+
+    public void addVar(String varID, String varType, String varValue) {
+
+        // Check the current scope to see if there
+        // is a declaration error.
+        if (getVarByID(varID) != null) {
+            System.out.println("DECLARATION ERROR " + varID);
+            System.exit(1);
+        }
+
+        // Make a new HashMap to add into the current scope
+        HashMap<String, Object> newVar = new HashMap<String, Object>();
+
+        // Add the ID and Type
+        newVar.put("id", varID);
+        newVar.put("type", varType);
+
+        // Add the Value
+        Object newValue;
+
+        if (varType.equals("STRING")) {
+            newValue = varValue;
+        }
+        else {
+            newValue = null;
+        }
+
+        newVar.put("value", newValue);
+
+        scopes.get(currentScope).add(newVar);
+    }
+
+    // Gets the variable of a particular ID in the current scope
+    public HashMap<String, Object> getVarByID(String varID) {
+
+        // Loop through every variable in the current scope
+        ArrayList<HashMap<String, Object>> scope = scopes.get(currentScope);
+        for (HashMap<String, Object> currVar : scope) {
+            String currID = (String) currVar.get("id");
+            if (currID.equals(varID)) {
+                return currVar;
+            }
+        }
+
+        return null;
+    }
+
+    public void printScopes() {
+        System.out.println("\nprintScopes():");
+
+        for (Map.Entry<String, ArrayList<HashMap<String, Object>>> scope
+                : scopes.entrySet()) {
+            System.out.println("\nSCOPE --> " + (String) scope.getKey());
+            ArrayList<HashMap<String, Object>> var = scope.getValue();
+
+            for (HashMap<String, Object> currVar : var) {
+                System.out.print(
+                    "   id "    + currVar.get("id").toString()
+                    + " type "  + currVar.get("type").toString()
+                );
+
+                if (currVar.get("value") == null)
+                    System.out.println();
+                else
+                    System.out.println(" value " + currVar.get("value"));
+            }
+        }
+    }
+
     // Program
 
     @Override public void enterProgram(GParser.ProgramContext ctx) {
         output += "Symbol table GLOBAL";
         currentScope = "GLOBAL";
-        scopes.put(currentScope, new HashMap<String, ArrayList<Object>>());
+        if (scopes.containsKey(currentScope) == false) {
+            scopes.put(
+                currentScope,
+                new ArrayList<HashMap<String, Object>>()
+            );
+        }
     }
 
     @Override public void exitProgram(GParser.ProgramContext ctx) {
@@ -72,7 +160,9 @@ public class Listener extends GBaseListener {
                 output += "\n"
                     + "name "  + name
                     + " type " + type;
-
+                if (type.equals("STRING") == false) {
+                    addVar(name, type);
+                }
             }
         }
     }
@@ -99,6 +189,7 @@ public class Listener extends GBaseListener {
 
     @Override public void exitString_decl(GParser.String_declContext ctx) {
         output += " value " + value;
+        addVar(name, type, value);
     }
 
     // Str
@@ -112,6 +203,7 @@ public class Listener extends GBaseListener {
     // Var_decl
 
     @Override public void enterVar_decl(GParser.Var_declContext ctx) {
+        value = "";
     }
 
     @Override public void exitVar_decl(GParser.Var_declContext ctx) { }
@@ -149,25 +241,25 @@ public class Listener extends GBaseListener {
     // Param_decl_list
 
     @Override public void enterParam_decl_list(GParser.Param_decl_listContext ctx) { }
-	
+
     @Override public void exitParam_decl_list(GParser.Param_decl_listContext ctx) { }
-    
+
     // Param_decl
-	
+
     @Override public void enterParam_decl(GParser.Param_declContext ctx) { }
-	
+
     @Override public void exitParam_decl(GParser.Param_declContext ctx) { }
-	
+
     // Param_decl_tail
 
     @Override public void enterParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
-	
+
     @Override public void exitParam_decl_tail(GParser.Param_decl_tailContext ctx) { }
-	
+
     // Func_declarations
 
     @Override public void enterFunc_declarations(GParser.Func_declarationsContext ctx) { }
-	
+
     @Override public void exitFunc_declarations(GParser.Func_declarationsContext ctx) { }
 
     // Func_decl
@@ -175,32 +267,35 @@ public class Listener extends GBaseListener {
     @Override public void enterFunc_decl(GParser.Func_declContext ctx) {
         currentScope = ctx.children.get(2).getText();
         output += "\n\nSymbol table " + currentScope;
+        addScope(currentScope);
     }
 
     @Override public void exitFunc_decl(GParser.Func_declContext ctx) { }
 
 	@Override public void enterFunc_body(GParser.Func_bodyContext ctx) { }
-    
+
     // While_stmt
 
     @Override public void enterWhile_stmt(GParser.While_stmtContext ctx) {
         currentScope = "BLOCK " + blockNum;
         blockNum++;
         output += "\n\nSymbol table " + currentScope;
+        addScope(currentScope);
     }
-	
+
     @Override public void exitWhile_stmt(GParser.While_stmtContext ctx) { }
-    
+
     // If_stmt
-    
+
     @Override public void enterIf_stmt(GParser.If_stmtContext ctx) {
         currentScope = "BLOCK " + blockNum;
         blockNum++;
         output += "\n\nSymbol table " + currentScope;
+        addScope(currentScope);
     }
-	
+
     @Override public void exitIf_stmt(GParser.If_stmtContext ctx) { }
-    
+
     // Else_part
 
     @Override public void enterElse_part(GParser.Else_partContext ctx) {
@@ -208,11 +303,12 @@ public class Listener extends GBaseListener {
             currentScope = "BLOCK " + blockNum;
             blockNum++;
             output += "\n\nSymbol table " + currentScope;
+            addScope(currentScope);
         }
     }
-	
+
     @Override public void exitElse_part(GParser.Else_partContext ctx) { }
-   
+
 
 
 
