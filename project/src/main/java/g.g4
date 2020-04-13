@@ -15,8 +15,8 @@ str : STRINGLITERAL;
 var_decl : var_type id_list ';';
 var_type : 'INT' | 'FLOAT';
 any_type : var_type | 'VOID';
-id_list : id id_tail;
-id_tail : ',' id id_tail | ';' | ;
+id_list  : id id_tail;
+id_tail  : ',' id id_tail | ';' | ;
 
 /* Function Paramater List */
 param_decl_list: param_decl param_decl_tail | ;
