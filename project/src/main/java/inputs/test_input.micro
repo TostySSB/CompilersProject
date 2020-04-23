@@ -1,8 +1,0 @@
-PROGRAM p
-BEGIN
-
-    INT a,b,c;
-    FLOAT d;
-    d := a + b * c;
-
-END

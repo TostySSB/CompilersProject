@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import java.lang.Integer;
-
 public class Listener extends GBaseListener {
 
     // Keeps track of whether a parent
@@ -38,7 +36,11 @@ public class Listener extends GBaseListener {
     // variable's information
     String name = "";
     String type = "";
-    String value = "";
+	String value = "";
+	
+	// AST-related variables
+	AST AST = new AST();
+	AST.Node currentNode;
 
     // Custom functions
     public void addScope(String scopeName) {
@@ -125,6 +127,8 @@ public class Listener extends GBaseListener {
     // Program
 
     @Override public void enterProgram(GParser.ProgramContext ctx) {
+
+		// Scope
         output += "Symbol table GLOBAL";
         currentScope = "GLOBAL";
         if (scopes.containsKey(currentScope) == false) {
@@ -132,17 +136,22 @@ public class Listener extends GBaseListener {
                 currentScope,
                 new ArrayList<HashMap<String, Object>>()
             );
-        }
+		}
+		
+		// AST
+		AST.Program newNode = AST.new Program();
+		currentNode = newNode;
     }
 
     @Override public void exitProgram(GParser.ProgramContext ctx) {
-        System.out.println(output);
+        // System.out.println(output);
     }
 
     // Id
 
     @Override public void enterId(GParser.IdContext ctx) {
-        name = ctx.getText();
+		name = ctx.getText();
+		currentNode.setLeftChild(AST.new Id(name));
     }
 
     @Override public void exitId(GParser.IdContext ctx) {
@@ -324,7 +333,7 @@ public class Listener extends GBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunc_body(GParser.Func_bodyContext ctx) { 
-		System.out.println("Exiting " + currentScope);
+		// System.out.println("Exiting " + currentScope);
 	}
 	/**
 	 * {@inheritDoc}
@@ -379,7 +388,12 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssign_expr(GParser.Assign_exprContext ctx) { }
+	@Override public void enterAssign_expr(GParser.Assign_exprContext ctx) {
+		AST.EqOp eqNode = AST.new EqOp();
+		currentNode = eqNode;
+		// AST.Id idNode = AST.new Id();
+		
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -547,7 +561,9 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimary(GParser.PrimaryContext ctx) { }
+	@Override public void enterPrimary(GParser.PrimaryContext ctx) {
+		currentNode.setRightChild(AST.new Literal(ctx.getText()));
+	 }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -602,9 +618,7 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEveryRule(ParserRuleContext ctx) {
-		System.out.println("");
-	}
+	@Override public void enterEveryRule(ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
