@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import java.lang.Integer;
-
 public class Listener extends GBaseListener {
 
     // Keeps track of whether a parent
@@ -22,12 +20,12 @@ public class Listener extends GBaseListener {
     final int read_stmt_ID   = 22;
     final int write_stmt_ID  = 23;
 
-    // Tracks our CLI output
-    String output = "";
+    // Tracks our CLI symbolTableOutput
+    String symbolTableOutput = "";
 
     // Scope-related variables
     HashMap<String, ArrayList<HashMap<String, Object>>> scopes
-     = new HashMap<String, ArrayList<HashMap<String, Object>>>();
+        = new HashMap<String, ArrayList<HashMap<String, Object>>>();
 
     String currentScope = "";
     int blockNum = 1;
@@ -38,7 +36,13 @@ public class Listener extends GBaseListener {
     // variable's information
     String name = "";
     String type = "";
-    String value = "";
+	String value = "";
+
+	// AST-related variables
+	AST AST = new AST();
+	AST.Node currentNode;
+    String ASTOutput = ";IR code";
+    int currentRegNum = 1;
 
     // Custom functions
     public void addScope(String scopeName) {
@@ -125,24 +129,37 @@ public class Listener extends GBaseListener {
     // Program
 
     @Override public void enterProgram(GParser.ProgramContext ctx) {
-        output += "Symbol table GLOBAL";
+
+		// Scope
+        symbolTableOutput += "Symbol table GLOBAL";
         currentScope = "GLOBAL";
         if (scopes.containsKey(currentScope) == false) {
             scopes.put(
                 currentScope,
                 new ArrayList<HashMap<String, Object>>()
             );
-        }
+		}
+
+		// AST
+		AST.Program newNode = AST.new Program();
+		currentNode = newNode;
     }
 
     @Override public void exitProgram(GParser.ProgramContext ctx) {
-        System.out.println(output);
+        // System.out.println(symbolTableOutput);
+        System.out.println(ASTOutput);
     }
 
     // Id
 
     @Override public void enterId(GParser.IdContext ctx) {
-        name = ctx.getText();
+        // Scope stuff
+		name = ctx.getText();
+
+        // Assign_expr
+        if (currentNode.nodeId == 5) {
+            currentNode.addChild(AST.new Id(name));
+        }
     }
 
     @Override public void exitId(GParser.IdContext ctx) {
@@ -157,7 +174,7 @@ public class Listener extends GBaseListener {
             if (parent_is_RW == false
              && i2 != read_stmt_ID
              && i2 != write_stmt_ID) {
-                output += "\n"
+                symbolTableOutput += "\n"
                     + "name "  + name
                     + " type " + type;
                 if (type.equals("STRING") == false) {
@@ -188,7 +205,7 @@ public class Listener extends GBaseListener {
     }
 
     @Override public void exitString_decl(GParser.String_declContext ctx) {
-        output += " value " + value;
+        symbolTableOutput += " value " + value;
         addVar(name, type, value);
     }
 
@@ -265,9 +282,15 @@ public class Listener extends GBaseListener {
     // Func_decl
 
     @Override public void enterFunc_decl(GParser.Func_declContext ctx) {
+
+        // Scope
         currentScope = ctx.children.get(2).getText();
-        output += "\n\nSymbol table " + currentScope;
+        symbolTableOutput += "\n\nSymbol table " + currentScope;
         addScope(currentScope);
+
+        // AST
+        ASTOutput += "\n;LABEL " + ctx.children.get(2).getText();
+        ASTOutput += "\n;LINK";
     }
 
     @Override public void exitFunc_decl(GParser.Func_declContext ctx) { }
@@ -279,7 +302,7 @@ public class Listener extends GBaseListener {
     @Override public void enterWhile_stmt(GParser.While_stmtContext ctx) {
         currentScope = "BLOCK " + blockNum;
         blockNum++;
-        output += "\n\nSymbol table " + currentScope;
+        symbolTableOutput += "\n\nSymbol table " + currentScope;
         addScope(currentScope);
     }
 
@@ -290,7 +313,7 @@ public class Listener extends GBaseListener {
     @Override public void enterIf_stmt(GParser.If_stmtContext ctx) {
         currentScope = "BLOCK " + blockNum;
         blockNum++;
-        output += "\n\nSymbol table " + currentScope;
+        symbolTableOutput += "\n\nSymbol table " + currentScope;
         addScope(currentScope);
     }
 
@@ -302,12 +325,31 @@ public class Listener extends GBaseListener {
         if (ctx.getText().equals("") == false) {
             currentScope = "BLOCK " + blockNum;
             blockNum++;
-            output += "\n\nSymbol table " + currentScope;
+            symbolTableOutput += "\n\nSymbol table " + currentScope;
             addScope(currentScope);
         }
     }
 
     @Override public void exitElse_part(GParser.Else_partContext ctx) { }
+	
+    @Override public void enterAssign_expr(GParser.Assign_exprContext ctx) {
+		AST.EqOp eqNode = AST.new EqOp();
+		currentNode = eqNode;
+	}
+	
+    @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
+        ASTOutput += currentNode.getText(currentRegNum++);
+    }
+	
+    @Override public void enterPrimary(GParser.PrimaryContext ctx) {
+        
+        // Assign_expr
+        if (currentNode.nodeId == 5) {
+            currentNode.addChild(AST.new Literal(ctx.getText()));
+        }
+    }
+	
+    @Override public void exitPrimary(GParser.PrimaryContext ctx) { }
 
 
 
@@ -323,21 +365,9 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunc_body(GParser.Func_bodyContext ctx) { 
-		System.out.println("Exiting " + currentScope);
+	@Override public void exitFunc_body(GParser.Func_bodyContext ctx) {
+		// System.out.println("Exiting " + currentScope);
 	}
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStmt_list(GParser.Stmt_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStmt_list(GParser.Stmt_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -374,18 +404,6 @@ public class Listener extends GBaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssign_stmt(GParser.Assign_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssign_expr(GParser.Assign_exprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssign_expr(GParser.Assign_exprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -547,13 +565,6 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimary(GParser.PrimaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimary(GParser.PrimaryContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -602,9 +613,7 @@ public class Listener extends GBaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEveryRule(ParserRuleContext ctx) {
-		System.out.println("");
-	}
+	@Override public void enterEveryRule(ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
