@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.tree.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
         // Variable declarations
         String INPUT_FILE = args[0];
         FileInputStream fileInputStream;
@@ -43,6 +42,8 @@ public class Main {
         listener = new Listener();
         walker = new ParseTreeWalker();
         walker.walk(listener, tree);
+
+
         fileInputStream.close();
     }
 }
