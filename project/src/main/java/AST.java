@@ -11,15 +11,15 @@ public class AST {
             this.parent = null;
         }
 
-        public Node(Node parent) {
+        public Node(AST.Node parent) {
             this.parent = parent;
         }
 
-        public void setParent(Node parent) {
+        public void setParent(AST.Node parent) {
             this.parent = parent;
         }
 
-        public void addChild(Node child) { }
+        public void addChild(AST.Node child) { }
 
         public String getText() {
             return "getText wasn't implemented";
@@ -31,15 +31,15 @@ public class AST {
     }
 
     class Program extends Node {
-        ArrayList<Node> children;
+        ArrayList<AST.Node> children;
         public Program() {
             super();
             this.nodeId = 1;
-            children = new ArrayList<Node>();
+            children = new ArrayList<AST.Node>();
             System.out.println("Initialized Program node");
         }
 
-        @Override public void addChild(Node child) {
+        @Override public void addChild(AST.Node child) {
             this.children.add(child);
         }
     }
@@ -52,8 +52,8 @@ public class AST {
     }
 
     abstract class Op extends Node {
-        Node leftChild;
-        Node rightChild;
+        AST.Node leftChild;
+        AST.Node rightChild;
     }
 
     class AddOp extends Op {
@@ -62,16 +62,28 @@ public class AST {
             this.nodeId = 3;
         }
 
-        public void addChild(Node child) {
+        public void addChild(AST.Node child) {
             if (this.leftChild == null)
                 this.leftChild = child;
             else if (this.rightChild == null)
                 this.rightChild = child;
-            else
+            else {
                 System.out.println("AddOp -> addChild() -> error");
                 System.out.println("Tried to add third child to AddOp");
+            }
         }
     }
+    
+    // public AST.Node genAddExp {
+    //     //Basically if we encounter an add_op
+    //     if (expression is an add_op){
+    //         AddExpr = new AST.Node();
+    //         AddExpr.leftChild = null; // Basically this exists but is uninitialiuzed
+    //         AddExpr.rightChild = null; //Same as above
+    //         AddExpr.expr = plus or minus;
+    //         return AddExpr;
+    //     }
+    // }
 
     class MulOp extends Op {
         public MulOp() {
@@ -79,7 +91,7 @@ public class AST {
             this.nodeId = 4;
         }
         
-        public void addChild(Node child) {
+        public void addChild(AST.Node child) {
             if (this.leftChild == null)
                 this.leftChild = child;
             else if (this.rightChild == null)
@@ -96,7 +108,7 @@ public class AST {
             this.nodeId = 5;
         }
         
-        @Override public void addChild(Node child) {
+        @Override public void addChild(AST.Node child) {
             if (this.leftChild == null)
                 this.leftChild = child;
             else if (this.rightChild == null)
@@ -104,6 +116,7 @@ public class AST {
             else {
                 System.out.println("EqOp -> addChild() -> error");
                 System.out.println("Tried to add third child to EqOp");
+                System.exit(1);
             }
         }
 
@@ -156,6 +169,34 @@ public class AST {
 
         @Override public String getText() {
             return this.val;
+        }
+    }
+
+    class WriteStmt extends Node {
+        ArrayList<AST.Node> children;
+
+        public WriteStmt() {
+            super();
+            this.nodeId = 8;
+            children = new ArrayList<AST.Node>();
+        }
+
+        @Override public void addChild(AST.Node child) {
+            this.children.add(child);
+        }
+    }
+
+    class ReadStmt extends Node {
+        ArrayList<AST.Node> children;
+
+        public ReadStmt() {
+            super();
+            this.nodeId = 9;
+            children = new ArrayList<AST.Node>();
+        }
+
+        @Override public void addChild(AST.Node child) {
+            this.children.add(child);
         }
     }
 }

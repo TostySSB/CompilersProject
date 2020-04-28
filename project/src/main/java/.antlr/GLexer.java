@@ -1,4 +1,4 @@
-// Generated from /Users/danaparker/Documents/repos/compilers-project/project/src/main/java/g.g4 by ANTLR 4.7.1
+// Generated from c:\Users\Tosty\Documents\Programming\Spring2020\Compilers\Project\CompilersProject\project\src\main\java\G.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -91,7 +91,7 @@ public class GLexer extends Lexer {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "g.g4"; }
+	public String getGrammarFileName() { return "G.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
