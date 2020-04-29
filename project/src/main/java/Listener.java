@@ -388,27 +388,49 @@ public class Listener extends GBaseListener {
 	@Override
 	public void enterAssign_expr(GParser.Assign_exprContext ctx) {
 		AST.EqOp eqNode = AST.new EqOp();
-		rootNode.addChild(eqNode);
+        eqNode.parent = currentNode;
 		currentNode = eqNode;
 	}
 
-	@Override
-	public void exitAssign_expr(GParser.Assign_exprContext ctx) {
-		ASTOutput += currentNode.getText(currentRegNum++);
-	}
+    @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
+        ASTOutput += currentNode.getText(currentRegNum++);
+        currentNode = currentNode.parent;
+    }
 
-	@Override
-	public void enterPrimary(GParser.PrimaryContext ctx) {
+    @Override public void enterPrimary(GParser.PrimaryContext ctx) {
 
-		// Assign_expr
-		if (currentNode.nodeId == 5) {
-			currentNode.addChild(AST.new Literal(ctx.getText()));
-		}
-	}
+		AST.Node newNode = null;
 
-	@Override
-	public void exitPrimary(GParser.PrimaryContext ctx) {
-	}
+        // If the primary isn't in the form of '( expr )'
+        if (ctx.getChildCount() != 3) {
+
+            // If this primary is in the form of
+            // primary --> id --> some_string
+            if (ctx.getChild(0).getChildCount() == 1)
+                newNode = AST.new Id(ctx.getText());
+
+            // If this primary is in the form of, e.g.,
+            // primary --> 10.0
+            else
+                newNode = AST.new Literal(ctx.getText());
+        }
+
+        // Add the newNode as a child of the assign_expr
+        currentNode.addChild(newNode);
+        newNode.parent = currentNode;
+    }
+
+    @Override public void exitPrimary(GParser.PrimaryContext ctx) {
+
+        // Like enterPrimary,
+        // we only care about cases where primary isn't ( expr )
+        if (ctx.getChildCount() != 3)
+            currentNode = currentNode.parent;
+    }
+
+
+    // We don't do anything below here
+    // (at least for the moment)
 
 	// We don't do anything below here
 	// (at least for the moment)
