@@ -6,7 +6,8 @@ public class AST {
 
         Node parent;
         int nodeId;
-
+        String value; // Actuall value stored by the node
+        /* Constructors */
         public Node() {
             this.parent = null;
         }
@@ -15,6 +16,16 @@ public class AST {
             this.parent = parent;
         }
 
+        // public Node(Node parent, String val) {
+        //     this.value = val;
+        //     this.parent = parent;
+        // }
+
+        public Node(String val) {
+            this.value = val;
+        }
+
+        /* Class methods */
         public void setParent(Node parent) {
             this.parent = parent;
         }
@@ -51,7 +62,11 @@ public class AST {
         }
     }
 
-    abstract class Op extends Node {
+    class Op extends Node {
+        public Op() {
+            super();
+        }
+
         Node leftChild;
         Node rightChild;
     }

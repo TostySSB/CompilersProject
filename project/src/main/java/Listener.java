@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Listener extends GBaseListener {
 
@@ -155,6 +156,7 @@ public class Listener extends GBaseListener {
     @Override public void enterId(GParser.IdContext ctx) {
         // Scope stuff
 		name = ctx.getText();
+		System.out.println("ID text: " + name);
 
         // Assign_expr
         if (currentNode.nodeId == 5) {
@@ -333,12 +335,15 @@ public class Listener extends GBaseListener {
     @Override public void exitElse_part(GParser.Else_partContext ctx) { }
 	
     @Override public void enterAssign_expr(GParser.Assign_exprContext ctx) {
-		AST.EqOp eqNode = AST.new EqOp();
-		currentNode = eqNode;
+		System.out.println("ASSIGN EXPR CHILDREN: ");
+		// String val = ctx.children.get(1).getText();
+		// AST.EqOp eqNode = AST.new EqOp(val);
+		// AST.Op opNode = AST.new Op(val);
+		// currentNode = eqNode;
 	}
 	
     @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
-        ASTOutput += currentNode.getText(currentRegNum++);
+		ASTOutput += currentNode.getText(currentRegNum++);
     }
 	
     @Override public void enterPrimary(GParser.PrimaryContext ctx) {
