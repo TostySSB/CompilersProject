@@ -650,6 +650,7 @@ public class Listener extends GBaseListener {
 			*/
 
 	}
+fasdfasdf
 
 	/**
 	 * {@inheritDoc}
@@ -677,21 +678,16 @@ public class Listener extends GBaseListener {
 	 * </p>
 	 */
 	@Override
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>
+	 * The default implementation does nothing.
+	 * </p>
+	 */
+	@Override
 	public void enterFactor(GParser.FactorContext ctx) {
-		/* 
-			When we enter and Expr Prefix, we basically just need to check if the prefix has
-					More than 0 children, and if it does, get the text from the second (0 indexed) child.
-					Create a new mulop node with this operator symbol (text) and make its parent the
-					current node, make the mulop the current nodes child and make the current node = mulop node
-
-					if (ctx.getChildCount > 0){
-						String opSymbol = ctx.getChild(2).getText();
-						AST.Node mulOp = new mulOp();
-						mulOp.setParent(currentNode);
-						currentNode.setChild(mulOp);
-						currentNode = mulOp;
-					}
-		*/
+		
 	}
 
 	/**
@@ -714,6 +710,20 @@ public class Listener extends GBaseListener {
 	 */
 	@Override
 	public void enterFactor_prefix(GParser.Factor_prefixContext ctx) {
+		/* 
+			When we enter and Factor Prefix, we basically just need to check if the prefix has
+					More than 0 children, and if it does, get the text from the second (0 indexed) child.
+					Create a new mulop node with this operator symbol (text) and make its parent the
+					current node, make the mulop the current nodes child and make the current node = mulop node
+
+					if (ctx.getChildCount > 0){
+						String opSymbol = ctx.getChild(2).getText();
+						AST.Node mulOp = new mulOp();
+						mulOp.setParent(currentNode);
+						currentNode.setChild(mulOp);
+						currentNode = mulOp;
+					}
+		*/
 	}
 
 	/**
@@ -725,6 +735,13 @@ public class Listener extends GBaseListener {
 	 */
 	@Override
 	public void exitFactor_prefix(GParser.Factor_prefixContext ctx) {
+		/*
+			Basically to cover the case where the factor prefix has no children, we are done with that side of the ast so we move up
+
+			if(ctx.getChildCount() > 0){
+				currentNode = currentNode.getParent();
+			}
+		*/
 	}
 
 	/**
