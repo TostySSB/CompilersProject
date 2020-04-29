@@ -58,9 +58,17 @@ public class AST {
     }
 
     class AddOp extends Op {
+
+        String operator;
+
         public AddOp() {
             super();
             this.nodeId = 3;
+        }
+
+        public AddOp(String operator) {
+            this();
+            this.operator = operator;
         }
 
         public void addChild(AST.Node child) {
@@ -74,7 +82,7 @@ public class AST {
             }
         }
     }
-    
+
     // public AST.Node genAddExp {
     //     //Basically if we encounter an add_op
     //     if (expression is an add_op){
@@ -91,7 +99,7 @@ public class AST {
             super();
             this.nodeId = 4;
         }
-        
+
         public void addChild(AST.Node child) {
             if (this.leftChild == null)
                 this.leftChild = child;
@@ -108,7 +116,7 @@ public class AST {
             super();
             this.nodeId = 5;
         }
-        
+
         @Override public void addChild(AST.Node child) {
             if (this.leftChild == null)
                 this.leftChild = child;
@@ -198,6 +206,21 @@ public class AST {
 
         @Override public void addChild(AST.Node child) {
             this.children.add(child);
+        }
+    }
+
+    class Expr extends Node {
+
+        ArrayList<Node> children;
+
+        public Expr() {
+            super();
+            this.nodeId = 10;
+            children = new ArrayList<Node>();
+        }
+
+        @Override public void addChild(Node child) {
+            children.add(child);
         }
     }
 }
