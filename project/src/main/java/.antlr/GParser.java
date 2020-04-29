@@ -1,4 +1,4 @@
-// Generated from /Users/admin/Desktop/2020 Spring Semester/Compilers/CompilersProject/project/src/main/java/G.g4 by ANTLR 4.7.1
+// Generated from c:\Users\Tosty\Documents\Programming\Spring2020\Compilers\Project\CompilersProject\project\src\main\java\G.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
