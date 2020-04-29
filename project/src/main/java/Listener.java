@@ -390,27 +390,49 @@ public class Listener extends GBaseListener {
 	@Override
 	public void enterAssign_expr(GParser.Assign_exprContext ctx) {
 		AST.EqOp eqNode = AST.new EqOp();
-		rootNode.addChild(eqNode);
+        eqNode.parent = currentNode;
 		currentNode = eqNode;
 	}
 
-	@Override
-	public void exitAssign_expr(GParser.Assign_exprContext ctx) {
-		ASTOutput += currentNode.getText(currentRegNum++);
-	}
+    @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
+        ASTOutput += currentNode.getText(currentRegNum++);
+        currentNode = currentNode.parent;
+    }
 
-	@Override
-	public void enterPrimary(GParser.PrimaryContext ctx) {
+    @Override public void enterPrimary(GParser.PrimaryContext ctx) {
 
-		// Assign_expr
-		if (currentNode.nodeId == 5) {
-			currentNode.addChild(AST.new Literal(ctx.getText()));
-		}
-	}
+		AST.Node newNode = null;
 
-	@Override
-	public void exitPrimary(GParser.PrimaryContext ctx) {
-	}
+        // If the primary isn't in the form of '( expr )'
+        if (ctx.getChildCount() != 3) {
+
+            // If this primary is in the form of
+            // primary --> id --> some_string
+            if (ctx.getChild(0).getChildCount() == 1)
+                newNode = AST.new Id(ctx.getText());
+
+            // If this primary is in the form of, e.g.,
+            // primary --> 10.0
+            else
+                newNode = AST.new Literal(ctx.getText());
+        }
+
+        // Add the newNode as a child of the assign_expr
+        currentNode.addChild(newNode);
+        newNode.parent = currentNode;
+    }
+
+    @Override public void exitPrimary(GParser.PrimaryContext ctx) {
+
+        // Like enterPrimary,
+        // we only care about cases where primary isn't ( expr )
+        if (ctx.getChildCount() != 3)
+            currentNode = currentNode.parent;
+    }
+
+
+    // We don't do anything below here
+    // (at least for the moment)
 
 	// We don't do anything below here
 	// (at least for the moment)
@@ -614,7 +636,19 @@ public class Listener extends GBaseListener {
 	@Override
 	public void enterExpr_prefix(GParser.Expr_prefixContext ctx) {
 			/* 
-					When we enter and Expr Prefix, we basically just need to check 
+					When we enter and Expr Prefix, we basically just need to check if the prefix has
+					More than 0 children, and if it does, get the text from the second (0 indexed) child.
+					Create a new addop node with this operator symbol (text) and make its parent the
+					current node, make the addop the current nodes child and make the current node = addop node
+
+					if (ctx.getChildCount > 0){
+						String opSymbol = ctx.getChild(2).getText();
+						AST.Node addOp = new AddOpNode();
+						addOp.setParent(currentNode);
+						currentNode.setChild(addOp);
+						currentNode = addOp;
+					}
+
 			*/
 
 	}
@@ -628,6 +662,13 @@ public class Listener extends GBaseListener {
 	 */
 	@Override
 	public void exitExpr_prefix(GParser.Expr_prefixContext ctx) {
+		/*
+			Basically to cover the case where the expr prefix has no children, we are done with that side of the ast so we move up
+
+			if(ctx.getChildCount() > 0){
+				currentNode = currentNode.getParent();
+			}
+		*/
 	}
 
 	/**
@@ -639,6 +680,20 @@ public class Listener extends GBaseListener {
 	 */
 	@Override
 	public void enterFactor(GParser.FactorContext ctx) {
+		/* 
+			When we enter and Expr Prefix, we basically just need to check if the prefix has
+					More than 0 children, and if it does, get the text from the second (0 indexed) child.
+					Create a new mulop node with this operator symbol (text) and make its parent the
+					current node, make the mulop the current nodes child and make the current node = mulop node
+
+					if (ctx.getChildCount > 0){
+						String opSymbol = ctx.getChild(2).getText();
+						AST.Node mulOp = new mulOp();
+						mulOp.setParent(currentNode);
+						currentNode.setChild(mulOp);
+						currentNode = mulOp;
+					}
+		*/
 	}
 
 	/**
