@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Listener extends GBaseListener {
 
+    boolean debug = true;
+
 	// Keeps track of whether a parent
 	// is a read/write statement
 	boolean parent_is_RW = false;
@@ -42,8 +44,6 @@ public class Listener extends GBaseListener {
 	AST AST = new AST();
 	AST.Node rootNode;
 	AST.Node currentNode;
-	AST.Node currentOp;
-	String ASTOutput = ";IR code";
 
 	// Custom functions
 	public void addScope(String scopeName) {
@@ -151,13 +151,21 @@ public class Listener extends GBaseListener {
 		name = ctx.getText();
 		System.out.println("ID text: " + name);
 
+
+        /*
+         *
+         * Commented out code below because we do
+         * this in enterAssign_expr() now
+         *
+         */
+
         // AST
         // If we are under an assign_expr rule...
-        if (ctx.getParent().getRuleIndex() == 22) {
-            AST.Node newNode = AST.new Id();
-            newNode.parent = currentNode;
-            currentNode.addChild(newNode);
-        }
+        //if (ctx.getParent().getRuleIndex() == 22) {
+            //AST.Node newNode = AST.new Id();
+            //newNode.parent = currentNode;
+            //currentNode.addChild(newNode);
+        //}
 	}
 
 	@Override
@@ -327,8 +335,7 @@ public class Listener extends GBaseListener {
 		addScope(currentScope);
 
 		// AST
-		ASTOutput += "\n;LABEL " + ctx.children.get(2).getText();
-		ASTOutput += "\n;LINK";
+
 	}
 
 	@Override
@@ -385,9 +392,17 @@ public class Listener extends GBaseListener {
 
 	@Override
 	public void enterAssign_expr(GParser.Assign_exprContext ctx) {
-		AST.EqOp newNode = AST.new EqOp();
+		AST.EqOp newNode = AST.new EqOp(ctx.getChild(0).getText());
         newNode.parent = currentNode;
 		currentNode = newNode;
+
+        //TODO remove
+        if (debug == true) {
+            System.out.println(
+                "enterAssign_expr() --> identifier = "
+                + ctx.getChild(0).getText());
+            System.out.println("enterAssign_expr() --> current node = " + currentNode.getType());
+        }
 	}
 
     @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
@@ -404,26 +419,37 @@ public class Listener extends GBaseListener {
 
             // If this primary is in the form of
             // primary --> id --> some_string
-            if (ctx.getChild(0).getChildCount() == 1)
+            if (ctx.getChild(0).getChildCount() == 1) {
                 newNode = AST.new Id(ctx.getText());
+            }
 
             // If this primary is in the form of, e.g.,
             // primary --> 10.0
-            else
+            else {
                 newNode = AST.new Literal(ctx.getText());
-        }
+            }
 
-        // Add the newNode as a child of the assign_expr
-        currentNode.addChild(newNode);
-        newNode.parent = currentNode;
+            // Add the newNode as a child of the assign_expr
+            currentNode.addChild(newNode);
+            newNode.parent = currentNode;
+
+            // TODO remove
+            if (debug == true) {
+                System.out.println("enterPrimary() --> context " + ctx.getText());
+                System.out.println("enterPrimary() --> child count = " + ctx.getChildCount());
+                System.out.println("enterPrimary() --> current node = " + currentNode.getType());
+            }
+        }
     }
 
     @Override public void exitPrimary(GParser.PrimaryContext ctx) {
 
         // Like enterPrimary,
         // we only care about cases where primary isn't ( expr )
-        if (ctx.getChildCount() != 3)
-            currentNode = currentNode.parent;
+
+        // TODO double check if this should be uncommented
+        //if (ctx.getChildCount() != 3)
+            //currentNode = currentNode.parent;
     }
 
 	 /* -----------------------------  AST GENERATION CODE  --------------------------------------- */
@@ -435,10 +461,13 @@ public class Listener extends GBaseListener {
 
         AST.Node newNode = null;
 
-        if (ctx.getParent().getChild(0).getText().equals("(")) {
-            newNode = AST.new Expr();
-            newNode.parent = currentNode;
-            currentNode = newNode;
+        newNode = AST.new Expr();
+        newNode.parent = currentNode;
+        currentNode = newNode;
+
+        // TODO remove
+        if (debug == true) {
+            System.out.println("enterExpr() --> currentNode = " + currentNode.getType());
         }
 	}
 
@@ -455,11 +484,17 @@ public class Listener extends GBaseListener {
 
         if (ctx.getChildCount() != 0) {
             String operator = ctx.getChild(2).getText();
-            newNode = AST.new AddOp(operator);
 
+            newNode = AST.new AddOp(operator);
             newNode.parent = currentNode;
             currentNode.addChild(newNode);
             currentNode = newNode;
+
+            //TODO remove
+            if (debug == true) {
+                System.out.println("enterExpr_prefix() --> operator = " + operator);
+                System.out.println("enterExpr_prefix() --> currentNode = " + currentNode.getType());
+            }
         }
 	}
 
@@ -477,17 +512,24 @@ public class Listener extends GBaseListener {
 
         if (ctx.getChildCount() != 0) {
             String operator = ctx.getChild(2).getText();
-            newNode = AST.new MulOp(operator);
 
+            newNode = AST.new MulOp(operator);
             newNode.parent = currentNode;
             currentNode.addChild(newNode);
             currentNode = newNode;
+
+
+            //TODO remove
+            if (debug == true) {
+                System.out.println("enterFactor_prefix() --> operator = " + operator);
+                System.out.println("enterFactor_prefix() --> currentNode = " + currentNode.getType());
+            }
         }
 	}
 
 	@Override
 	public void exitFactor_prefix(GParser.Factor_prefixContext ctx) {
-        if(ctx.getChildCount() != 0) {
+        if (ctx.getChildCount() != 0) {
             currentNode = currentNode.parent;
         }
 	}
