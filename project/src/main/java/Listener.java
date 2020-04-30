@@ -43,7 +43,6 @@ public class Listener extends GBaseListener {
 	AST.Node currentNode;
 	AST.Node currentOp;
 	String ASTOutput = ";IR code";
-	int currentRegNum = 1;
 
 	// Custom functions
 	public void addScope(String scopeName) {
@@ -146,20 +145,17 @@ public class Listener extends GBaseListener {
 
 	@Override
 	public void enterId(GParser.IdContext ctx) {
-		// Scope stuff
+
+        // Scope stuff
 		name = ctx.getText();
 
-		// 5 = Assign_expr
-		// 8 = Read_stmt
-		// 9 = Write_stmt
-		// if (currentNode.nodeId == 5 || currentNode.nodeId == 8 || currentNode.nodeId == 9) {
-		// 	currentNode.addChild(AST.new Id(name));
-		// }
-		if (ctx.getParent().getChild(1).getText().equals(":=")) {
-			AST.Node newNode = AST.new Id();
-			newNode.parent = currentNode;
-			currentNode.addChild(newNode);
-		}
+        // AST
+        // If we are under an assign_expr rule...
+        if (ctx.getParent().getRuleIndex() == 22) {
+            AST.Node newNode = AST.new Id();
+            newNode.parent = currentNode;
+            currentNode.addChild(newNode);
+        }
 	}
 
 	@Override
@@ -393,7 +389,7 @@ public class Listener extends GBaseListener {
 	}
 
     @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
-        ASTOutput += currentNode.getText(currentRegNum++);
+        ASTOutput += currentNode.getText();
         currentNode = currentNode.parent;
     }
 
@@ -431,6 +427,7 @@ public class Listener extends GBaseListener {
 	 /* -----------------------------  AST GENERATION CODE  --------------------------------------- */
 
 
+    // TODO: Make sure this is bueno
 	@Override
 	public void enterExpr(GParser.ExprContext ctx) {
 
@@ -446,13 +443,13 @@ public class Listener extends GBaseListener {
 	 //TODO: This thing cause idk how the fuck this works
 	@Override
 	public void exitExpr(GParser.ExprContext ctx) {
-
+        currentNode = currentNode.parent;
 	}
 
 	@Override
 	public void enterExpr_prefix(GParser.Expr_prefixContext ctx) {
 
-        AST.Node newNode = null;
+        AST.AddOp newNode = null;
 
         if (ctx.getChildCount() != 0) {
             String operator = ctx.getChild(2).getText();
@@ -471,32 +468,35 @@ public class Listener extends GBaseListener {
         }
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>
-	 * The default implementation does nothing.
-	 * </p>
-	 */
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>
-	 * The default implementation does nothing.
-	 * </p>
-	 */
+    @Override
+	public void enterFactor_prefix(GParser.Factor_prefixContext ctx) {
+
+        AST.MulOp newNode = null;
+
+        if (ctx.getChildCount() != 0) {
+            String operator = ctx.getChild(2).getText();
+            newNode = AST.new MulOp(operator);
+
+            newNode.parent = currentNode;
+            currentNode.addChild(newNode);
+            currentNode = newNode;
+        }
+	}
+
+	@Override
+	public void exitFactor_prefix(GParser.Factor_prefixContext ctx) {
+        if(ctx.getChildCount() != 0) {
+            currentNode = currentNode.parent;
+        }
+	}
+
+    // TODO: implement
 	@Override
 	public void enterFactor(GParser.FactorContext ctx) {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>
-	 * The default implementation does nothing.
-	 * </p>
-	 */
+    // TODO: implement
 	@Override
 	public void exitFactor(GParser.FactorContext ctx) {
 	}
@@ -508,41 +508,6 @@ public class Listener extends GBaseListener {
 	 * The default implementation does nothing.
 	 * </p>
 	 */
-	@Override
-	public void enterFactor_prefix(GParser.Factor_prefixContext ctx) {
-		/*
-			When we enter and Factor Prefix, we basically just need to check if the prefix has
-					More than 0 children, and if it does, get the text from the second (0 indexed) child.
-					Create a new mulop node with this operator symbol (text) and make its parent the
-					current node, make the mulop the current nodes child and make the current node = mulop node
-
-					if (ctx.getChildCount > 0){
-						String opSymbol = ctx.getChild(2).getText();
-						AST.Node mulOp = new mulOp();
-						mulOp.setParent(currentNode);
-						currentNode.setChild(mulOp);
-						currentNode = mulOp;
-					}
-		*/
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>
-	 * The default implementation does nothing.
-	 * </p>
-	 */
-	@Override
-	public void exitFactor_prefix(GParser.Factor_prefixContext ctx) {
-		/*
-			Basically to cover the case where the factor prefix has no children, we are done with that side of the ast so we move up
-
-			if(ctx.getChildCount() > 0){
-				currentNode = currentNode.getParent();
-			}
-		*/
-	}
 
 
 	// We don't do anything below here
