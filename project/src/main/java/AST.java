@@ -8,6 +8,7 @@ public class AST {
 
         Node parent;
         int nodeId;
+        String nodeType;
 
         public Node() {
             this.parent = null;
@@ -30,6 +31,10 @@ public class AST {
         public String getText(int regNum) {
             return "getText wasn't implemented";
         }
+
+        public String getType() {
+            return this.nodeType;
+        }
     }
 
     class Program extends Node {
@@ -37,8 +42,9 @@ public class AST {
         public Program() {
             super();
             this.nodeId = 1;
+            this.nodeType = "Program";
             children = new ArrayList<AST.Node>();
-            System.out.println("AST.Program initalized");
+            System.out.println("\nAST.Program initalized");
         }
 
         @Override public void addChild(AST.Node child) {
@@ -50,7 +56,8 @@ public class AST {
         public VarDecl() {
             super();
             this.nodeId = 2;
-            System.out.println("AST.VarDecl initalized");
+            this.nodeType = "VarDecl";
+            System.out.println("\nAST.VarDecl initalized");
         }
     }
 
@@ -66,7 +73,8 @@ public class AST {
         public AddOp() {
             super();
             this.nodeId = 3;
-            System.out.println("AST.AddOp initalized");
+            this.nodeType = "AddOp";
+            System.out.println("\nAST.AddOp initalized");
         }
 
         public AddOp(String operator) {
@@ -80,8 +88,12 @@ public class AST {
             else if (this.rightChild == null)
                 this.rightChild = child;
             else {
+                System.out.println("\n\n----------------------------------");
                 System.out.println("AddOp -> addChild() -> error");
                 System.out.println("Tried to add third child to AddOp");
+                System.out.println("leftChild type --> " + leftChild.getType());
+                System.out.println("rightChild type --> " + rightChild.getType());
+                System.out.println("----------------------------------\n\n");
             }
         }
 
@@ -96,7 +108,8 @@ public class AST {
         public MulOp() {
             super();
             this.nodeId = 4;
-            System.out.println("AST.MulOp initalized");
+            this.nodeType = "MulOp";
+            System.out.println("\nAST.MulOp initalized");
         }
 
         public MulOp(String operator) {
@@ -117,10 +130,19 @@ public class AST {
     }
 
     class EqOp extends Op {
+
+        String identifier;
+
         public EqOp() {
             super();
             this.nodeId = 5;
-            System.out.println("AST.EqOp initalized");
+            this.nodeType = "EqOp";
+            System.out.println("\nAST.EqOp initalized");
+        }
+
+        public EqOp(String identifier) {
+            this();
+            this.identifier = identifier;
         }
 
         @Override public void addChild(AST.Node child) {
@@ -154,8 +176,8 @@ public class AST {
         public Id() {
             super();
             this.nodeId = 6;
-            this.name = null;
-            System.out.println("AST.Id initalized");
+            this.nodeType = "Id";
+            System.out.println("\nAST.Id initalized");
         }
 
         public Id(String name) {
@@ -175,8 +197,8 @@ public class AST {
         public Literal() {
             super();
             this.nodeId = 7;
-            this.val = null;
-            System.out.println("AST.Literal initalized");
+            this.nodeType = "Literal";
+            System.out.println("\nAST.Literal initalized");
         }
 
         public Literal(String val) {
@@ -195,8 +217,9 @@ public class AST {
         public WriteStmt() {
             super();
             this.nodeId = 8;
+            this.nodeType = "WriteStmt";
             children = new ArrayList<AST.Node>();
-            System.out.println("AST.WriteStmt initalized");
+            System.out.println("\nAST.WriteStmt initalized");
         }
 
         @Override public void addChild(AST.Node child) {
@@ -210,8 +233,9 @@ public class AST {
         public ReadStmt() {
             super();
             this.nodeId = 9;
+            this.nodeType = "ReadStmt";
             children = new ArrayList<AST.Node>();
-            System.out.println("AST.ReadStmt initalized");
+            System.out.println("\nAST.ReadStmt initalized");
         }
 
         @Override public void addChild(AST.Node child) {
@@ -226,14 +250,13 @@ public class AST {
         public Expr() {
             super();
             this.nodeId = 10;
+            this.nodeType = "Expr";
             children = new ArrayList<Node>();
-            System.out.println("AST.Expr initalized");
+            System.out.println("\nAST.Expr initalized");
         }
 
         @Override public void addChild(Node child) {
             children.add(child);
         }
-
-
     }
 }
