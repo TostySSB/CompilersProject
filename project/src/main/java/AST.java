@@ -14,16 +14,15 @@ public class AST {
         Node parent;
         int nodeId;
         String nodeType;
+        ArrayList<AST.Node> children;
 
         public Node() {
             this.parent = null;
+            children = new ArrayList<AST.Node>();
         }
 
         public Node(AST.Node parent) {
-            this.parent = parent;
-        }
-
-        public void setParent(AST.Node parent) {
+            this();
             this.parent = parent;
         }
 
@@ -134,15 +133,28 @@ public class AST {
                 System.out.println("\n\n----------------------------------");
                 System.out.println("AddOp -> addChild() -> error");
                 System.out.println("Tried to add third child to AddOp");
-                System.out.println("leftChild type --> " + leftChild.getType());
-                System.out.println("rightChild type --> " + rightChild.getType());
-                System.err.println("third child type --> " + child.getType());
+                System.out.println(
+                    "leftChild type   --> "
+                    + leftChild.getType()
+                    + " --> " + leftChild.getText()
+                );
+                System.out.println(
+                    "rightChild type  --> "
+                    + rightChild.getType()
+                    + " --> " + rightChild.getText()
+                );
+                System.err.println(
+                    "third child type --> "
+                    + child.getType()
+                    + " --> " + child.getText()
+                );
+                System.out.println("operator of this op --> " + this.operator);
                 System.out.println("----------------------------------\n\n");
             }
         }
 
         @Override public String getText() {
-            return null;
+            return this.operator;
         }
     }
 
@@ -170,6 +182,10 @@ public class AST {
                 System.out.println("MulOp -> addChild() -> error");
                 System.out.println("Tried to add third child to MulOp");
             }
+        }
+
+        public String getText() {
+            return this.operator;
         }
     }
 
@@ -199,6 +215,12 @@ public class AST {
                 System.out.println("Tried to add third child to EqOp");
                 System.exit(1);
             }
+
+            //System.out.println(
+                //"EqOp --> addChild() --> added "
+                //+ child.getType()
+                //+ " with text = " + child.getText()
+            //);
         }
 
         //@Override public String getText(int regNum) {
@@ -289,7 +311,7 @@ public class AST {
 
     class Expr extends Node {
 
-        ArrayList<Node> children;
+        ArrayList<AST.Node> children;
 
         public Expr() {
             super();
@@ -297,6 +319,23 @@ public class AST {
             this.nodeType = "Expr";
             children = new ArrayList<Node>();
             System.out.println("\nAST.Expr initalized");
+        }
+
+        @Override public void addChild(AST.Node child) {
+            this.children.add(child);
+        }
+    }
+
+    class Factor extends Node {
+
+        ArrayList<AST.Node> children;
+
+        public Factor() {
+            super();
+            this.nodeId = 11;
+            this.nodeType = "Factor";
+            children = new ArrayList<AST.Node>();
+            System.out.println("\nAST.Factor initalized");
         }
 
         @Override public void addChild(AST.Node child) {
