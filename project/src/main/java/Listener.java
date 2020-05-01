@@ -132,14 +132,20 @@ public class Listener extends GBaseListener {
 		}
 
 		// AST
-		AST.Program newNode = AST.new Program();
-		rootNode = newNode;
+		rootNode = AST.new Program();
+		currentNode = rootNode;
+
+        if (debug == true) {
+            System.out.println("enterProgram() --> rootNode = " + rootNode.getType());
+            System.out.println("enterProgram() --> currentNode = " + currentNode.getType());
+        }
 	}
 
 	@Override
 	public void exitProgram(GParser.ProgramContext ctx) {
 		// System.out.println(symbolTableOutput);
-		System.out.println(ASTOutput);
+
+        // TODO generate IR code here
 	}
 
 	// Id
@@ -333,9 +339,6 @@ public class Listener extends GBaseListener {
 		currentScope = ctx.children.get(2).getText();
 		symbolTableOutput += "\n\nSymbol table " + currentScope;
 		addScope(currentScope);
-
-		// AST
-
 	}
 
 	@Override
@@ -392,7 +395,15 @@ public class Listener extends GBaseListener {
 
 	@Override
 	public void enterAssign_expr(GParser.Assign_exprContext ctx) {
+
 		AST.EqOp newNode = AST.new EqOp(ctx.getChild(0).getText());
+        
+        if (debug == true) { // TODO remove this if
+            System.out.println(
+                "enterAssign_expr() --> currentNode (before initalization) = "
+                + currentNode.getType()
+            );
+        }
         newNode.parent = currentNode;
 		currentNode = newNode;
 
@@ -400,14 +411,29 @@ public class Listener extends GBaseListener {
         if (debug == true) {
             System.out.println(
                 "enterAssign_expr() --> identifier = "
-                + ctx.getChild(0).getText());
-            System.out.println("enterAssign_expr() --> current node = " + currentNode.getType());
+                + ctx.getChild(0).getText()
+            );
+            System.out.println(
+                "enterAssign_expr() --> currentNode (after initalization) = "
+                + currentNode.getType()
+            );
         }
 	}
 
     @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
-        ASTOutput += currentNode.getText();
+        if (debug == true) { // TODO remove
+            System.out.println("exitAssign_expr() --> currentNode (after reset) = "
+                + currentNode.getType()
+            );
+        }
+       
         currentNode = currentNode.parent;
+        
+        if (debug == true) { // TODO remove
+            System.out.println("exitAssign_expr() --> currentNode (after reset) = "
+                + currentNode.getType()
+            );
+        }
     }
 
     @Override public void enterPrimary(GParser.PrimaryContext ctx) {
@@ -428,17 +454,28 @@ public class Listener extends GBaseListener {
             else {
                 newNode = AST.new Literal(ctx.getText());
             }
+            
+            // TODO remove
+            if (debug == true) {
+                System.out.println(
+                    "enterPrimary() --> context = "
+                    + ctx.getText()
+                );
+                System.out.println(
+                    "enterPrimary() --> child count = "
+                    + ctx.getChildCount()
+                );
+                System.out.println(
+                    "enterPrimary() --> currentNode = "
+                    + currentNode.getType()
+                    + " (this should remain the same as last time)"
+                );
+            }
 
             // Add the newNode as a child of the assign_expr
             currentNode.addChild(newNode);
             newNode.parent = currentNode;
 
-            // TODO remove
-            if (debug == true) {
-                System.out.println("enterPrimary() --> context " + ctx.getText());
-                System.out.println("enterPrimary() --> child count = " + ctx.getChildCount());
-                System.out.println("enterPrimary() --> current node = " + currentNode.getType());
-            }
         }
     }
 
@@ -459,22 +496,46 @@ public class Listener extends GBaseListener {
 	@Override
 	public void enterExpr(GParser.ExprContext ctx) {
 
-        AST.Node newNode = null;
+        AST.Node newNode = AST.new Expr();
 
-        newNode = AST.new Expr();
+        if (debug == true) { // TODO remove this if
+            System.out.println(
+                "enterExpr() --> currentNode (before initalization) = "
+                + currentNode.getType()
+            );
+        }
+
         newNode.parent = currentNode;
         currentNode = newNode;
 
         // TODO remove
         if (debug == true) {
-            System.out.println("enterExpr() --> currentNode = " + currentNode.getType());
+            System.out.println(
+                "enterExpr() --> currentNode (after initalization) = "
+                + currentNode.getType()
+            );
         }
 	}
 
 	 //TODO: This thing cause idk how the fuck this works
 	@Override
 	public void exitExpr(GParser.ExprContext ctx) {
+
+        if (debug == true) { // TODO remove
+            System.out.println(
+                "exitExpr() --> currentNode (before reset) = "
+                + currentNode.getType()
+            );
+        }
+
         currentNode = currentNode.parent;
+        
+        if (debug == true) { // TODO remove
+            System.out.println(
+                "exitExpr() --> currentNode (after reset) = "
+                + currentNode.getType()
+            );
+        }
 	}
 
 	@Override
@@ -486,22 +547,46 @@ public class Listener extends GBaseListener {
             String operator = ctx.getChild(2).getText();
 
             newNode = AST.new AddOp(operator);
+            if (debug == true) { // TODO remove this if
+                System.out.println(
+                    "enterExpr_prefix() --> currentNode (before initalization) = "
+                    + currentNode.getType()
+                );
+            }
             newNode.parent = currentNode;
             currentNode.addChild(newNode);
             currentNode = newNode;
 
             //TODO remove
             if (debug == true) {
-                System.out.println("enterExpr_prefix() --> operator = " + operator);
-                System.out.println("enterExpr_prefix() --> currentNode = " + currentNode.getType());
+                System.out.println(
+                    "enterExpr_prefix() --> currentNode (after initalization) = "
+                    + currentNode.getType()
+                );
+                System.out.println(
+                    "enterExpr_prefix() --> operator = "
+                    + operator
+                );
             }
         }
 	}
 
 	@Override
 	public void exitExpr_prefix(GParser.Expr_prefixContext ctx) {
+        if (debug == true && ctx.getChildCount() != 0) { // TODO remove
+            System.out.println("exitExpr_prefix() --> currentNode (before reset) = "
+                + currentNode.getType()
+            );
+        }
+
         if(ctx.getChildCount() != 0) {
             currentNode = currentNode.parent;
+        }
+        
+        if (debug == true && ctx.getChildCount() != 0) { // TODO remove
+            System.out.println("exitExpr_prefix() --> currentNode (after reset) = "
+                + currentNode.getType()
+            );
         }
 	}
 
@@ -514,6 +599,14 @@ public class Listener extends GBaseListener {
             String operator = ctx.getChild(2).getText();
 
             newNode = AST.new MulOp(operator);
+
+            if (debug == true) {
+                System.out.println(
+                    "enterFactor_prefix() --> currentNode (before initalization) = "
+                    + currentNode.getType()
+                );
+            }
+
             newNode.parent = currentNode;
             currentNode.addChild(newNode);
             currentNode = newNode;
@@ -521,16 +614,36 @@ public class Listener extends GBaseListener {
 
             //TODO remove
             if (debug == true) {
-                System.out.println("enterFactor_prefix() --> operator = " + operator);
-                System.out.println("enterFactor_prefix() --> currentNode = " + currentNode.getType());
+                System.out.println(
+                    "enterFactor_prefix() --> currentNode (after initalization) = "
+                    + currentNode.getType()
+                );
+                System.out.println(
+                    "enterFactor_prefix() --> operator = "
+                    + operator
+                );
             }
         }
 	}
 
 	@Override
 	public void exitFactor_prefix(GParser.Factor_prefixContext ctx) {
+        if (debug == true && ctx.getChildCount() != 0) { // TODO remove
+            System.out.println(
+                "exitFactor_prefix() --> currentNode (before reset) = "
+                + currentNode.getType()
+            );
+        }
+       
         if (ctx.getChildCount() != 0) {
             currentNode = currentNode.parent;
+        }
+        
+        if (debug == true && ctx.getChildCount() != 0) { // TODO remove
+            System.out.println(
+                "exitFactor_prefix() --> currentNode (after reset) = "
+                + currentNode.getType()
+            );
         }
 	}
 

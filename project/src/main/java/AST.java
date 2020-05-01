@@ -3,6 +3,11 @@ import java.util.ArrayList;
 public class AST {
 
     public static int regNum = 0;
+    public static int tempNum = 1;
+
+    public String generateTemp() {
+        return "$T" + tempNum++;
+    }
 
     class Node {
 
@@ -28,17 +33,41 @@ public class AST {
             return "getText wasn't implemented";
         }
 
-        public String getText(int regNum) {
-            return "getText wasn't implemented";
-        }
-
         public String getType() {
             return this.nodeType;
+        }
+
+        public IRCode getIRCode() {
+            System.out.println("getIRCode wasn't implemented for " + this.getType());
+            return null;
+        }
+    }
+
+    class IRCode {
+        private ArrayList<String> code;
+
+        public IRCode() {
+            this.code = new ArrayList<String>();
+        }
+
+        public void addText(String inputText) {
+            this.code.add(inputText);
+        }
+
+        public ArrayList<String> getCode() {
+            return this.code;
+        }
+
+        // Appends inputCode to the end of this.code
+        public void appendCode(IRCode inputCode) {
+            this.code.addAll(inputCode.getCode());
         }
     }
 
     class Program extends Node {
         ArrayList<AST.Node> children;
+        IRCode code;
+
         public Program() {
             super();
             this.nodeId = 1;
@@ -50,16 +79,30 @@ public class AST {
         @Override public void addChild(AST.Node child) {
             this.children.add(child);
         }
-    }
 
-    class VarDecl extends Node {
-        public VarDecl() {
-            super();
-            this.nodeId = 2;
-            this.nodeType = "VarDecl";
-            System.out.println("\nAST.VarDecl initalized");
+        @Override public IRCode getIRCode() {
+            this.code = new IRCode();
+
+            this.code.addText(";IR code");
+            this.code.addText(";LABEL main");
+            this.code.addText(";LINK");
+
+            for (AST.Node child : children) {
+                this.code.appendCode(child.getIRCode());
+            }
+
+            return this.code;
         }
     }
+
+    //class VarDecl extends Node {
+        //public VarDecl() {
+            //super();
+            //this.nodeId = 2;
+            //this.nodeType = "VarDecl";
+            //System.out.println("\nAST.VarDecl initalized");
+        //}
+    //}
 
     abstract class Op extends Node {
         AST.Node leftChild;
@@ -93,6 +136,7 @@ public class AST {
                 System.out.println("Tried to add third child to AddOp");
                 System.out.println("leftChild type --> " + leftChild.getType());
                 System.out.println("rightChild type --> " + rightChild.getType());
+                System.err.println("third child type --> " + child.getType());
                 System.out.println("----------------------------------\n\n");
             }
         }
@@ -157,17 +201,17 @@ public class AST {
             }
         }
 
-        @Override public String getText(int regNum) {
+        //@Override public String getText(int regNum) {
 
-            // if right child is literal,
-            // e.g. a := 20
-            if (this.rightChild.nodeId == 7) {
-                String rv = "\n;STOREI " + rightChild.getText() + " $T" + regNum;
-                rv += "\n;STOREI $T" + regNum + " " + leftChild.getText();
-                return rv;
-            }
-            return "Found unexpected case in EqOp -> getText()";
-        }
+            //// if right child is literal,
+            //// e.g. a := 20
+            //if (this.rightChild.nodeId == 7) {
+                //String rv = "\n;STOREI " + rightChild.getText() + " $T" + regNum;
+                //rv += "\n;STOREI $T" + regNum + " " + leftChild.getText();
+                //return rv;
+            //}
+            //return "Found unexpected case in EqOp -> getText()";
+        //}
     }
 
     class Id extends Node {
@@ -255,8 +299,8 @@ public class AST {
             System.out.println("\nAST.Expr initalized");
         }
 
-        @Override public void addChild(Node child) {
-            children.add(child);
+        @Override public void addChild(AST.Node child) {
+            this.children.add(child);
         }
     }
 }
