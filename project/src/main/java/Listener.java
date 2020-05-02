@@ -138,11 +138,11 @@ public class Listener extends GBaseListener {
         if (debug == true) {
             System.out.println(
                 "enterProgram() --> rootNode = "
-                + rootNode.getType()
+                + rootNode.getNodeType()
             );
             System.out.println(
                 "enterProgram() --> currentNode = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -408,7 +408,7 @@ public class Listener extends GBaseListener {
         if (debug == true) {
             System.out.println(
                 "enterAssign_expr() --> currentNode (before initalization) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -424,7 +424,7 @@ public class Listener extends GBaseListener {
             );
             System.out.println(
                 "enterAssign_expr() --> currentNode (after initalization) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -432,7 +432,7 @@ public class Listener extends GBaseListener {
     @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
         if (debug == true) { // TODO remove
             System.out.println("exitAssign_expr() --> currentNode (after reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -440,7 +440,7 @@ public class Listener extends GBaseListener {
 
         if (debug == true) { // TODO remove
             System.out.println("exitAssign_expr() --> currentNode (after reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
     }
@@ -476,7 +476,7 @@ public class Listener extends GBaseListener {
                 );
                 System.out.println(
                     "enterPrimary() --> currentNode = "
-                    + currentNode.getType()
+                    + currentNode.getNodeType()
                     + " (this should remain the same as last time)"
                 );
             }
@@ -510,7 +510,7 @@ public class Listener extends GBaseListener {
         if (debug == true) { // TODO remove this if
             System.out.println(
                 "enterExpr() --> currentNode (before initalization) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -522,7 +522,7 @@ public class Listener extends GBaseListener {
         if (debug == true) {
             System.out.println(
                 "enterExpr() --> currentNode (after initalization) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -534,7 +534,7 @@ public class Listener extends GBaseListener {
         if (debug == true) { // TODO remove
             System.out.println(
                 "exitExpr() --> currentNode (before reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -543,7 +543,7 @@ public class Listener extends GBaseListener {
         if (debug == true) { // TODO remove
             System.out.println(
                 "exitExpr() --> currentNode (after reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -563,7 +563,7 @@ public class Listener extends GBaseListener {
             if (debug == true) {
                 System.out.println(
                     "enterExpr_prefix() --> currentNode (before initalization) = "
-                    + currentNode.getType()
+                    + currentNode.getNodeType()
                 );
             }
 
@@ -575,7 +575,7 @@ public class Listener extends GBaseListener {
             if (debug == true) {
                 System.out.println(
                     "enterExpr_prefix() --> currentNode (after initalization) = "
-                    + currentNode.getType()
+                    + currentNode.getNodeType()
                 );
                 System.out.println(
                     "enterExpr_prefix() --> operator = "
@@ -590,7 +590,7 @@ public class Listener extends GBaseListener {
         if (debug == true && ctx.getChildCount() != 0) { // TODO remove
             System.out.println(
                 "exitExpr_prefix() --> currentNode (before reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -601,7 +601,7 @@ public class Listener extends GBaseListener {
         if (debug == true && ctx.getChildCount() != 0) { // TODO remove
             System.out.println(
                 "exitExpr_prefix() --> currentNode (after reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -619,7 +619,7 @@ public class Listener extends GBaseListener {
             if (debug == true) {
                 System.out.println(
                     "enterFactor_prefix() --> currentNode (before initalization) = "
-                    + currentNode.getType()
+                    + currentNode.getNodeType()
                 );
             }
 
@@ -632,7 +632,7 @@ public class Listener extends GBaseListener {
             if (debug == true) {
                 System.out.println(
                     "enterFactor_prefix() --> currentNode (after initalization) = "
-                    + currentNode.getType()
+                    + currentNode.getNodeType()
                 );
                 System.out.println(
                     "enterFactor_prefix() --> operator = "
@@ -647,7 +647,7 @@ public class Listener extends GBaseListener {
         if (debug == true && ctx.getChildCount() != 0) { // TODO remove
             System.out.println(
                 "exitFactor_prefix() --> currentNode (before reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -658,7 +658,7 @@ public class Listener extends GBaseListener {
         if (debug == true && ctx.getChildCount() != 0) { // TODO remove
             System.out.println(
                 "exitFactor_prefix() --> currentNode (after reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -671,7 +671,7 @@ public class Listener extends GBaseListener {
         if (debug == true) { // TODO remove this if
             System.out.println(
                 "enterFactor() --> currentNode (before initalization) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -683,7 +683,7 @@ public class Listener extends GBaseListener {
         if (debug == true) {
             System.out.println(
                 "enterFactor() --> currentNode (after initalization) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -697,7 +697,7 @@ public class Listener extends GBaseListener {
             if (debug == true) {
                 System.out.println(
                     "exitFactor() --> currentNode's type = "
-                    + currentNode.getType()
+                    + currentNode.getNodeType()
                 );
             }
 
@@ -715,7 +715,7 @@ public class Listener extends GBaseListener {
         if (debug == true) {
             System.out.println(
                 "exitFactor() --> currentNode (before reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 
@@ -725,7 +725,7 @@ public class Listener extends GBaseListener {
         if (debug == true) {
             System.out.println(
                 "exitFactor() --> currentNode (after reset) = "
-                + currentNode.getType()
+                + currentNode.getNodeType()
             );
         }
 	}
@@ -857,6 +857,7 @@ public class Listener extends GBaseListener {
 		AST.WriteStmt newNode = AST.new WriteStmt();
 		newNode.parent = currentNode;
 		currentNode = newNode;
+        addtext()
 	}
 
 	/**

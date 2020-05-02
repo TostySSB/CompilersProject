@@ -14,6 +14,7 @@ public class AST {
         Node parent;
         int nodeId;
         String nodeType;
+        String dataType;
         ArrayList<AST.Node> children;
 
         public Node() {
@@ -36,66 +37,97 @@ public class AST {
                 );
                 System.out.println(
                     "leftChild type --> "
-                    + children.get(0).getType()
+                    + children.get(0).getNodeType()
                     + " --> " + children.get(0).getText()
                 );
                 System.out.println(
                     "rightChild type --> "
-                    + children.get(1).getType()
+                    + children.get(1).getNodeType()
                     + " --> " + children.get(1).getText()
                 );
                 System.err.println(
                     "third child type --> "
-                    + child.getType()
+                    + child.getNodeType()
                     + " --> " + child.getText()
                 );
+                System.out.println("----------------------------------\n\n");
             }
         }
 
         public String getText() {
-            return "getText wasn't implemented";
+            return "getText wasn't implemented for " + this.nodeType;
         }
 
-        public String getType() {
+        public String getNodeType() {
             return this.nodeType;
         }
 
-        public IRCode getIRCode() {
-            System.out.println("getIRCode wasn't implemented for " + this.getType());
-            return null;
+        public String getDataType() {
+            return this.dataType;
         }
 
-        public void printNode() {
-
+        public IRCode getIRCode() {
+            System.out.println("\n\n----------------------------------");
+            System.out.println(
+                "getIRCode() wasn't implemented for " + this.getNodeType()
+            );
+            System.out.println("----------------------------------\n\n");
+            return null;
         }
     }
 
     class IRCode {
-        private ArrayList<String> code;
+        private ArrayList<AST.IRCode> code;
+        private String codeAsString;
+        private String location;
+        private String dataType;
 
-        public IRCode() {
-            this.code = new ArrayList<String>();
+        public IRCode(String codeAsString, location, dataType) {
+            code = new ArrayList<AST.IRCode>();
+            this.codeAsString = codeAsString;
+            this.location = location;
+            this.dataType = dataType;
         }
 
-        public void addText(String inputText) {
-            this.code.add(inputText);
+        public String getCodeAsString() {
+            return this.codeAsString;
         }
 
-        public ArrayList<String> getCode() {
-            return this.code;
+        public String getLocation() {
+            return this.location;
         }
 
-        public void printCode() {
-            for (String statement : this.code) {
-                System.out.println(statement);
-            }
-        }
-
-        // Appends inputCode to the end of this.code
-        public void appendCode(IRCode inputCode) {
-            this.code.addAll(inputCode.getCode());
+        public String getDataType() {
+            return this.dataType;
         }
     }
+
+    //class IRCode {
+        //private ArrayList<AST.IRCode> code;
+
+        //public IRCode() {
+            //this.code = new ArrayList<IRCode>();
+        //}
+
+        //public void addText(String inputText) {
+            //this.code.add(inputText);
+        //}
+
+        //public ArrayList<String> getCode() {
+            //return this.code;
+        //}
+
+        //public void printCode() {
+            //for (String statement : this.code) {
+                //System.out.println(statement);
+            //}
+        //}
+
+        //// Appends inputCode to the end of this.code
+        //public void appendCode(IRCode inputCode) {
+            //this.code.addAll(inputCode.getCode());
+        //}
+    //}
 
     class Program extends Node {
         IRCode code;
@@ -107,30 +139,16 @@ public class AST {
             this.children = new ArrayList<AST.Node>();
             System.out.println("\nAST.Program initalized");
         }
-
-        @Override public IRCode getIRCode() {
-            this.code = new IRCode();
-
-            this.code.addText(";IR code");
-            this.code.addText(";LABEL main");
-            this.code.addText(";LINK");
-
-            for (AST.Node child : children) {
-                this.code.appendCode(child.getIRCode());
-            }
-
-            return this.code;
-        }
     }
 
-    //class VarDecl extends Node {
-        //public VarDecl() {
-            //super();
-            //this.nodeId = 2;
-            //this.nodeType = "VarDecl";
-            //System.out.println("\nAST.VarDecl initalized");
-        //}
-    //}
+    class VarDecl extends Node {
+        public VarDecl() {
+            super();
+            this.nodeId = 2;
+            this.nodeType = "VarDecl";
+            System.out.println("\nAST.VarDecl initalized");
+        }
+    }
 
     class AddOp extends Node {
 
@@ -188,18 +206,6 @@ public class AST {
             this();
             this.identifier = identifier;
         }
-
-        //@Override public String getText(int regNum) {
-
-            //// if right child is literal,
-            //// e.g. a := 20
-            //if (this.rightChild.nodeId == 7) {
-                //String rv = "\n;STOREI " + rightChild.getText() + " $T" + regNum;
-                //rv += "\n;STOREI $T" + regNum + " " + leftChild.getText();
-                //return rv;
-            //}
-            //return "Found unexpected case in EqOp -> getText()";
-        //}
     }
 
     class Id extends Node {
