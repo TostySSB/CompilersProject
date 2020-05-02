@@ -707,10 +707,10 @@ public class Listener extends GBaseListener {
             leftOfFactor.parent = currentNode.parent;
             currentNode.children.clear();
         }
-        
-        
+
+
         // TODO remove
-        if (debug == true) { 
+        if (debug == true) {
             System.out.println(
                 "exitFactor() --> currentNode (before reset) = "
                 + currentNode.getType()
@@ -720,7 +720,7 @@ public class Listener extends GBaseListener {
         currentNode = currentNode.parent;
 
         // TODO remove
-        if (debug == true) { 
+        if (debug == true) {
             System.out.println(
                 "exitFactor() --> currentNode (after reset) = "
                 + currentNode.getType()
