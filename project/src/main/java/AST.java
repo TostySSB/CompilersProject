@@ -50,7 +50,6 @@ public class AST {
         return rv;
     }
 
-
     class Node {
 
         Node parent;
@@ -69,29 +68,25 @@ public class AST {
             this.parent = parent;
         }
 
+        public AST.Node getParent() {
+            return this.parent;
+        }
+
+        public void addParent(AST.Node parent) {
+            this.parent = parent;
+        }
+
         public void addChild(AST.Node child) {
             if (children.size() < 2)
                 children.add(child);
             else {
                 System.out.println("\n\n----------------------------------");
+                System.out.println("Tried to add third child to " + this.nodeType);
                 System.out.println(
-                    "Tried to add third child to " + this.nodeType
-                );
+                        "leftChild type --> " + children.get(0).getNodeType() + " --> " + children.get(0).getText());
                 System.out.println(
-                    "leftChild type --> "
-                    + children.get(0).getNodeType()
-                    + " --> " + children.get(0).getText()
-                );
-                System.out.println(
-                    "rightChild type --> "
-                    + children.get(1).getNodeType()
-                    + " --> " + children.get(1).getText()
-                );
-                System.err.println(
-                    "third child type --> "
-                    + child.getNodeType()
-                    + " --> " + child.getText()
-                );
+                        "rightChild type --> " + children.get(1).getNodeType() + " --> " + children.get(1).getText());
+                System.err.println("third child type --> " + child.getNodeType() + " --> " + child.getText());
                 System.out.println("----------------------------------\n\n");
             }
         }
@@ -106,13 +101,14 @@ public class AST {
                 System.out.println("getChildAtIndex() --> IndexOutOfBoundsException");
                 System.out.println("input index = " + i);
                 System.out.println("this.children.size = " + this.children.size());
+                System.out.println("nodeType = " + this.getNodeType());
                 System.out.println("----------------------------------\n\n");
                 return null;
             }
         }
 
         public String getText() {
-            return "getText wasn't implemented for " + this.nodeType;
+            return "";
         }
 
         public String getNodeType() {
@@ -135,13 +131,46 @@ public class AST {
             this.dataType = dataType;
         }
 
+        // TODO delete this method
+        public void printNode() {
+            System.out.println(this.getNodeType() + ": " + this.getText() + " " + this.getChildren().size());
+        }
+
+        // TODO delete this method
+        public void printTree() {
+            try {
+                if (this.getChildren().size() == 0)
+                    this.printNode();
+                else if (this.getChildren().size() == 1) {
+                    this.getChildAtIndex(0).printTree();
+                    this.printNode();
+                } else if (this.getChildren().size() > 2) {
+                    this.printNode();
+                    for (int i = 0; i < this.getChildren().size(); i++) {
+                        this.getChildAtIndex(i).printTree();
+                    }
+                } else {
+                    this.getChildAtIndex(0).printTree();
+                    this.getChildAtIndex(1).printTree();
+                    this.printNode();
+                }
+            }
+
+            catch (Exception e) {
+            }
+        }
+
         public IRCode getIRCode() {
             System.out.println("\n\n----------------------------------");
-            System.out.println(
-                "getIRCode() wasn't implemented for " + this.getNodeType()
-            );
+            System.out.println("getIRCode() wasn't implemented for " + this.getNodeType());
             System.out.println("Children nodes of this " + this.getNodeType() + ":");
             for (AST.Node node : this.children) {
+                System.out.print(node.getNodeType() + " ");
+            }
+            System.out.println("\nParent node of this " + this.getNodeType() + ":");
+            System.out.println(this.getParent().getNodeType());
+            System.out.println("\nChildren of right child " + this.getChildAtIndex(1).getNodeType() + ":");
+            for (AST.Node node : this.getChildAtIndex(1).getChildren()) {
                 System.out.print(node.getNodeType() + " ");
             }
             System.out.println("\n----------------------------------\n\n");
@@ -173,32 +202,32 @@ public class AST {
         }
     }
 
-    //class IRCode {
-        //private ArrayList<AST.IRCode> code;
+    // class IRCode {
+    // private ArrayList<AST.IRCode> code;
 
-        //public IRCode() {
-            //this.code = new ArrayList<IRCode>();
-        //}
+    // public IRCode() {
+    // this.code = new ArrayList<IRCode>();
+    // }
 
-        //public void addText(String inputText) {
-            //this.code.add(inputText);
-        //}
+    // public void addText(String inputText) {
+    // this.code.add(inputText);
+    // }
 
-        //public ArrayList<String> getCode() {
-            //return this.code;
-        //}
+    // public ArrayList<String> getCode() {
+    // return this.code;
+    // }
 
-        //public void printCode() {
-            //for (String statement : this.code) {
-                //System.out.println(statement);
-            //}
-        //}
+    // public void printCode() {
+    // for (String statement : this.code) {
+    // System.out.println(statement);
+    // }
+    // }
 
-        //// Appends inputCode to the end of this.code
-        //public void appendCode(IRCode inputCode) {
-            //this.code.addAll(inputCode.getCode());
-        //}
-    //}
+    //// Appends inputCode to the end of this.code
+    // public void appendCode(IRCode inputCode) {
+    // this.code.addAll(inputCode.getCode());
+    // }
+    // }
 
     class Program extends Node {
         public Program() {
@@ -209,11 +238,13 @@ public class AST {
             System.out.println("AST.Program initalized");
         }
 
-        @Override public void addChild(AST.Node child) {
+        @Override
+        public void addChild(AST.Node child) {
             children.add(child);
         }
 
-        @Override public IRCode getIRCode() {
+        @Override
+        public IRCode getIRCode() {
             ArrayList<AST.IRCode> code_list = new ArrayList<AST.IRCode>();
 
             for (AST.Node statement : this.children) {
@@ -260,11 +291,13 @@ public class AST {
             this.operator = operator;
         }
 
-        @Override public String getText() {
+        @Override
+        public String getText() {
             return this.operator;
         }
 
-        @Override public IRCode getIRCode() {
+        @Override
+        public IRCode getIRCode() {
             String currDataType = this.getChildAtIndex(0).getDataType();
 
             IRCode leftCode = this.getChildAtIndex(0).getIRCode();
@@ -307,7 +340,8 @@ public class AST {
             return this.operator;
         }
 
-        @Override public IRCode getIRCode() {
+        @Override
+        public IRCode getIRCode() {
             String currDataType = this.getChildAtIndex(0).getDataType();
 
             IRCode leftCode = this.getChildAtIndex(0).getIRCode();
@@ -347,7 +381,8 @@ public class AST {
             this.identifier = identifier;
         }
 
-        @Override public IRCode getIRCode() {
+        @Override
+        public IRCode getIRCode() {
             String currDataType = this.getChildAtIndex(0).getDataType();
 
             IRCode leftCode = this.getChildAtIndex(0).getIRCode();
@@ -385,11 +420,13 @@ public class AST {
             this.dataType = dataType;
         }
 
-        @Override public String getText() {
+        @Override
+        public String getText() {
             return this.name;
         }
 
-        @Override public IRCode getIRCode() {
+        @Override
+        public IRCode getIRCode() {
             return new IRCode("", this.name, this.dataType);
         }
     }
@@ -414,11 +451,13 @@ public class AST {
                 this.dataType = "INT";
         }
 
-        @Override public String getText() {
+        @Override
+        public String getText() {
             return this.val;
         }
 
-        @Override public IRCode getIRCode() {
+        @Override
+        public IRCode getIRCode() {
             return new IRCode("", this.val, this.dataType);
         }
     }
@@ -451,6 +490,22 @@ public class AST {
             children = new ArrayList<Node>();
             System.out.println("AST.Expr initalized");
         }
+
+        @Override
+        public IRCode getIRCode() {
+            if (this.children.size() == 1) {
+                System.out.println("Expr --> getIRCode() --> working as expected");
+                return this.getChildAtIndex(0).getIRCode();
+            }
+            System.out.println("\n\n----------------------------------");
+            System.out.println("Expr --> getIRCode() --> working NOT as expected");
+            System.out.println("this.children types:");
+            for (AST.Node child : this.children) {
+                System.out.println(child.getNodeType() + " " + child.getText());
+            }
+            System.out.println("----------------------------------\n\n");
+            return null;
+        }
     }
 
     class Factor extends Node {
@@ -460,6 +515,18 @@ public class AST {
             this.nodeType = "Factor";
             children = new ArrayList<AST.Node>();
             System.out.println("AST.Factor initalized");
+        }
+
+        @Override
+        public IRCode getIRCode() {
+            if (this.children.size() == 1) {
+                System.out.println("Expr --> getIRCode() --> working as expected");
+                return this.getChildAtIndex(0).getIRCode();
+            }
+            System.out.println("\n\n----------------------------------");
+            System.out.println("Factor --> getIRCode() --> working NOT as expected");
+            System.out.println("----------------------------------\n\n");
+            return null;
         }
     }
 }
