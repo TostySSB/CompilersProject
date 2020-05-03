@@ -45,7 +45,7 @@ public class Listener extends GBaseListener {
 	AST AST = new AST();
 	AST.Node rootNode;
 	AST.Node currentNode;
-    HashMap<String, String> dataTypesOfVars = new HashMap<String, String>();
+	HashMap<String, String> dataTypesOfVars = new HashMap<String, String>();
 
     // AST functions
     public String getTypeByID(String id) {

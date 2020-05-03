@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class Main {
@@ -42,6 +44,13 @@ public class Main {
         listener = new Listener();
         walker = new ParseTreeWalker();
         walker.walk(listener, tree);
+
+        HashMap<String, String> hm = listener.dataTypesOfVars;
+        Iterator it = hm.keySet().iterator();
+        System.out.println("VARS:");
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
 
 
         fileInputStream.close();
