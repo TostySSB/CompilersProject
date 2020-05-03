@@ -2,12 +2,54 @@ import java.util.ArrayList;
 
 public class AST {
 
+    public boolean debug = true;
+
     public static int regNum = 0;
     public static int tempNum = 1;
 
     public String generateTemp() {
         return "$T" + tempNum++;
     }
+
+    public String getCodeType(AST.Node node, String dataType) {
+        String rv = "";
+
+        if (node.getNodeType().equals("AddOp")) {
+            if (node.getText().equals("+"))
+                rv += ";ADD";
+            else if (node.getText().equals("-"))
+                rv += ";SUB";
+        }
+
+        else if (node.getNodeType().equals("MulOp")) {
+            if (node.getText().equals("*"))
+                rv += ";MUL";
+            else if (node.getText().equals("/"))
+                rv += ";DIV";
+        }
+
+        else if (node.getNodeType().equals("EpOp")) {
+            rv += ";STORE";
+        }
+
+        else {
+            System.out.println("\n\n----------------------------------");
+            System.out.println("getCodeType() --> bad node given");
+            System.out.println("nodeType = " + node.getNodeType());
+            System.out.println("Acceptable node types");
+            System.out.println("AddOp, MulOp, EqOp");
+            System.out.println("----------------------------------\n\n");
+        }
+
+        // Add I, F, or S based on INT, FLOAT, or STRING
+        rv += dataType.toCharArray()[0];
+
+        if (debug == true)
+            System.out.println("getCodeType() --> generated data type = " + rv);
+
+        return rv;
+    }
+
 
     class Node {
 
@@ -54,6 +96,21 @@ public class AST {
             }
         }
 
+        public AST.Node getChildAtIndex(int i) {
+            try {
+                return this.children.get(i);
+            }
+
+            catch (IndexOutOfBoundsException e) {
+                System.out.println("\n\n----------------------------------");
+                System.out.println("getChildAtIndex() --> IndexOutOfBoundsException");
+                System.out.println("input index = " + i);
+                System.out.println("this.children.size = " + this.children.size());
+                System.out.println("----------------------------------\n\n");
+                return null;
+            }
+        }
+
         public String getText() {
             return "getText wasn't implemented for " + this.nodeType;
         }
@@ -62,8 +119,20 @@ public class AST {
             return this.nodeType;
         }
 
+        public ArrayList<AST.Node> getChildren() {
+            return this.children;
+        }
+
+        public void deleteAllChildren() {
+            this.children.clear();
+        }
+
         public String getDataType() {
             return this.dataType;
+        }
+
+        public void setDataType(String dataType) {
+            this.dataType = dataType;
         }
 
         public IRCode getIRCode() {
@@ -71,19 +140,21 @@ public class AST {
             System.out.println(
                 "getIRCode() wasn't implemented for " + this.getNodeType()
             );
-            System.out.println("----------------------------------\n\n");
+            System.out.println("Children nodes of this " + this.getNodeType() + ":");
+            for (AST.Node node : this.children) {
+                System.out.print(node.getNodeType() + " ");
+            }
+            System.out.println("\n----------------------------------\n\n");
             return null;
         }
     }
 
     class IRCode {
-        private ArrayList<AST.IRCode> code;
         private String codeAsString;
         private String location;
         private String dataType;
 
-        public IRCode(String codeAsString, location, dataType) {
-            code = new ArrayList<AST.IRCode>();
+        public IRCode(String codeAsString, String location, String dataType) {
             this.codeAsString = codeAsString;
             this.location = location;
             this.dataType = dataType;
@@ -130,14 +201,32 @@ public class AST {
     //}
 
     class Program extends Node {
-        IRCode code;
-
         public Program() {
             super();
             this.nodeId = 1;
             this.nodeType = "Program";
             this.children = new ArrayList<AST.Node>();
-            System.out.println("\nAST.Program initalized");
+            System.out.println("AST.Program initalized");
+        }
+
+        @Override public void addChild(AST.Node child) {
+            children.add(child);
+        }
+
+        @Override public IRCode getIRCode() {
+            ArrayList<AST.IRCode> code_list = new ArrayList<AST.IRCode>();
+
+            for (AST.Node statement : this.children) {
+                code_list.add(statement.getIRCode());
+            }
+
+            String output = "";
+
+            for (AST.IRCode code : code_list) {
+                output += code.getCodeAsString();
+            }
+
+            return new IRCode(output, null, null);
         }
     }
 
@@ -146,7 +235,12 @@ public class AST {
             super();
             this.nodeId = 2;
             this.nodeType = "VarDecl";
-            System.out.println("\nAST.VarDecl initalized");
+            this.children = new ArrayList<AST.Node>();
+            System.out.println("AST.VarDecl initalized");
+        }
+
+        public IRCode getIRCode() {
+            return null;
         }
     }
 
@@ -158,7 +252,7 @@ public class AST {
             super();
             this.nodeId = 3;
             this.nodeType = "AddOp";
-            System.out.println("\nAST.AddOp initalized");
+            System.out.println("AST.AddOp initalized");
         }
 
         public AddOp(String operator) {
@@ -169,6 +263,29 @@ public class AST {
         @Override public String getText() {
             return this.operator;
         }
+
+        @Override public IRCode getIRCode() {
+            String currDataType = this.getChildAtIndex(0).getDataType();
+
+            IRCode leftCode = this.getChildAtIndex(0).getIRCode();
+            IRCode rightCode = this.getChildAtIndex(1).getIRCode();
+
+            String codeTillNow = "";
+            codeTillNow += leftCode.getCodeAsString();
+            codeTillNow += rightCode.getCodeAsString();
+
+            String location = generateTemp();
+
+            String newCode = "";
+            newCode += getCodeType(this, currDataType);
+            newCode += " " + leftCode.getLocation();
+            newCode += " " + rightCode.getLocation();
+            newCode += " " + location + "\n";
+
+            codeTillNow += newCode;
+
+            return new IRCode(codeTillNow, location, dataType);
+        }
     }
 
     class MulOp extends Node {
@@ -178,7 +295,7 @@ public class AST {
             super();
             this.nodeId = 4;
             this.nodeType = "MulOp";
-            System.out.println("\nAST.MulOp initalized");
+            System.out.println("AST.MulOp initalized");
         }
 
         public MulOp(String operator) {
@@ -188,6 +305,29 @@ public class AST {
 
         public String getText() {
             return this.operator;
+        }
+
+        @Override public IRCode getIRCode() {
+            String currDataType = this.getChildAtIndex(0).getDataType();
+
+            IRCode leftCode = this.getChildAtIndex(0).getIRCode();
+            IRCode rightCode = this.getChildAtIndex(1).getIRCode();
+
+            String codeTillNow = "";
+            codeTillNow += leftCode.getCodeAsString();
+            codeTillNow += rightCode.getCodeAsString();
+
+            String location = generateTemp();
+
+            String newCode = "";
+            newCode += getCodeType(this, currDataType);
+            newCode += " " + leftCode.getLocation();
+            newCode += " " + rightCode.getLocation();
+            newCode += " " + location + "\n";
+
+            codeTillNow += newCode;
+
+            return new IRCode(codeTillNow, location, dataType);
         }
     }
 
@@ -199,12 +339,32 @@ public class AST {
             super();
             this.nodeId = 5;
             this.nodeType = "EqOp";
-            System.out.println("\nAST.EqOp initalized");
+            System.out.println("AST.EqOp initalized");
         }
 
         public EqOp(String identifier) {
             this();
             this.identifier = identifier;
+        }
+
+        @Override public IRCode getIRCode() {
+            String currDataType = this.getChildAtIndex(0).getDataType();
+
+            IRCode leftCode = this.getChildAtIndex(0).getIRCode();
+            IRCode rightCode = this.getChildAtIndex(1).getIRCode();
+
+            String codeTillNow = "";
+            codeTillNow += leftCode.getCodeAsString();
+            codeTillNow += rightCode.getCodeAsString();
+
+            String newCode = "";
+            newCode += getCodeType(this, currDataType);
+            newCode += " " + rightCode.getLocation();
+            newCode += " " + leftCode.getLocation() + "\n";
+
+            codeTillNow += newCode;
+
+            return new IRCode(codeTillNow, leftCode.getLocation(), dataType);
         }
     }
 
@@ -215,18 +375,23 @@ public class AST {
             super();
             this.nodeId = 6;
             this.nodeType = "Id";
-            System.out.println("\nAST.Id initalized");
+            this.dataType = null;
+            System.out.println("AST.Id initalized");
         }
 
-        public Id(String name) {
+        public Id(String name, String dataType) {
             this();
             this.name = name;
+            this.dataType = dataType;
         }
 
         @Override public String getText() {
             return this.name;
         }
 
+        @Override public IRCode getIRCode() {
+            return new IRCode("", this.name, this.dataType);
+        }
     }
 
     class Literal extends Node {
@@ -236,60 +401,65 @@ public class AST {
             super();
             this.nodeId = 7;
             this.nodeType = "Literal";
-            System.out.println("\nAST.Literal initalized");
+            this.dataType = null;
+            System.out.println("AST.Literal initalized");
         }
 
         public Literal(String val) {
             this();
             this.val = val;
+            if (val.contains("."))
+                this.dataType = "FLOAT";
+            else
+                this.dataType = "INT";
         }
 
         @Override public String getText() {
             return this.val;
         }
+
+        @Override public IRCode getIRCode() {
+            return new IRCode("", this.val, this.dataType);
+        }
     }
 
     class WriteStmt extends Node {
-
         public WriteStmt() {
             super();
             this.nodeId = 8;
             this.nodeType = "WriteStmt";
             children = new ArrayList<AST.Node>();
-            System.out.println("\nAST.WriteStmt initalized");
+            System.out.println("AST.WriteStmt initalized");
         }
     }
 
     class ReadStmt extends Node {
-
         public ReadStmt() {
             super();
             this.nodeId = 9;
             this.nodeType = "ReadStmt";
             children = new ArrayList<AST.Node>();
-            System.out.println("\nAST.ReadStmt initalized");
+            System.out.println("AST.ReadStmt initalized");
         }
     }
 
     class Expr extends Node {
-
         public Expr() {
             super();
             this.nodeId = 10;
             this.nodeType = "Expr";
             children = new ArrayList<Node>();
-            System.out.println("\nAST.Expr initalized");
+            System.out.println("AST.Expr initalized");
         }
     }
 
     class Factor extends Node {
-
         public Factor() {
             super();
             this.nodeId = 11;
             this.nodeType = "Factor";
             children = new ArrayList<AST.Node>();
-            System.out.println("\nAST.Factor initalized");
+            System.out.println("AST.Factor initalized");
         }
     }
 }

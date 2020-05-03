@@ -1,6 +1,7 @@
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.antlr.v4.runtime.tree.*;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -43,8 +44,28 @@ public class Listener extends GBaseListener {
 	AST AST = new AST();
 	AST.Node rootNode;
 	AST.Node currentNode;
+    HashMap<String, String> dataTypesOfVars = new HashMap<String, String>();
 
-	// Custom functions
+    // AST functions
+    public String getTypeByID(String id) {
+        for (Map.Entry<String, String> currID : dataTypesOfVars.entrySet()) {
+            if (currID.getKey().equals(id))
+                return currID.getValue();
+        }
+
+        System.out.println("\n\n----------------------------------");
+        System.out.println("getTypeByID() --> couldn't find given ID");
+        System.out.println("given ID = " + id);
+        System.out.println("list of known IDs:");
+        for (Map.Entry<String, String> currID : dataTypesOfVars.entrySet()) {
+            System.out.print(currID.getKey() + " ");
+        }
+        System.out.println("\n----------------------------------\n\n");
+
+        return null;
+    }
+
+	// Scope functions
 	public void addScope(String scopeName) {
 		if (scopes.containsKey(scopeName) == false) {
 			scopes.put(scopeName, new ArrayList<HashMap<String, Object>>());
@@ -151,6 +172,11 @@ public class Listener extends GBaseListener {
 		// System.out.println(symbolTableOutput);
 
         // TODO generate IR code here
+        AST.IRCode programIRCode = rootNode.getIRCode();
+
+        System.out.println("\n\n----------------------------------");
+        System.out.println("3AC code:");
+        System.out.println(programIRCode.getCodeAsString());
 	}
 
 	// Id
@@ -241,7 +267,23 @@ public class Listener extends GBaseListener {
 
 	@Override
 	public void enterVar_decl(GParser.Var_declContext ctx) {
+        // Scope stuff
 		value = "";
+
+        // AST stuff
+        String dataType = ctx.getChild(0).getText();
+
+        // ParseTree is the the data type for ctx-variables
+        ParseTree currCtx = ctx.getChild(1);
+        String currId = currCtx.getChild(0).getText();
+        dataTypesOfVars.put(currId, dataType);
+        currCtx = currCtx.getChild(1);
+
+        while(currCtx.getChildCount() != 0) {
+            currId = currCtx.getChild(1).getText();
+            dataTypesOfVars.put(currId, dataType);
+            currCtx = currCtx.getChild(2);
+        }
 	}
 
 	@Override
@@ -400,18 +442,26 @@ public class Listener extends GBaseListener {
 	@Override
 	public void enterAssign_expr(GParser.Assign_exprContext ctx) {
 
-		AST.EqOp newNode = AST.new EqOp();
 
         // TODO remove this if
         if (debug == true) {
             System.out.println(
-                "enterAssign_expr() --> currentNode (before initalization) = "
+                "enterAssign_expr() --> currentNode (before reset) = "
                 + currentNode.getNodeType()
             );
         }
 
-        newNode.addChild(AST.new Id(ctx.getChild(0).getText()));
+        // Make ID node for the EqOp node
+        String inputID = ctx.getChild(0).getText();
+        AST.Id inputIdNode = AST.new Id(inputID, getTypeByID(inputID));
+
+        // Make the EqOp node
+		AST.EqOp newNode = AST.new EqOp();
+        newNode.addChild(inputIdNode);
+
+        // Reset currentNode
         newNode.parent = currentNode;
+        currentNode.addChild(newNode);
 		currentNode = newNode;
 
         //TODO remove
@@ -421,9 +471,10 @@ public class Listener extends GBaseListener {
                 + ctx.getChild(0).getText()
             );
             System.out.println(
-                "enterAssign_expr() --> currentNode (after initalization) = "
+                "enterAssign_expr() --> currentNode (after reset) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
 	}
 
@@ -432,6 +483,7 @@ public class Listener extends GBaseListener {
             System.out.println("exitAssign_expr() --> currentNode (after reset) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
 
         currentNode = currentNode.parent;
@@ -440,6 +492,7 @@ public class Listener extends GBaseListener {
             System.out.println("exitAssign_expr() --> currentNode (after reset) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
     }
 
@@ -453,13 +506,15 @@ public class Listener extends GBaseListener {
             // If this primary is in the form of
             // primary --> id --> some_string
             if (ctx.getChild(0).getChildCount() == 1) {
-                newNode = AST.new Id(ctx.getText());
+                String inputID = ctx.getText();
+                newNode = AST.new Id(inputID, getTypeByID(inputID));
             }
 
             // If this primary is in the form of, e.g.,
             // primary --> 10.0
             else {
-                newNode = AST.new Literal(ctx.getText());
+                String inputLiteral = ctx.getText();
+                newNode = AST.new Literal(inputLiteral);
             }
 
             // TODO remove
@@ -522,10 +577,10 @@ public class Listener extends GBaseListener {
                 "enterExpr() --> currentNode (after initalization) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
 	}
 
-	 //TODO: This thing cause idk how the fuck this works
 	@Override
 	public void exitExpr(GParser.ExprContext ctx) {
 
@@ -536,6 +591,27 @@ public class Listener extends GBaseListener {
             );
         }
 
+        // If the expr_prefix isn't empty
+        // the this expr is in the form ( expr )
+        if (ctx.getChild(0).getChildCount() != 0) {
+            AST.Node nodeToMove = currentNode.getChildAtIndex(0);
+            AST.Node newLocation = currentNode.getChildAtIndex(0);
+
+            // Go to the right-most child
+            while (nodeToMove.getChildren().size() == 2) {
+                nodeToMove = nodeToMove.getChildAtIndex(1);
+            }
+
+            nodeToMove.addChild(
+                currentNode.getChildAtIndex(currentNode.getChildren().size() - 1)
+            );
+            currentNode.getChildAtIndex(
+                currentNode.getChildren().size() - 1
+            ).parent = nodeToMove;
+            currentNode.deleteAllChildren();
+            currentNode.addChild(newLocation);
+        }
+
         currentNode = currentNode.parent;
 
         if (debug == true) { // TODO remove
@@ -543,6 +619,7 @@ public class Listener extends GBaseListener {
                 "exitExpr() --> currentNode (after reset) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
 	}
 
@@ -579,6 +656,7 @@ public class Listener extends GBaseListener {
                     "enterExpr_prefix() --> operator = "
                     + operator
                 );
+                System.out.println();
             }
         }
 	}
@@ -601,6 +679,7 @@ public class Listener extends GBaseListener {
                 "exitExpr_prefix() --> currentNode (after reset) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
 	}
 
@@ -636,6 +715,7 @@ public class Listener extends GBaseListener {
                     "enterFactor_prefix() --> operator = "
                     + operator
                 );
+                System.out.println();
             }
         }
 	}
@@ -658,6 +738,7 @@ public class Listener extends GBaseListener {
                 "exitFactor_prefix() --> currentNode (after reset) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
 	}
 
@@ -683,6 +764,7 @@ public class Listener extends GBaseListener {
                 "enterFactor() --> currentNode (after initalization) = "
                 + currentNode.getNodeType()
             );
+            System.out.println();
         }
 	}
 
@@ -692,6 +774,7 @@ public class Listener extends GBaseListener {
         // we use it for an operator
         if (ctx.getChild(0).getChildCount() != 0) {
 
+            // TODO remove
             if (debug == true) {
                 System.out.println(
                     "exitFactor() --> currentNode's type = "
@@ -699,32 +782,35 @@ public class Listener extends GBaseListener {
                 );
             }
 
-            AST.Node leftOfFactor = currentNode.children.get(0);
-            AST.Node rightOfFactor = currentNode.children.get(1);
+            // If the expr_prefix isn't empty
+            // the this expr is in the form ( expr )
+            if (ctx.getChild(0).getChildCount() != 0) {
+                AST.Node nodeToMove = currentNode.getChildAtIndex(0);
+                AST.Node newLocation = currentNode.getChildAtIndex(0);
 
-            leftOfFactor.addChild(rightOfFactor);
-            rightOfFactor.parent = leftOfFactor;
-            leftOfFactor.parent = currentNode.parent;
-            currentNode.children.clear();
-        }
+                // Go to the right-most child
+                while (nodeToMove.getChildren().size() == 2) {
+                    nodeToMove = nodeToMove.getChildAtIndex(1);
+                }
 
+                nodeToMove.addChild(
+                    currentNode.getChildAtIndex(currentNode.getChildren().size() - 1)
+                );
+                currentNode.getChildAtIndex(
+                    currentNode.getChildren().size() - 1
+                ).parent = nodeToMove;
+                currentNode.deleteAllChildren();
+                currentNode.addChild(newLocation);
+            }
 
-        // TODO remove
-        if (debug == true) {
-            System.out.println(
-                "exitFactor() --> currentNode (before reset) = "
-                + currentNode.getNodeType()
-            );
-        }
+            currentNode = currentNode.parent;
 
-        currentNode = currentNode.parent;
-
-        // TODO remove
-        if (debug == true) {
-            System.out.println(
-                "exitFactor() --> currentNode (after reset) = "
-                + currentNode.getNodeType()
-            );
+            if (debug == true) {
+                System.out.println(
+                    "exitFactor() --> currentNode (before reset) = "
+                    + currentNode.getNodeType()
+                );
+            }
         }
 	}
 
@@ -855,7 +941,6 @@ public class Listener extends GBaseListener {
 		AST.WriteStmt newNode = AST.new WriteStmt();
 		newNode.parent = currentNode;
 		currentNode = newNode;
-        addtext()
 	}
 
 	/**
