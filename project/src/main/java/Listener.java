@@ -1,12 +1,12 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.antlr.v4.runtime.tree.*;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Listener extends GBaseListener {
 
@@ -122,23 +122,23 @@ public class Listener extends GBaseListener {
 		return null;
 	}
 
-	public void printScopes() {
-		System.out.println("\nprintScopes():");
+    public void printScopes() {
+        System.out.println("\nprintScopes():");
 
-		for (Map.Entry<String, ArrayList<HashMap<String, Object>>> scope : scopes.entrySet()) {
-			System.out.println("\nSCOPE --> " + (String) scope.getKey());
-			ArrayList<HashMap<String, Object>> var = scope.getValue();
+        for (Map.Entry<String, ArrayList<HashMap<String, Object>>> scope : scopes.entrySet()) {
+            System.out.println("\nSCOPE --> " + (String) scope.getKey());
+            ArrayList<HashMap<String, Object>> var = scope.getValue();
 
-			for (HashMap<String, Object> currVar : var) {
-				System.out.print("   id " + currVar.get("id").toString() + " type " + currVar.get("type").toString());
+            for (HashMap<String, Object> currVar : var) {
+                System.out.print("   id " + currVar.get("id").toString() + " type " + currVar.get("type").toString());
 
-				if (currVar.get("value") == null)
-					System.out.println();
-				else
-					System.out.println(" value " + currVar.get("value"));
-			}
-		}
-	}
+                if (currVar.get("value") == null)
+                    System.out.println();
+                else
+                    System.out.println(" value " + currVar.get("value"));
+            }
+        }
+    }
 
 	// Program
 
@@ -172,12 +172,17 @@ public class Listener extends GBaseListener {
 	public void exitProgram(GParser.ProgramContext ctx) {
 		System.out.println(symbolTableOutput);
 
+        //System.out.println("\n\n----------------------------------");
+        //System.out.println("printTree(rootNode)\n");
+        //printTree(rootNode);
+
         // TODO generate IR code here
         // AST.IRCode programIRCode = rootNode.getIRCode();
 
-        // System.out.println("\n\n----------------------------------");
-        // System.out.println("3AC code:");
-        // System.out.println(programIRCode.getCodeAsString());
+        System.out.println("\n\n----------------------------------");
+        System.out.println("3AC code:");
+        System.out.println(programIRCode.getCodeAsString());
+
 	}
 
 	// Id
@@ -187,23 +192,6 @@ public class Listener extends GBaseListener {
 
         // Scope stuff
 		name = ctx.getText();
-		System.out.println("ID text: " + name);
-
-
-        /*
-         *
-         * Commented out code below because we do
-         * this in enterAssign_expr() now
-         *
-         */
-
-        // AST
-        // If we are under an assign_expr rule...
-        //if (ctx.getParent().getRuleIndex() == 22) {
-            //AST.Node newNode = AST.new Id();
-            //newNode.parent = currentNode;
-            //currentNode.addChild(newNode);
-        //}
 	}
 
 	@Override
@@ -459,10 +447,11 @@ public class Listener extends GBaseListener {
 
         // Make the EqOp node
 		AST.EqOp newNode = AST.new EqOp();
+        inputIdNode.addParent(newNode);
         newNode.addChild(inputIdNode);
 
         // Reset currentNode
-        newNode.parent = currentNode;
+        newNode.addParent(currentNode);
         currentNode.addChild(newNode);
 		currentNode = newNode;
 
@@ -488,7 +477,7 @@ public class Listener extends GBaseListener {
             System.out.println();
         }
 
-        currentNode = currentNode.parent;
+        currentNode = currentNode.getParent();
 
         if (debug == true) { // TODO remove
             System.out.println("exitAssign_expr() --> currentNode (after reset) = "
@@ -500,10 +489,10 @@ public class Listener extends GBaseListener {
 
     @Override public void enterPrimary(GParser.PrimaryContext ctx) {
 
-		AST.Node newNode = null;
-
         // If the primary isn't in the form of '( expr )'
         if (ctx.getChildCount() != 3) {
+
+            AST.Node newNode = null;
 
             // If this primary is in the form of
             // primary --> id --> some_string
@@ -538,8 +527,7 @@ public class Listener extends GBaseListener {
 
             // Add the newNode as a child of the assign_expr
             currentNode.addChild(newNode);
-            newNode.parent = currentNode;
-
+            newNode.addParent(currentNode);
         }
     }
 
@@ -569,7 +557,7 @@ public class Listener extends GBaseListener {
             );
         }
 
-        newNode.parent = currentNode;
+        newNode.addParent(currentNode);
         currentNode.addChild(newNode);
         currentNode = newNode;
 
@@ -587,54 +575,91 @@ public class Listener extends GBaseListener {
 	public void exitExpr(GParser.ExprContext ctx) {
 
         if (debug == true) { // TODO remove
+            System.out.println("exitExpr() --> currentNode (before reset) = " + currentNode.getNodeType());
+            System.out.println("exitExpr() --> currentNode.children types:");
+            for (AST.Node child : currentNode.getChildren()) {
+                System.out.println(child.getNodeType() + " " + child.getText());
+            }
             System.out.println(
-                "exitExpr() --> currentNode (before reset) = "
-                + currentNode.getNodeType()
+                "exitExpr() --> currentNode's parent nodeType = "
+                + currentNode.getParent().getNodeType()
+                + " " + currentNode.getParent().getText()
             );
         }
+
+        AST.Node nodeToMoveTo;
+        AST.Node oldLocationNode = currentNode;
 
         // If the expr_prefix isn't empty
         // the this expr is in the form ( expr )
-        if (ctx.getChild(0).getChildCount() != 0) {
-            AST.Node nodeToMove = currentNode.getChildAtIndex(0);
-            AST.Node newLocation = currentNode.getChildAtIndex(0);
+        if (currentNode.getChildren().size() == 2) {
+            nodeToMoveTo = currentNode.getChildAtIndex(0);
+            oldLocationNode = currentNode.getChildAtIndex(0);
 
-            // Go to the right-most child
-            while (nodeToMove.getChildren().size() == 2) {
-                nodeToMove = nodeToMove.getChildAtIndex(1);
+            // Go to right-most child of the left child
+            while (nodeToMoveTo.getChildren().size() == 2) {
+                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
             }
 
-            nodeToMove.addChild(
-                currentNode.getChildAtIndex(currentNode.getChildren().size() - 1)
-            );
-            currentNode.getChildAtIndex(
-                currentNode.getChildren().size() - 1
-            ).parent = nodeToMove;
+            if (debug == true) {
+                //System.out.println("\n\n----------------------------------");
+                System.out.println("exitExpr() first stitching:\n");
+                System.out.println(
+                        "nodeToMoveTo.nodeType = " + nodeToMoveTo.getNodeType() + " " + nodeToMoveTo.getText());
+                System.out.println(
+                        "oldLocationNode.nodeType = " + oldLocationNode.getNodeType() + " " + oldLocationNode.getText());
+                System.out.println(
+                        "currentNode.getChildAtIndex(1).nodeType = " + currentNode.getChildAtIndex(1).getNodeType());
+                //System.out.println("----------------------------------\n\n");
+            }
+
+            nodeToMoveTo.addChild(currentNode.getChildAtIndex(1));
+            currentNode.getChildAtIndex(1).addParent(nodeToMoveTo);
             currentNode.deleteAllChildren();
-            currentNode.addChild(newLocation);
+            currentNode.addChild(oldLocationNode);
+            oldLocationNode.addParent(currentNode);
+
+            // Move currentNode over left
+            nodeToMoveTo = currentNode.getParent().getChildAtIndex(0);
+            oldLocationNode = currentNode.getParent().getChildAtIndex(0);
+
+            // Go to right-most child of the left child
+            while (nodeToMoveTo.getChildren().size() == 2) {
+                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
+            }
+
+            // Remove old parent-child associate of currentNode
+            nodeToMoveTo.addChild(currentNode);
+            currentNode.getParent().deleteAllChildren();
+            currentNode.getParent().addChild(oldLocationNode);
+            oldLocationNode.addParent(currentNode.getParent());
+            currentNode.addParent(nodeToMoveTo);
         }
 
-        currentNode = currentNode.parent;
+        currentNode = oldLocationNode.getParent();
 
         if (debug == true) { // TODO remove
+            System.out.println("exitExpr() --> currentNode (after reset) = " + currentNode.getNodeType());
+            System.out.println("exitExpr() --> currentNode.children types:");
+            for (AST.Node child : currentNode.getChildren()) {
+                System.out.println(child.getNodeType() + " " + child.getText());
+            }
             System.out.println(
-                "exitExpr() --> currentNode (after reset) = "
-                + currentNode.getNodeType()
+                "exitExpr() --> currentNode's parent nodeType = "
+                + currentNode.getParent().getNodeType()
+                + " " + currentNode.getParent().getText()
             );
-            System.out.println();
         }
 	}
 
 	@Override
 	public void enterExpr_prefix(GParser.Expr_prefixContext ctx) {
 
-        AST.AddOp newNode = null;
-
         // Sometimes the expr_prefix is empty,
         // otherwise child at index 2 is an AddOp
         if (ctx.getChildCount() != 0) {
             String operator = ctx.getChild(2).getText();
-            newNode = AST.new AddOp(operator);
+            AST.Node newNode = AST.new AddOp(operator);
 
             // TODO remove this if
             if (debug == true) {
@@ -644,7 +669,7 @@ public class Listener extends GBaseListener {
                 );
             }
 
-            newNode.parent = currentNode;
+            newNode.addParent(currentNode);
             currentNode.addChild(newNode);
             currentNode = newNode;
 
@@ -665,21 +690,21 @@ public class Listener extends GBaseListener {
 
 	@Override
 	public void exitExpr_prefix(GParser.Expr_prefixContext ctx) {
-        if (debug == true && ctx.getChildCount() != 0) { // TODO remove
+        if (debug == true && ctx.getChildCount() > 0) { // TODO remove
             System.out.println(
                 "exitExpr_prefix() --> currentNode (before reset) = "
-                + currentNode.getNodeType()
+                + currentNode.getNodeType() + " " + currentNode.getText()
             );
         }
 
-        if (ctx.getChildCount() != 0) {
-            currentNode = currentNode.parent;
+        if (ctx.getChildCount() > 0) {
+            currentNode = currentNode.getParent();
         }
 
-        if (debug == true && ctx.getChildCount() != 0) { // TODO remove
+        if (debug == true && ctx.getChildCount() > 0) { // TODO remove
             System.out.println(
                 "exitExpr_prefix() --> currentNode (after reset) = "
-                + currentNode.getNodeType()
+                + currentNode.getNodeType() + " " + currentNode.getText()
             );
             System.out.println();
         }
@@ -688,12 +713,10 @@ public class Listener extends GBaseListener {
     @Override
 	public void enterFactor_prefix(GParser.Factor_prefixContext ctx) {
 
-        AST.MulOp newNode = null;
-
         if (ctx.getChildCount() != 0) {
             String operator = ctx.getChild(2).getText();
 
-            newNode = AST.new MulOp(operator);
+            AST.Node newNode = AST.new MulOp(operator);
 
             if (debug == true) {
                 System.out.println(
@@ -702,7 +725,7 @@ public class Listener extends GBaseListener {
                 );
             }
 
-            newNode.parent = currentNode;
+            newNode.addParent(currentNode);
             currentNode.addChild(newNode);
             currentNode = newNode;
 
@@ -732,7 +755,7 @@ public class Listener extends GBaseListener {
         }
 
         if (ctx.getChildCount() != 0) {
-            currentNode = currentNode.parent;
+            currentNode = currentNode.getParent();
         }
 
         if (debug == true && ctx.getChildCount() != 0) { // TODO remove
@@ -752,11 +775,11 @@ public class Listener extends GBaseListener {
         if (debug == true) { // TODO remove this if
             System.out.println(
                 "enterFactor() --> currentNode (before initalization) = "
-                + currentNode.getNodeType()
+                + currentNode.getNodeType() + " " + currentNode.getText()
             );
         }
 
-        newNode.parent = currentNode;
+        newNode.addParent(currentNode);
         currentNode.addChild(newNode);
         currentNode = newNode;
 
@@ -772,47 +795,83 @@ public class Listener extends GBaseListener {
 
 	@Override public void exitFactor(GParser.FactorContext ctx) {
 
-        // If the factor's factor_prefix is non-empty,
-        // we use it for an operator
-        if (ctx.getChild(0).getChildCount() != 0) {
-
-            // TODO remove
-            if (debug == true) {
-                System.out.println(
-                    "exitFactor() --> currentNode (before reset) = "
-                    + currentNode.getNodeType()
-                );
+        // TODO remove
+        if (debug == true) {
+            System.out.println("exitFactor() --> currentNode (before reset) = " + currentNode.getNodeType());
+            System.out.println("exitFactor() --> currentNode.children types:");
+            for (AST.Node child : currentNode.getChildren()) {
+                System.out.println(child.getNodeType() + " " + child.getText());
             }
+            System.out.println(
+                "exitFactor() --> currentNode's parent nodeType = "
+                + currentNode.getParent().getNodeType()
+                + " " + currentNode.getParent().getText()
+            );
+        }
 
-            // If the expr_prefix isn't empty
-            // the this expr is in the form ( expr )
-            if (ctx.getChild(0).getChildCount() != 0) {
-                AST.Node nodeToMove = currentNode.getChildAtIndex(0);
-                AST.Node newLocation = currentNode.getChildAtIndex(0);
+        AST.Node nodeToMoveTo;
+        AST.Node oldLocationNode = currentNode;
 
-                // Go to the right-most child
-                while (nodeToMove.getChildren().size() == 2) {
-                    nodeToMove = nodeToMove.getChildAtIndex(1);
-                }
+        // If the expr_prefix isn't empty
+        // the this expr is in the form ( expr )
+        if (currentNode.getChildren().size() == 2) {
+            nodeToMoveTo = currentNode.getChildAtIndex(0);
+            oldLocationNode = currentNode.getChildAtIndex(0);
 
-                nodeToMove.addChild(
-                    currentNode.getChildAtIndex(currentNode.getChildren().size() - 1)
-                );
-                currentNode.getChildAtIndex(
-                    currentNode.getChildren().size() - 1
-                ).parent = nodeToMove;
-                currentNode.deleteAllChildren();
-                currentNode.addChild(newLocation);
+            // Go to right-most child of the left child
+            while (nodeToMoveTo.getChildren().size() == 2) {
+                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
             }
-
-            currentNode = currentNode.parent;
 
             if (debug == true) {
+                System.out.println("\n\n----------------------------------");
+                System.out.println("exitFactor() stitching:\n");
                 System.out.println(
-                    "exitFactor() --> currentNode (after reset) = "
-                    + currentNode.getNodeType()
-                );
+                        "nodeToMoveTo.nodeType = " + nodeToMoveTo.getNodeType() + " " + nodeToMoveTo.getText());
+                System.out.println(
+                        "oldLocationNode.nodeType = " + oldLocationNode.getNodeType() + " " + oldLocationNode.getText());
+                System.out.println(
+                        "currentNode.getChildAtIndex(1).nodeType = " + currentNode.getChildAtIndex(1).getNodeType());
+                System.out.println("----------------------------------\n\n");
             }
+
+            nodeToMoveTo.addChild(currentNode.getChildAtIndex(1));
+            currentNode.getChildAtIndex(1).addParent(nodeToMoveTo);
+            currentNode.deleteAllChildren();
+            currentNode.addChild(oldLocationNode);
+            oldLocationNode.addParent(currentNode);
+
+            // Move currentNode over left
+            nodeToMoveTo = currentNode.getParent().getChildAtIndex(0);
+            oldLocationNode = currentNode.getParent().getChildAtIndex(0);
+
+            // Go to right-most child of the left child
+            while (nodeToMoveTo.getChildren().size() == 2) {
+                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
+            }
+
+            // Remove old parent-child associate of currentNode
+            nodeToMoveTo.addChild(currentNode);
+            currentNode.getParent().deleteAllChildren();
+            currentNode.getParent().addChild(oldLocationNode);
+            oldLocationNode.addParent(currentNode.getParent());
+            currentNode.addParent(nodeToMoveTo);
+        }
+
+        currentNode = oldLocationNode.getParent();
+
+        // TODO remove
+        if (debug == true) {
+            System.out.println("exitFactor() --> currentNode (after reset) = " + currentNode.getNodeType());
+            System.out.println("exitFactor() --> currentNode.children types:");
+            for (AST.Node child : currentNode.getChildren()) {
+                System.out.println(child.getNodeType() + " " + child.getText());
+            }
+            System.out.println(
+                "exitFactor() --> currentNode's parent nodeType = "
+                + currentNode.getParent().getNodeType()
+                + " " + currentNode.getParent().getText()
+            );
         }
 	}
 
@@ -916,7 +975,7 @@ public class Listener extends GBaseListener {
 	@Override
 	public void enterRead_stmt(GParser.Read_stmtContext ctx) {
 		AST.ReadStmt newNode = AST.new ReadStmt();
-		newNode.parent = currentNode;
+		newNode.addParent(currentNode);
 		currentNode = newNode;
 	}
 
@@ -941,7 +1000,7 @@ public class Listener extends GBaseListener {
 	@Override
 	public void enterWrite_stmt(GParser.Write_stmtContext ctx) {
 		AST.WriteStmt newNode = AST.new WriteStmt();
-		newNode.parent = currentNode;
+		newNode.addParent(currentNode);
 		currentNode = newNode;
 	}
 
