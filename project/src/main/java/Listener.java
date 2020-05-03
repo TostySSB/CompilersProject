@@ -170,14 +170,14 @@ public class Listener extends GBaseListener {
 
 	@Override
 	public void exitProgram(GParser.ProgramContext ctx) {
-		// System.out.println(symbolTableOutput);
+		System.out.println(symbolTableOutput);
 
         // TODO generate IR code here
-        AST.IRCode programIRCode = rootNode.getIRCode();
+        // AST.IRCode programIRCode = rootNode.getIRCode();
 
-        System.out.println("\n\n----------------------------------");
-        System.out.println("3AC code:");
-        System.out.println(programIRCode.getCodeAsString());
+        // System.out.println("\n\n----------------------------------");
+        // System.out.println("3AC code:");
+        // System.out.println(programIRCode.getCodeAsString());
 	}
 
 	// Id
