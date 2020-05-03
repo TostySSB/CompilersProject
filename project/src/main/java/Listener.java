@@ -168,6 +168,7 @@ public class Listener extends GBaseListener {
         }
 	}
 
+	
 	@Override
 	public void exitProgram(GParser.ProgramContext ctx) {
 		// System.out.println(symbolTableOutput);
@@ -177,6 +178,7 @@ public class Listener extends GBaseListener {
         //printTree(rootNode);
 
         // TODO generate IR code here
+		System.out.println(rootNode.toString());
         AST.IRCode programIRCode = rootNode.getIRCode();
 
         System.out.println("\n\n----------------------------------");
@@ -590,51 +592,51 @@ public class Listener extends GBaseListener {
         AST.Node nodeToMoveTo;
         AST.Node oldLocationNode = currentNode;
 
-        // If the expr_prefix isn't empty
-        // the this expr is in the form ( expr )
-        if (currentNode.getChildren().size() == 2) {
-            nodeToMoveTo = currentNode.getChildAtIndex(0);
-            oldLocationNode = currentNode.getChildAtIndex(0);
-
-            // Go to right-most child of the left child
-            while (nodeToMoveTo.getChildren().size() == 2) {
-                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
-            }
-
-            if (debug == true) {
-                //System.out.println("\n\n----------------------------------");
-                System.out.println("exitExpr() first stitching:\n");
-                System.out.println(
-                        "nodeToMoveTo.nodeType = " + nodeToMoveTo.getNodeType() + " " + nodeToMoveTo.getText());
-                System.out.println(
-                        "oldLocationNode.nodeType = " + oldLocationNode.getNodeType() + " " + oldLocationNode.getText());
-                System.out.println(
-                        "currentNode.getChildAtIndex(1).nodeType = " + currentNode.getChildAtIndex(1).getNodeType());
-                //System.out.println("----------------------------------\n\n");
-            }
-
-            nodeToMoveTo.addChild(currentNode.getChildAtIndex(1));
-            currentNode.getChildAtIndex(1).addParent(nodeToMoveTo);
-            currentNode.deleteAllChildren();
-            currentNode.addChild(oldLocationNode);
-            oldLocationNode.addParent(currentNode);
-
-            // Move currentNode over left
-            nodeToMoveTo = currentNode.getParent().getChildAtIndex(0);
-            oldLocationNode = currentNode.getParent().getChildAtIndex(0);
-
-            // Go to right-most child of the left child
-            while (nodeToMoveTo.getChildren().size() == 2) {
-                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
-            }
-
-            // Remove old parent-child associate of currentNode
-            nodeToMoveTo.addChild(currentNode);
-            currentNode.getParent().deleteAllChildren();
-            currentNode.getParent().addChild(oldLocationNode);
-            oldLocationNode.addParent(currentNode.getParent());
-            currentNode.addParent(nodeToMoveTo);
-        }
+//        // If the expr_prefix isn't empty
+//        // the this expr is in the form ( expr )
+//        if (currentNode.getChildren().size() == 2) {
+//            nodeToMoveTo = currentNode.getChildAtIndex(0);
+//            oldLocationNode = currentNode.getChildAtIndex(0);
+//
+//            // Go to right-most child of the left child
+//            while (nodeToMoveTo.getChildren().size() == 2) {
+//                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
+//            }
+//
+//            if (debug == true) {
+//                //System.out.println("\n\n----------------------------------");
+//                System.out.println("exitExpr() first stitching:\n");
+//                System.out.println(
+//                        "nodeToMoveTo.nodeType = " + nodeToMoveTo.getNodeType() + " " + nodeToMoveTo.getText());
+//                System.out.println(
+//                        "oldLocationNode.nodeType = " + oldLocationNode.getNodeType() + " " + oldLocationNode.getText());
+//                System.out.println(
+//                        "currentNode.getChildAtIndex(1).nodeType = " + currentNode.getChildAtIndex(1).getNodeType());
+//                //System.out.println("----------------------------------\n\n");
+//            }
+//
+//            nodeToMoveTo.addChild(currentNode.getChildAtIndex(1));
+//            currentNode.getChildAtIndex(1).addParent(nodeToMoveTo);
+//            currentNode.deleteAllChildren();
+//            currentNode.addChild(oldLocationNode);
+//            oldLocationNode.addParent(currentNode);
+//
+//            // Move currentNode over left
+//            nodeToMoveTo = currentNode.getParent().getChildAtIndex(0);
+//            oldLocationNode = currentNode.getParent().getChildAtIndex(0);
+//
+//            // Go to right-most child of the left child
+//            while (nodeToMoveTo.getChildren().size() == 2) {
+//                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
+//            }
+//
+//            // Remove old parent-child associate of currentNode
+//            nodeToMoveTo.addChild(currentNode);
+//            currentNode.getParent().deleteAllChildren();
+//            currentNode.getParent().addChild(oldLocationNode);
+//            oldLocationNode.addParent(currentNode.getParent());
+//            currentNode.addParent(nodeToMoveTo);
+//        }
 
         currentNode = oldLocationNode.getParent();
 
@@ -812,51 +814,51 @@ public class Listener extends GBaseListener {
         AST.Node nodeToMoveTo;
         AST.Node oldLocationNode = currentNode;
 
-        // If the expr_prefix isn't empty
-        // the this expr is in the form ( expr )
-        if (currentNode.getChildren().size() == 2) {
-            nodeToMoveTo = currentNode.getChildAtIndex(0);
-            oldLocationNode = currentNode.getChildAtIndex(0);
-
-            // Go to right-most child of the left child
-            while (nodeToMoveTo.getChildren().size() == 2) {
-                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
-            }
-
-            if (debug == true) {
-                System.out.println("\n\n----------------------------------");
-                System.out.println("exitFactor() stitching:\n");
-                System.out.println(
-                        "nodeToMoveTo.nodeType = " + nodeToMoveTo.getNodeType() + " " + nodeToMoveTo.getText());
-                System.out.println(
-                        "oldLocationNode.nodeType = " + oldLocationNode.getNodeType() + " " + oldLocationNode.getText());
-                System.out.println(
-                        "currentNode.getChildAtIndex(1).nodeType = " + currentNode.getChildAtIndex(1).getNodeType());
-                System.out.println("----------------------------------\n\n");
-            }
-
-            nodeToMoveTo.addChild(currentNode.getChildAtIndex(1));
-            currentNode.getChildAtIndex(1).addParent(nodeToMoveTo);
-            currentNode.deleteAllChildren();
-            currentNode.addChild(oldLocationNode);
-            oldLocationNode.addParent(currentNode);
-
-            // Move currentNode over left
-            nodeToMoveTo = currentNode.getParent().getChildAtIndex(0);
-            oldLocationNode = currentNode.getParent().getChildAtIndex(0);
-
-            // Go to right-most child of the left child
-            while (nodeToMoveTo.getChildren().size() == 2) {
-                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
-            }
-
-            // Remove old parent-child associate of currentNode
-            nodeToMoveTo.addChild(currentNode);
-            currentNode.getParent().deleteAllChildren();
-            currentNode.getParent().addChild(oldLocationNode);
-            oldLocationNode.addParent(currentNode.getParent());
-            currentNode.addParent(nodeToMoveTo);
-        }
+//        // If the expr_prefix isn't empty
+//        // the this expr is in the form ( expr )
+//        if (currentNode.getChildren().size() == 2) {
+//            nodeToMoveTo = currentNode.getChildAtIndex(0);
+//            oldLocationNode = currentNode.getChildAtIndex(0);
+//
+//            // Go to right-most child of the left child
+//            while (nodeToMoveTo.getChildren().size() == 2) {
+//                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
+//            }
+//
+//            if (debug == true) {
+//                System.out.println("\n\n----------------------------------");
+//                System.out.println("exitFactor() stitching:\n");
+//                System.out.println(
+//                        "nodeToMoveTo.nodeType = " + nodeToMoveTo.getNodeType() + " " + nodeToMoveTo.getText());
+//                System.out.println(
+//                        "oldLocationNode.nodeType = " + oldLocationNode.getNodeType() + " " + oldLocationNode.getText());
+//                System.out.println(
+//                        "currentNode.getChildAtIndex(1).nodeType = " + currentNode.getChildAtIndex(1).getNodeType());
+//                System.out.println("----------------------------------\n\n");
+//            }
+//
+//            nodeToMoveTo.addChild(currentNode.getChildAtIndex(1));
+//            currentNode.getChildAtIndex(1).addParent(nodeToMoveTo);
+//            currentNode.deleteAllChildren();
+//            currentNode.addChild(oldLocationNode);
+//            oldLocationNode.addParent(currentNode);
+//
+//            // Move currentNode over left
+//            nodeToMoveTo = currentNode.getParent().getChildAtIndex(0);
+//            oldLocationNode = currentNode.getParent().getChildAtIndex(0);
+//
+//            // Go to right-most child of the left child
+//            while (nodeToMoveTo.getChildren().size() == 2) {
+//                nodeToMoveTo = nodeToMoveTo.getChildAtIndex(1);
+//            }
+//
+//            // Remove old parent-child associate of currentNode
+//            nodeToMoveTo.addChild(currentNode);
+//            currentNode.getParent().deleteAllChildren();
+//            currentNode.getParent().addChild(oldLocationNode);
+//            oldLocationNode.addParent(currentNode.getParent());
+//            currentNode.addParent(nodeToMoveTo);
+//        }
 
         currentNode = oldLocationNode.getParent();
 

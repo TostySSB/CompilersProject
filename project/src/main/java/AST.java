@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AST {
 
@@ -57,7 +58,20 @@ public class AST {
         String nodeType;
         String dataType;
         ArrayList<AST.Node> children;
-
+        protected void print(StringBuilder buffer, String prefix, String childrenPrefix) {
+        	System.out.println("NODE TYPE" + this.nodeType);
+            buffer.append(prefix);
+            buffer.append(this.nodeType);
+            buffer.append('\n');
+            for (Iterator<AST.Node> it = children.iterator(); it.hasNext();) {
+                AST.Node next = it.next();
+                if (it.hasNext()) {
+                    next.print(buffer, childrenPrefix + "|--- ", childrenPrefix + "|   ");
+                } else {
+                    next.print(buffer, childrenPrefix + "|--- ", childrenPrefix + "    ");
+                }
+            }
+        }
         public Node() {
             this.parent = null;
             children = new ArrayList<AST.Node>();
@@ -259,6 +273,13 @@ public class AST {
 
             return new IRCode(output, null, null);
         }
+        public String toString() {
+            StringBuilder buffer = new StringBuilder(50);
+            this.print(buffer, "", "");
+            return buffer.toString();
+        }
+
+        
     }
 
     class VarDecl extends Node {
