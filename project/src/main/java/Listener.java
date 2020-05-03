@@ -480,7 +480,7 @@ public class Listener extends GBaseListener {
 
     @Override public void exitAssign_expr(GParser.Assign_exprContext ctx) {
         if (debug == true) { // TODO remove
-            System.out.println("exitAssign_expr() --> currentNode (after reset) = "
+            System.out.println("exitAssign_expr() --> currentNode (before reset) = "
                 + currentNode.getNodeType()
             );
             System.out.println();
@@ -777,7 +777,7 @@ public class Listener extends GBaseListener {
             // TODO remove
             if (debug == true) {
                 System.out.println(
-                    "exitFactor() --> currentNode's type = "
+                    "exitFactor() --> currentNode (before reset) = "
                     + currentNode.getNodeType()
                 );
             }
@@ -807,7 +807,7 @@ public class Listener extends GBaseListener {
 
             if (debug == true) {
                 System.out.println(
-                    "exitFactor() --> currentNode (before reset) = "
+                    "exitFactor() --> currentNode (after reset) = "
                     + currentNode.getNodeType()
                 );
             }
