@@ -82,7 +82,7 @@ public class AST {
         private String location;
         private String dataType;
 
-        public IRCode(String codeAsString, location, dataType) {
+        public IRCode(String codeAsString, String location, String dataType) {
             code = new ArrayList<AST.IRCode>();
             this.codeAsString = codeAsString;
             this.location = location;
