@@ -58,20 +58,7 @@ public class AST {
         String nodeType;
         String dataType;
         ArrayList<AST.Node> children;
-        protected void print(StringBuilder buffer, String prefix, String childrenPrefix) {
-        	System.out.println("NODE TYPE" + this.nodeType);
-            buffer.append(prefix);
-            buffer.append(this.nodeType);
-            buffer.append('\n');
-            for (Iterator<AST.Node> it = children.iterator(); it.hasNext();) {
-                AST.Node next = it.next();
-                if (it.hasNext()) {
-                    next.print(buffer, childrenPrefix + "|--- ", childrenPrefix + "|   ");
-                } else {
-                    next.print(buffer, childrenPrefix + "|--- ", childrenPrefix + "    ");
-                }
-            }
-        }
+
         public Node() {
             this.parent = null;
             children = new ArrayList<AST.Node>();
@@ -145,35 +132,6 @@ public class AST {
             this.dataType = dataType;
         }
 
-        // TODO delete this method
-        public void printNode() {
-            System.out.println(this.getNodeType() + ": " + this.getText() + " " + this.getChildren().size());
-        }
-
-        // TODO delete this method
-        public void printTree() {
-            try {
-                if (this.getChildren().size() == 0)
-                    this.printNode();
-                else if (this.getChildren().size() == 1) {
-                    this.getChildAtIndex(0).printTree();
-                    this.printNode();
-                } else if (this.getChildren().size() > 2) {
-                    this.printNode();
-                    for (int i = 0; i < this.getChildren().size(); i++) {
-                        this.getChildAtIndex(i).printTree();
-                    }
-                } else {
-                    this.getChildAtIndex(0).printTree();
-                    this.getChildAtIndex(1).printTree();
-                    this.printNode();
-                }
-            }
-
-            catch (Exception e) {
-            }
-        }
-
         public IRCode getIRCode() {
             System.out.println("\n\n----------------------------------");
             System.out.println("getIRCode() wasn't implemented for " + this.getNodeType());
@@ -189,6 +147,21 @@ public class AST {
             }
             System.out.println("\n----------------------------------\n\n");
             return null;
+        }
+
+        protected void printTree(StringBuilder buffer, String prefix, String childrenPrefix) {
+            // System.out.println("NODE TYPE" + this.nodeType);
+            buffer.append(prefix);
+            buffer.append(this.nodeType + " " + this.getText());
+            buffer.append('\n');
+            for (Iterator<AST.Node> it = children.iterator(); it.hasNext();) {
+                AST.Node next = it.next();
+                if (it.hasNext()) {
+                    next.printTree(buffer, childrenPrefix + "|--- ", childrenPrefix + "|   ");
+                } else {
+                    next.printTree(buffer, childrenPrefix + "|--- ", childrenPrefix + "    ");
+                }
+            }
         }
     }
 
@@ -215,33 +188,6 @@ public class AST {
             return this.dataType;
         }
     }
-
-    // class IRCode {
-    // private ArrayList<AST.IRCode> code;
-
-    // public IRCode() {
-    // this.code = new ArrayList<IRCode>();
-    // }
-
-    // public void addText(String inputText) {
-    // this.code.add(inputText);
-    // }
-
-    // public ArrayList<String> getCode() {
-    // return this.code;
-    // }
-
-    // public void printCode() {
-    // for (String statement : this.code) {
-    // System.out.println(statement);
-    // }
-    // }
-
-    //// Appends inputCode to the end of this.code
-    // public void appendCode(IRCode inputCode) {
-    // this.code.addAll(inputCode.getCode());
-    // }
-    // }
 
     class Program extends Node {
         public Program() {
@@ -273,13 +219,13 @@ public class AST {
 
             return new IRCode(output, null, null);
         }
+
+        // Used for class Node's print() method
         public String toString() {
             StringBuilder buffer = new StringBuilder(50);
-            this.print(buffer, "", "");
+            this.printTree(buffer, "", "");
             return buffer.toString();
         }
-
-        
     }
 
     class VarDecl extends Node {
