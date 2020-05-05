@@ -42,16 +42,8 @@ public class Main {
         // Initialize the tree, listener, and walker
         tree = parser.program();
         listener = new Listener();
-        // String[] fileNames = INPUT_FILE.split("\\.");
-        String[] fileNames = "test_expr.micro".split("\\.");
-        String newFileName = fileNames[fileNames.length-2] + ".tiny";
-        System.out.println(newFileName);
-
-        // System.out.println("NEW FILE NAME: " + newFileName);
-        // listener.tinyFileName = 
-        // walker = new ParseTreeWalker();
-        // walker.walk(listener, tree);
-
+        walker = new ParseTreeWalker();
+        walker.walk(listener, tree);
         fileInputStream.close();
     }
 }

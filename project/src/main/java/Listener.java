@@ -185,29 +185,21 @@ public class Listener extends GBaseListener {
         ArrayList<String> irLines = CodeConverter.makeStrArrayList(irCode);
         ArrayList<String> tinyLines = CodeConverter.convertToTiny(irLines);
         
-        // File outFile = new File("./outputs/outFile.tiny");
-        try {
-            FileWriter writer = new FileWriter("./outputs/outFile.tiny");
-            // Write vars
-            for (String s : dataTypesOfVars.keySet()) {
-                if (s.matches("newline"))
-                    continue;
-                writer.write("var " + s + "\n");
-            }
-            // Write newline
-            writer.write("str newline \"\\n\"\n");
-            // Write tiny code directly converted from IR code
-            for (String s : tinyLines) {
-                writer.write(s + "\n");
-            }
-            // Write final line of code: sys halt
-            writer.write("sys halt");
-            writer.close();
+        // Following code prints tiny code to the terminal
+        // First print vars
+        for (String s : dataTypesOfVars.keySet()) {
+            if (s.matches("newline"))
+                continue;
+            System.out.println("var " + s);
         }
-        catch(IOException e) {
-            System.out.println("Error writing tiny to outFile.tiny");
+        // Print newline
+        System.out.println("str newline \"\\n\"");
+        // Print tiny code directly converted from IR code
+        for (String s : tinyLines) {
+            System.out.println(s);
         }
-        
+        // Print final line of code: sys halt
+        System.out.println("sys halt");
     }
 
     // Id
