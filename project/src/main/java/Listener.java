@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Listener extends GBaseListener {
 
-    boolean debug = true;
+    boolean debug = false;
 
     // Keeps track of whether a parent
     // is a read/write statement
@@ -166,13 +166,17 @@ public class Listener extends GBaseListener {
     public void exitProgram(GParser.ProgramContext ctx) {
         // System.out.println(symbolTableOutput);
 
-        System.out.println("\n\n----------------------------------");
-        System.out.println("AST:\n");
-        System.out.println(rootNode.toString());
+        if (debug == true) {
+            System.out.println("\n\n----------------------------------");
+            System.out.println("AST:\n");
+            System.out.println(rootNode.toString());
+        }
         AST.IRCode programIRCode = rootNode.getIRCode();
 
-        System.out.println("\n\n----------------------------------");
-        System.out.println("3AC code:");
+        if (debug == true) {
+            System.out.println("\n\n----------------------------------");
+            System.out.println("3AC code:");
+        }
         System.out.println(programIRCode.getCodeAsString());
     }
 
@@ -224,11 +228,19 @@ public class Listener extends GBaseListener {
 
     @Override
     public void enterString_decl(GParser.String_declContext ctx) {
+        // Scope stuff
         type = "STRING";
+
+        // AST stuff
+        String currID = ctx.getChild(1).getText();
+        dataTypesOfVars.put(currID, "STRING");
+        if (debug == true)
+            System.out.println("enterString_decl() --> ID = " + currID);
     }
 
     @Override
     public void exitString_decl(GParser.String_declContext ctx) {
+        // Scope stuff
         symbolTableOutput += " value " + value;
         addVar(name, type, value);
     }
