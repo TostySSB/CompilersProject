@@ -61,7 +61,6 @@ public class CodeConverter {
             if (inst.matches("(ADD|SUB|MULT|DIV)(I)")) {
                 if (inst.matches("MULTI")) {
                     char lastChar = inst.charAt(inst.length()-1);
-                    System.out.println("LAST CHAR: " + lastChar);
                     String newInst = lastChar == 'I' ? "muli" : "mulf";
                     tinyCode.add("move " + convertRegister(tokens[1]) + " " + convertRegister(tokens[3]));
                     tinyCode.add(newInst + " " + convertRegister(tokens[2]) + " " + convertRegister(tokens[3]));

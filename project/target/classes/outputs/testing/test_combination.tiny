@@ -1,6 +1,7 @@
 var a
 var b
 var c
+str newline "\n"
 move 20 r0
 move r0 a
 move 30 r1
@@ -9,19 +10,19 @@ move 40 r2
 move r2 c
 move a r3
 muli b r3
-move a r4
-muli b r4
-move r4 r5
-addi c r5
+move c r4
+addi r3 r4
+move a r5
+muli b r5
 move r5 r6
-divi a r6
-move 20 r7
-move c r8
-addi r3 r8
-move r8 r9
-addi r6 r9
-move r9 r10
-addi r7 r10
+addi c r6
+move r6 r7
+divi a r7
+move r4 r8
+addi r7 r8
+move 20 r9
+move r8 r10
+addi r9 r10
 move r10 c
 move b r11
 muli b r11
