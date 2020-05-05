@@ -45,14 +45,6 @@ public class Main {
         walker = new ParseTreeWalker();
         walker.walk(listener, tree);
 
-        HashMap<String, String> hm = listener.dataTypesOfVars;
-        Iterator it = hm.keySet().iterator();
-        System.out.println("VARS:");
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-
-
         fileInputStream.close();
     }
 }
