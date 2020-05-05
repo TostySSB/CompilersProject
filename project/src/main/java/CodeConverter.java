@@ -23,7 +23,7 @@ public class CodeConverter {
     public static ArrayList<String> makeStrArrayList(String str) {
         ArrayList<String> lines = new ArrayList<String>();
 
-        String[] strs = str.split(";");
+        String[] strs = str.split("\n;");
         
         for (String s : strs) {
             lines.add(s);

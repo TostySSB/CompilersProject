@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -177,7 +180,34 @@ public class Listener extends GBaseListener {
             System.out.println("\n\n----------------------------------");
             System.out.println("3AC code:");
         }
-        System.out.println(programIRCode.getCodeAsString());
+        // System.out.println(programIRCode.getCodeAsString());
+        String irCode = programIRCode.getCodeAsString();
+        ArrayList<String> irLines = CodeConverter.makeStrArrayList(irCode);
+        ArrayList<String> tinyLines = CodeConverter.convertToTiny(irLines);
+        
+        // File outFile = new File("./outputs/outFile.tiny");
+        try {
+            FileWriter writer = new FileWriter("./outputs/outFile.tiny");
+            // Write vars
+            for (String s : dataTypesOfVars.keySet()) {
+                if (s.matches("newline"))
+                    continue;
+                writer.write("var " + s + "\n");
+            }
+            // Write newline
+            writer.write("str newline \"\\n\"\n");
+            // Write tiny code directly converted from IR code
+            for (String s : tinyLines) {
+                writer.write(s + "\n");
+            }
+            // Write final line of code: sys halt
+            writer.write("sys halt");
+            writer.close();
+        }
+        catch(IOException e) {
+            System.out.println("Error writing tiny to outFile.tiny");
+        }
+        
     }
 
     // Id
