@@ -58,8 +58,8 @@ public class CodeConverter {
             String[] tokens = currentLine.split(" ");
             String inst = tokens[0];
             
-            if (inst.matches("(ADD|SUB|MULT|DIV)(I|F)")) {
-                if (inst.matches("MULTI") || inst.matches("MULTF")) {
+            if (inst.matches("(ADD|SUB|MULT|DIV)(I)")) {
+                if (inst.matches("MULTI")) {
                     char lastChar = inst.charAt(inst.length()-1);
                     System.out.println("LAST CHAR: " + lastChar);
                     String newInst = lastChar == 'I' ? "muli" : "mulf";
@@ -70,9 +70,19 @@ public class CodeConverter {
                     tinyCode.add("move " + convertRegister(tokens[1]) + " " + convertRegister(tokens[3]));
                     tinyCode.add(inst.toLowerCase() + " " + convertRegister(tokens[2]) + " " + convertRegister(tokens[3]));
                 }
-                
             }
-            if (inst.matches("(ADD|SUB|MULT|DIV)(F)"))
+            if (inst.matches("(ADD|SUB|MULT|DIV)(F)")) {
+                if (inst.matches("MULTF")) {
+                    String newInst = "mulr";
+                    tinyCode.add("move " + convertRegister(tokens[1]) + " " + convertRegister(tokens[3]));
+                    tinyCode.add(newInst + " " + convertRegister(tokens[2]) + " " + convertRegister(tokens[3]));
+                }
+                else {
+                    String newInst = inst.substring(0,inst.length()-1).toLowerCase() + "r";
+                    tinyCode.add("move " + convertRegister(tokens[1]) + " " + convertRegister(tokens[3]));
+                    tinyCode.add(newInst + " " + convertRegister(tokens[2]) + " " + convertRegister(tokens[3]));
+                }
+            }
             else if (inst.matches("(STORE)(I|F)")) {
                 tinyCode.add("move " + convertRegister(tokens[1]) + " " + convertRegister(tokens[2]));
             }
